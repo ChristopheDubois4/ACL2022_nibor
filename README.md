@@ -31,7 +31,7 @@ List of Maven commands for development
 | Command     | Description |
 | ----------- | ----------- |
 | mvn compile | compile the project |
-| mvn Clean   | clean the poject folder |
+| mvn clean   | clean the poject folder |
 | mvn test    | run the tests |
 | mvn site    | generate a site with general information about the project |
 | mvn exec:java    | run the application |
