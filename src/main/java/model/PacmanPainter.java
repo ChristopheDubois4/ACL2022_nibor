@@ -17,8 +17,8 @@ public class PacmanPainter implements GamePainter {
 	/**
 	 * la taille des cases
 	 */
-	protected static final int WIDTH = 100;
-	protected static final int HEIGHT = 100;
+	protected static final int WIDTH = 1620;
+	protected static final int HEIGHT = 900;
 
 	/**
 	 * appelle constructeur parent
@@ -36,7 +36,15 @@ public class PacmanPainter implements GamePainter {
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
 		crayon.setColor(Color.blue);
-		crayon.fillOval(0,0,10,10);
+
+		for (int i = 60; i <900; i= i+60) {
+			crayon.drawLine(0, i, 1620, i);
+		}
+		for (int i = 60; i <1620d; i= i+60) {
+			crayon.drawLine(i, 0, i, 900);
+		}
+
+		//crayon.fillOval(0,0,10,10);
 	}
 
 	@Override
