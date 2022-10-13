@@ -1,23 +1,24 @@
-package game;
+package prefab.entity;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import java.util.List;
 
-public class NrjStudent extends Character implements Enemy{
+import prefab.information.Position;
+import prefab.information.State;
 
-    public NrjStudent(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
+/**
+ * présente un personnage particulié qui est marchant
+ * (Nom à changer)
+ */
+public class Commercant1 extends Character implements Merchant{
+
+    public Commercant1(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
         super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
     }
 
     @Override
-    public List<Item> dropItems() {
+    public String getDialogue() {
         return null;
-    }
-
-    @Override
-    public int dropXp() {
-        return 0;
     }
 
     @Override

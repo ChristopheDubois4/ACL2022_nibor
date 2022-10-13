@@ -1,24 +1,33 @@
-package game;
+package prefab.entity;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 
+import prefab.competence.Skill;
+import prefab.equipment.Item;
+import prefab.information.Position;
+import prefab.information.State;
+import prefab.information.Stats;
+import prefab.level.GameObject;
+
+/**
+ * représente les personnages du jeu de manière générale
+ */
 public abstract class Character extends GameObject {
     
-    HashMap<Stats, Integer> stats;
-    HashMap<Stats, Integer> currentStats;  
+    protected HashMap<Stats, Integer> stats;
+    protected HashMap<Stats, Integer> currentStats;  
 
-    int money;
-    int level;    
-    int xp;
+    protected int money;
+    protected int level;    
+    protected int xp;
 
-    List<Item> inventory;
-    List<Skill> skills;
+    protected List<Item> inventory;
+    protected List<Skill> skills;
 
     /**
      * constructeur de la classe Character heritant de GameObject
-     * les parametres hérités sont commentés dans la classe GameObject
      */
     public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
         super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
@@ -26,7 +35,6 @@ public abstract class Character extends GameObject {
 
     /**
      * constructeur surchargé de la classe Character heritant de GameObject
-     * les parametres hérités sont commentés dans la classe GameObject
      * @param stats les stats par defaut du personnage
      * @param money l'argent par defaut du personngae
      * @param level le niveau par defaut du personnage
@@ -42,11 +50,9 @@ public abstract class Character extends GameObject {
     }        
     
     
-
     public void resetCurrentStats(){
         currentStats.putAll(stats);
     }
-
     
 	/**
 	 * methode qui inflige des dommages au joueur
@@ -69,9 +75,14 @@ public abstract class Character extends GameObject {
         currentStats.put(Stats.HP, value);
     }
 
-  
-    
+    /**
+     * méthode qui initailise les charactéristiques par défaut du personnage 
+     */
     protected abstract void initCharacteristic();
+
+    /**
+     * gère la mort du personnage
+     */
     public abstract void die();
 
 }

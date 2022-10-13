@@ -1,5 +1,11 @@
-package game;
+package prefab.information;
 
+/**
+ * represente la position d'un objet avec :
+ * - ses coordonnées
+ * - son état actuel
+ * - son niveau de profondeur 
+ */
 public class Position {
     int x,y;
     State state;
