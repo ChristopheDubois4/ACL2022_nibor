@@ -1,4 +1,4 @@
-package prefab.level;
+package prefab.entity;
 
 import java.util.HashMap;
 

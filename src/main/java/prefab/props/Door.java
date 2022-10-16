@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import prefab.information.Position;
 import prefab.information.State;
-import prefab.level.GameObject;
+import prefab.entity.GameObject;
 
 /**
  * représente une porte ouvrable par le joueur

@@ -4,12 +4,12 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 
-import prefab.competence.Skill;
+import prefab.competence.Attack;
+import prefab.competence.Spell;
 import prefab.equipment.Item;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
-import prefab.level.GameObject;
 
 /**
  * représente les personnages du jeu de manière générale
@@ -24,7 +24,8 @@ public abstract class Character extends GameObject {
     protected int xp;
 
     protected List<Item> inventory;
-    protected List<Skill> skills;
+    protected List<Attack> attacks;
+    protected List<Spell> spells;
 
     /**
      * constructeur de la classe Character heritant de GameObject
@@ -39,10 +40,11 @@ public abstract class Character extends GameObject {
      * @param money l'argent par defaut du personngae
      * @param level le niveau par defaut du personnage
      * @param xp l'experience par defaut du personnage
-     * @param skills les competences par defaut du personnage
+     * @param attacks les attaques par defaut du personnage
+     * @param spells les sorts par defaut du personnage
      */
     public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox,
-            HashMap<Stats, Integer> stats, int money, int level, int xp, List<Skill> skills) {
+            HashMap<Stats, Integer> stats, int money, int level, int xp, List<Attack> attacks,List<Spell> spells) {
         super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
         this.stats = stats;
         this.currentStats = new HashMap<Stats , Integer>();

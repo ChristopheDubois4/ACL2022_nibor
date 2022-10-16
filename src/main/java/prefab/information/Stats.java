@@ -8,5 +8,6 @@ public enum Stats {
     DEFENSE,
     SPEED,
     DAMAGE,
-    MANA
+    MANA,
+    STAMINA
 }

@@ -1,5 +1,9 @@
 package prefab.equipment;
 
-public abstract class Item {
+/**
+ * Descriptions d un item
+ */
+
+public interface  Item {
     
 }
