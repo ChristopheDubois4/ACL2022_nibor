@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
  * les portes, les obstacles ou les échelles
  */
 
-public abstract class GameObject {
+public class GameObject implements Comparable<GameObject> {
     
     protected Position position;
     protected HashMap<State,BufferedImage> graphics;
@@ -38,13 +38,37 @@ public abstract class GameObject {
         this.horizontalHitBox = horizontalHitBox;
     }
 
+    public Position getPositon() {
+        return this.position;
+    }
+
      /**
      * affiche l'object
      */
-    public abstract void draw();
+    public void draw() {
+
+    }
     
     /**
      * déplace l'object
      */
-    public abstract void move();
+    public void move() {
+
+    }
+
+    /**
+     * compare 2 gameObject
+     * @param o
+     * @return le resultat de la comparaison
+     */
+    @Override
+    public int compareTo(GameObject o) {
+        return this.position.compareTo(o.getPositon());        
+    }
+
+    
+    @Override
+    public String toString() {
+        return objectName;
+    }
 }

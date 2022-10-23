@@ -37,7 +37,7 @@ public abstract class Character extends GameObject {
     /**
      * constructeur surchargé de la classe Character heritant de GameObject
      * @param stats les stats par defaut du personnage
-     * @param money l'argent par defaut du personngae
+     * @param money l'argent par defaut du personnage
      * @param level le niveau par defaut du personnage
      * @param xp l'experience par defaut du personnage
      * @param attacks les attaques par defaut du personnage
@@ -57,7 +57,7 @@ public abstract class Character extends GameObject {
     }
     
 	/**
-	 * methode qui inflige des dommages au joueur
+	 * inflige des dommages au joueur
 	 * @param value Valeur des degats
 	 */
     public void takeDammage(int value){        
@@ -69,7 +69,7 @@ public abstract class Character extends GameObject {
     }
 
     /**
-	 * methode qui redonne de la vie au joueur
+	 * redonne de la vie au joueur
 	 * @param value Valeur des points de vie rendus
 	 */
     public void healCharacter(int value){
@@ -78,7 +78,7 @@ public abstract class Character extends GameObject {
     }
 
     /**
-     * méthode qui initailise les charactéristiques par défaut du personnage 
+     * initailise les charactéristiques par défaut du personnage 
      */
     protected abstract void initCharacteristic();
 
