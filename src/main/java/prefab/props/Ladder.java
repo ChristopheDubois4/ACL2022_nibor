@@ -23,10 +23,5 @@ public class Ladder extends GameObject{
     public void draw() {
         
     }
-
-    @Override
-    public void move() {
         
-    }
-    
 }

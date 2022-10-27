@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import engine.Cmd;
 import engine.Game;
+import manager.WorldManager;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -16,6 +17,7 @@ import engine.Game;
  */
 public class PacmanGame implements Game {
 
+	private WorldManager worldManager;
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
@@ -32,6 +34,8 @@ public class PacmanGame implements Game {
 		} catch (IOException e) {
 			System.out.println("Help not available");
 		}
+
+		worldManager = new WorldManager();
 	}
 
 	/**
@@ -41,7 +45,10 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
-		System.out.println("Execute "+commande);
+		if (commande != Cmd.IDLE) {
+			System.out.println("Execute "+commande);
+		}
+		worldManager.updateWorld(commande);
 	}
 
 	/**

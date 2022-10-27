@@ -40,7 +40,7 @@ public class PacmanPainter implements GamePainter {
 		for (int i = 60; i <900; i= i+60) {
 			crayon.drawLine(0, i, 1620, i);
 		}
-		for (int i = 60; i <1620d; i= i+60) {
+		for (int i = 60; i <1620; i= i+60) {
 			crayon.drawLine(i, 0, i, 900);
 		}
 

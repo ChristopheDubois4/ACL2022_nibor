@@ -30,8 +30,8 @@ public abstract class Character extends GameObject {
     /**
      * constructeur de la classe Character heritant de GameObject
      */
-    public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
-        super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
+    public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
     }
 
     /**
@@ -43,9 +43,9 @@ public abstract class Character extends GameObject {
      * @param attacks les attaques par defaut du personnage
      * @param spells les sorts par defaut du personnage
      */
-    public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox,
+    public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox,
             HashMap<Stats, Integer> stats, int money, int level, int xp, List<Attack> attacks,List<Spell> spells) {
-        super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
+        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
         this.stats = stats;
         this.currentStats = new HashMap<Stats , Integer>();
         resetCurrentStats();

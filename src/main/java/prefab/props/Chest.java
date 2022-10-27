@@ -24,9 +24,5 @@ public class Chest extends GameObject{
         
     }
 
-    @Override
-    public void move() {
-        
-    }
 
 }

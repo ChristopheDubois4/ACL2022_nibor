@@ -1,6 +1,10 @@
 package prefab.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import org.javatuples.Pair;
 
 import prefab.information.Position;
 import prefab.information.State;
@@ -19,7 +23,8 @@ public class GameObject implements Comparable<GameObject> {
     protected Position position;
     protected HashMap<State,BufferedImage> graphics;
     protected String objectName;
-    protected int verticalHitBox, horizontalHitBox;
+    protected Pair<Integer, Integer> HitBox;
+    protected State state;
 
 
     /**
@@ -27,19 +32,51 @@ public class GameObject implements Comparable<GameObject> {
      * @param position position de l'objet
      * @param graphics composantes graphiques de l'objet
      * @param objectName nom position de l'objet
-     * @param verticalHitBox largeur de la hitbox de l'objet
-     * @param horizontalHitBox hauteur de la hitbox de l'objet
+     * @param HitBox (largeur, hauteur) de la hitbox de l'objet
      */
-    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
+    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         this.position = position;
         this.graphics = graphics;
         this.objectName = objectName;
-        this.verticalHitBox = verticalHitBox;
-        this.horizontalHitBox = horizontalHitBox;
+        this.HitBox = new Pair<Integer, Integer>(horizontalHitBox, verticalHitBox);
+        this.state = State.DEFAULT;
+    }
+
+    /**
+     * constructeur surchargé de la classe GameObject
+     * @param state l'état de l'objet
+     */
+    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox, State state) {
+        this.position = position;
+        this.graphics = graphics;
+        this.objectName = objectName;
+        this.HitBox = new Pair<Integer, Integer>(horizontalHitBox, verticalHitBox);
+        this.state = state;
     }
 
     public Position getPositon() {
         return this.position;
+    }
+
+    /**
+     * recupère toutes les coordonées que l'objet occupe en prenant
+     * compte des hitBox des objets
+     * Ex : si x = 0, y = 0, HitBox = (1, 2) => Liste = [(0,0), (0,1)]
+     * @return liste des coordonées
+     */
+    public List<Pair<Integer, Integer>> getOccupiedCoordinates() {
+        // Initialisation de la liste que l'on renverra
+        List<Pair<Integer, Integer>> occupiedCoordinates = new ArrayList<Pair<Integer, Integer>>();
+        // Parcours des coordonées qu'occupe la hitbox à l'horizontale
+        for (int i = 0; i < this.HitBox.getValue0(); i++) {
+            int x = this.position.getX() + i;  
+            // Parcours des coordonées qu'occupe la hitbox à la verticale
+            for (int j = 0; j < this.HitBox.getValue1(); j++) {
+                int y = this.position.getY() + j;     
+                occupiedCoordinates.add(new Pair<Integer, Integer>(x, y) );               
+            }
+        }
+        return occupiedCoordinates;
     }
 
      /**
@@ -52,20 +89,19 @@ public class GameObject implements Comparable<GameObject> {
     /**
      * déplace l'object
      */
-    public void move() {
-
+    public boolean move(int x, int y) {
+        return this.position.addToXY(x, y);
     }
 
     /**
      * compare 2 gameObject
-     * @param o
+     * @param o le gmaeObject à comparer
      * @return le resultat de la comparaison
      */
     @Override
     public int compareTo(GameObject o) {
         return this.position.compareTo(o.getPositon());        
     }
-
     
     @Override
     public String toString() {

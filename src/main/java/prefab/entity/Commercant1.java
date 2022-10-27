@@ -12,8 +12,8 @@ import prefab.information.State;
  */
 public class Commercant1 extends Character implements Merchant{
 
-    public Commercant1(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
-        super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
+    public Commercant1(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
     }
 
     @Override
@@ -33,11 +33,6 @@ public class Commercant1 extends Character implements Merchant{
 
     @Override
     public void draw() {
-        
-    }
-
-    @Override
-    public void move() {
         
     }
     

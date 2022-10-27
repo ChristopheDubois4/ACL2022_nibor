@@ -24,10 +24,5 @@ public class Trap extends GameObject{
         
     }
 
-    @Override
-    public void move() {
-        
-    }
-    
 }
 

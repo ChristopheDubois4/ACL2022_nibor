@@ -24,9 +24,4 @@ public class Door extends GameObject{
         
     }
 
-    @Override
-    public void move() {
-        
-    }
-    
 }

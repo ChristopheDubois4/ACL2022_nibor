@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.javatuples.Pair;
+
 import prefab.entity.GameObject;
 
 /**
@@ -61,6 +63,32 @@ public class GameLevel {
      */
     public void removeGameObjects(List<GameObject> gameObjects) {
         this.gameObjects.removeAll(gameObjects);
+    }
+
+    /**
+     * test si le déplacement d'un objet est possible dans le niveau en
+     * regardant toutes les coordonées déjà occupées par les autres objets
+     * 
+     * @param objectToTest le GameObject que l'ont souhaite tester
+     * @return un tuple qui contient :
+     *  - un booléen qui vaut :
+     *      -> true si l'objet à tester peut se déplacer
+     *      -> false sinon
+     *  - un GameObject : l'object qui bloc le passage (null sinon)
+     */
+    public Pair<Boolean, GameObject> checkMove(GameObject objectToTest) {
+        // Récupérations de toutes le coordonées de l'objet à tester
+        List<Pair<Integer, Integer>> coordinatesToTests = objectToTest.getOccupiedCoordinates();
+        // Parcours de la liste des objets du niveau
+        for (GameObject gameObject : this.gameObjects) {
+            // Récupérations de toutes le coordonées de l'objet dans la liste
+            List<Pair<Integer, Integer>> coordinates = gameObject.getOccupiedCoordinates();
+            // Si les deux listes de coordonées ont au moins un élément en commun
+            if ( !Collections.disjoint(coordinates, coordinatesToTests) ) {
+                return new Pair<Boolean, GameObject>(false, gameObject);
+            }
+        }
+        return new Pair<Boolean, GameObject>(true, null);
     }
 
     /**

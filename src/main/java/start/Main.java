@@ -1,8 +1,8 @@
 package start;
 
 import model.PacmanPainter;
+
 import engine.GameEngineGraphical;
-import manager.LevelManager;
 import model.PacmanController;
 import model.PacmanGame;
 
@@ -15,7 +15,7 @@ public class Main {
 		
 		originalCode();
 		
-		//test_Partie_Dubois();
+		test_Partie_Dubois();
 	}
 
 	public static void originalCode() throws InterruptedException{
@@ -34,7 +34,7 @@ public class Main {
 	 * Tests pour la partie de Dubois
 	 */
 	public static void test_Partie_Dubois() {
-		new LevelManager();
+		
 	}
 
 }

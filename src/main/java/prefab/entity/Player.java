@@ -21,8 +21,8 @@ public class Player extends Character {
      * constructeur de la classe Player heritant de Character
      * @param classPlayed la classe de combattant du joueur
      */
-    public Player(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox, PlayerClasses classPlayed) {
-        super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
+    public Player(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox, PlayerClasses classPlayed) {
+        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
         this.classPlayed = classPlayed;
         this.xp = 0;        
         initCharacteristic();
@@ -60,11 +60,6 @@ public class Player extends Character {
     @Override   
     public void draw() {
 
-    }
-
-    @Override    
-    public void move() {
-        
     }
     
     @Override
