@@ -12,6 +12,7 @@ import prefab.gui.InventoryHud;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.level.GameLevel;
+import prefab.information.State;
 
 /**
  * gère le monde dans lequel le joueur évolue
@@ -53,7 +54,7 @@ public class WorldManager {
         //TEST
         Position p1 = new Position(10, 10);
         Player = new Player(p1, null, "player", 1, 1, PlayerClasses.CLERIC); 
-        System.out.println("Player : "+ Player.getPositon() + "\n");
+        System.out.println("Player : "+ Player.getPosition() + "\n");
     }
 
     public void initLevels() {
@@ -99,6 +100,10 @@ public class WorldManager {
             inventoryHud.changeDisplayState();   
             return;         
         }
+        else if (cmd == Cmd.USE) {
+            System.out.println("Cas d'utilisation\n");
+            usePlayer(cmd);
+        }
 
         if (inventoryHud.hudIsDisplayed()) {
             // Faire quelque chose
@@ -124,15 +129,19 @@ public class WorldManager {
         int x = 0, y = 0;
         switch (cmd) {            
             case LEFT:
+                Player.setState(State.IdleLEFT);
                 x -= 1;
                 break;
             case RIGHT:
+                Player.setState(State.IdleRIGHT);
                 x += 1;
                 break;
             case UP:
+                Player.setState(State.IdleUP);
                 y += 1;
                 break;
             case DOWN:
+                Player.setState(State.IdleDOWN);
                 y -= 1;
                 break;
             default:
@@ -150,13 +159,59 @@ public class WorldManager {
         Pair<Boolean, GameObject> check = currentLevel.checkMove(Player);
         // si il n'y a pas d'obstacle, on sort de la fonction
         if (check.getValue0()) {
-            System.out.println("Player : "+ Player.getPositon() + "\n");
+            System.out.println("Player : "+ Player.getPosition() + "\n");
             return;
         }
 
         // sinon on remet le joueur à sa position avant le déplacement
         Player.move(-x, -y);
-        System.out.println("MOVEMENT IMPOSSIBLE \nObjet de la collision : "+ check.getValue1()  + "\n");
-        System.out.println("Player : "+ Player.getPositon() + "\n");
-    }  
+        System.out.println("MOVEMENT IMPOSSIBLE \nObjet de la collision : "+ check.getValue1() + "\n");
+        System.out.println("Player : "+ Player.getPosition() + "\n");
+    }
+
+
+    /**
+     * utilise l'objet en face du joueur
+     * @param cmd commande du joueur
+     */
+    private void usePlayer(Cmd cmd) {
+        int x = 0, y = 0;
+        switch (Player.getState()) {            
+            case IdleLEFT:
+                x -= 1;
+                break;
+            case IdleRIGHT:
+                x += 1;
+                break;
+            case IdleUP:
+                y += 1;
+                break;
+            case IdleDOWN:
+                y -= 1;
+                break;
+            default:
+                break;
+        }
+
+        // si la case utilisé est en dehors de la fenêtre, on sort de la fonction 
+        if (!Player.move(x, y)) {
+            return;
+        } 
+
+        /** 
+         * test s'il y a un objet à utiliser en face du joueur
+         * et si oui retourne l'object on sort de la fonction sinon
+         */
+        Pair<Boolean, GameObject> check = currentLevel.checkMove(Player);
+        if (check.getValue1() == null) {
+            return;
+        }
+        Player.move(-x, -y);
+        System.out.println("Player utilise : "+ check.getValue1() + "\n");
+        // si l'object n'est pas utilisable, on sort de la fonction
+        if (!check.getValue1().objectUse(Player)) {
+            return;
+        }
+        // sinon on utilise l'objet
+    }
 }

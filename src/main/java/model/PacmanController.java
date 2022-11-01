@@ -73,6 +73,9 @@ public class PacmanController implements GameController {
 			case KeyEvent.VK_I:
 			cmd = Cmd.INVENTORY;
 			break;
+			case KeyEvent.VK_E:
+			cmd = Cmd.USE;
+			break;
 		}
 		this.commandeEnCours.setKeyCommand(cmd);
 	}

@@ -54,8 +54,20 @@ public class GameObject implements Comparable<GameObject> {
         this.state = state;
     }
 
-    public Position getPositon() {
+    public void setPosition(Position position) {
+        this.position=position;
+    }
+
+    public Position getPosition() {
         return this.position;
+    }
+
+    public void setState(State state){
+        this.state=state;
+    }
+
+    public State getState(){
+        return this.state;
     }
 
     /**
@@ -79,6 +91,17 @@ public class GameObject implements Comparable<GameObject> {
         return occupiedCoordinates;
     }
 
+
+    /**
+    * permet de donner un usage à un objet
+    * @return un boolean qui vaut :
+    *   -> false l'objet n'est pas utilisable
+    *   -> true sinon
+     */
+    public boolean objectUse(GameObject user) {
+        return false;
+    }
+
      /**
      * affiche l'object
      */
@@ -100,7 +123,7 @@ public class GameObject implements Comparable<GameObject> {
      */
     @Override
     public int compareTo(GameObject o) {
-        return this.position.compareTo(o.getPositon());        
+        return this.position.compareTo(o.getPosition());        
     }
     
     @Override

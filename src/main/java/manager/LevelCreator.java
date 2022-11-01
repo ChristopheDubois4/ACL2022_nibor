@@ -8,6 +8,7 @@ import prefab.entity.GameObject;
 import prefab.information.Layer;
 import prefab.information.Position;
 import prefab.level.GameLevel;
+import prefab.props.Ladder;
 
 /**
  * créer les différents niveux du jeux
@@ -87,11 +88,13 @@ public class LevelCreator {
         GameLevel level1 = new GameLevel();
         Position p1 = new Position(20, 8);
         Position p2 = new Position(5, 5);
+        Position p3 = new Position(8, 5);
         GameObject o1 = new GameObject(p1, null, "POMME", 1, 1);
         GameObject o2 = new GameObject(p2, null, "ACIDE", 1, 1);
-        System.out.println("\n2 Obstacles de 1 case : ACIDE en (5,5) et en POMME en (20,8) \n");
+        GameObject o3 = new Ladder(p3, null, 3);
+        System.out.println("\n2 Obstacles de 1 case : ACIDE en (5,5) et en POMME en (20,8)\nLadder utilisable en (8,5)/(8,6)/(8,7) \n");
 
-        level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2)));
+        level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2, o3)));
 
         gameLevels.put("default",level1);
     }
