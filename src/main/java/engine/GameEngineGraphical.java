@@ -16,7 +16,7 @@ public class GameEngineGraphical {
 	/**
 	 * l'afficheur a utiliser pour le rendu
 	 */
-	private GamePainter gamePainter;
+	private DrawingPanel panel;
 
 	/**
 	 * le controlleur a utiliser pour recuperer les commandes
@@ -39,10 +39,10 @@ public class GameEngineGraphical {
 	 *            controlleur a utiliser
 	 *            
 	 */
-	public GameEngineGraphical(Game game, GamePainter gamePainter, GameController gameController) {
+	public GameEngineGraphical(Game game, DrawingPanel panel, GameController gameController) {
 		// creation du game
 		this.game = game;
-		this.gamePainter = gamePainter;
+		this.panel = panel;
 		this.gameController = gameController;
 	}
 
@@ -52,18 +52,18 @@ public class GameEngineGraphical {
 	public void run() throws InterruptedException {
 
 		// creation de l'interface graphique
-		this.gui = new GraphicalInterface(this.gamePainter,this.gameController);
+		this.gui = new GraphicalInterface(this.panel, this.gameController);
 
 		// boucle de game
 		while (!this.game.isFinished()) {
 			// demande controle utilisateur
-			Cmd c = this.gameController.getCommand();
+			Command c = this.gameController.getCommand();
 			// fait evoluer le game
 			this.game.evolve(c);
 			// affiche le game
 			this.gui.paint();
 			// met en attente
-			Thread.sleep(100);
+			Thread.sleep(25); 
 		}
 	}
 

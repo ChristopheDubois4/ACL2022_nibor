@@ -4,28 +4,29 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import org.javatuples.Pair;
-
 import prefab.entity.GameObject;
 import prefab.information.Layer;
 import prefab.information.Position;
 import prefab.level.GameLevel;
 
 /**
- * gère et crée les différents niveux du jeux
+ * créer les différents niveux du jeux
  */
-public class LevelManager {
+public class LevelCreator {
 
     public HashMap<String, GameLevel> gameLevels;
-    public String currentLevel;
     
     /**
      * constructeur de la classe LevelManager
      */
-    public LevelManager() {
+    public LevelCreator() {
         gameLevels = new HashMap<String, GameLevel>();
         initGameLevels();
         testSrpint1();
+    }
+
+    public HashMap<String, GameLevel> getLevels() {
+        return gameLevels;
     }
 
     
@@ -46,21 +47,6 @@ public class LevelManager {
     private void initGameLevels() {
 
     }
-
-    /**
-     * test si le déplacement d'un object est valide 
-     * 
-     * @param objectToTest le GameObject que l'ont souhaite tester
-     * @return un tuple qui contient :
-     *  - un booléen qui vaut :
-     *      -> true si l'objet à tester peut se déplacer
-     *      -> false sinon
-     *  - un GameObject : l'object qui bloc le passage (null sinon)
-     */
-    public Pair<Boolean, GameObject> checkMove(GameObject objectToTest) {
-        return gameLevels.get(currentLevel).checkMove(objectToTest);
-    }
-
 
     /**
      * methode temporaire
@@ -107,8 +93,7 @@ public class LevelManager {
 
         level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2)));
 
-        currentLevel = "test";
-        gameLevels.put("test",level1);
+        gameLevels.put("default",level1);
     }
 
 }

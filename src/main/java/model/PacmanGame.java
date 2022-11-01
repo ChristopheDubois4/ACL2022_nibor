@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import engine.Cmd;
+import engine.Command;
 import engine.Game;
 import manager.WorldManager;
 
@@ -44,9 +45,9 @@ public class PacmanGame implements Game {
 	 * @param commande
 	 */
 	@Override
-	public void evolve(Cmd commande) {
-		if (commande != Cmd.IDLE) {
-			System.out.println("Execute "+commande);
+	public void evolve(Command commande) {
+		if (commande.getKeyCommand() != Cmd.IDLE) {
+			System.out.println("Execute "+commande.getKeyCommand());
 		}
 		worldManager.updateWorld(commande);
 	}

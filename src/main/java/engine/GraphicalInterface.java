@@ -23,12 +23,12 @@ public class GraphicalInterface  {
 	 * @param gameController l'afficheur a utiliser dans le moteur
 	 * 
 	 */
-	public GraphicalInterface(GamePainter gamePainter, GameController gameController){
+	public GraphicalInterface(DrawingPanel panel, GameController gameController){
 		JFrame f=new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// attacher le panel contenant l'afficheur du game
-		this.panel=new DrawingPanel(gamePainter);
+		this.panel = panel;
 		f.setContentPane(this.panel);
 		
 		// attacher controller au panel du game

@@ -1,7 +1,13 @@
 package prefab.entity;
 
 import java.util.HashMap;
+import java.util.List;
 
+import prefab.equipment.Armor;
+import prefab.equipment.ArmorPieces;
+import prefab.equipment.Item;
+import prefab.equipment.Weapon;
+import prefab.gui.DisplayingPlayerInventory;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.information.State;
@@ -13,7 +19,7 @@ import java.awt.image.BufferedImage;
  * représente le joueur, un personnage particulié du jeu que l'on contrôle
  */
 
-public class Player extends Character {
+public class Player extends Character implements DisplayingPlayerInventory{
     
     PlayerClasses classPlayed;    
 
@@ -65,6 +71,29 @@ public class Player extends Character {
     @Override
     public void die() {
         
+    }
+
+    @Override
+    public int getMoney() {       
+        return this.money;
+    }
+
+    @Override
+    public List<Item> getInventory() {
+        // Trie l'inventaire avant de l'afficher
+        return null;
+    }
+
+    @Override
+    public HashMap<ArmorPieces, Armor> getEquipedArmor() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Weapon getWeapon() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
