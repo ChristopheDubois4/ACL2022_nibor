@@ -6,6 +6,7 @@ import java.util.HashMap;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.entity.GameObject;
+import prefab.entity.Player;
 
 /**
  * représente une échelle utilisable par le joueur
@@ -32,7 +33,7 @@ public class Ladder extends GameObject{
     *   -> true sinon
     */
     @Override
-    public boolean objectUse(GameObject user) {
+    public boolean objectUse(Player user) {
         System.out.println("Utilisation échelle\n");
         if (user.getPosition().getY()>=this.position.getY()+this.HitBox.getValue1()){
             user.getPosition().setY(this.position.getY()-1);
@@ -49,7 +50,6 @@ public class Ladder extends GameObject{
         System.out.println("Player : "+ user.getPosition() + "\n");
         return true;
     }
-
     @Override
     public void draw() {
         

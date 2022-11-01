@@ -98,9 +98,10 @@ public class GameObject implements Comparable<GameObject> {
     *   -> false l'objet n'est pas utilisable
     *   -> true sinon
      */
-    public boolean objectUse(GameObject user) {
+    public boolean objectUse(Player user) {
         return false;
     }
+
 
      /**
      * affiche l'object
