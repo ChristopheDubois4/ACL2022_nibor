@@ -1,6 +1,8 @@
 package start;
 
 import model.PacmanPainter;
+import prefab.information.State;
+
 import engine.DrawingPanel;
 import engine.GameEngineGraphical;
 import model.PacmanController;
@@ -20,7 +22,9 @@ public class Main {
 
 	public static void originalCode() throws InterruptedException{
 
+		//test_Partie_Dubois();
 
+		
 		// creation du jeu particulier et de son afficheur
 		PacmanGame game = new PacmanGame("helpFilePacman.txt");
 		PacmanPainter painter = new PacmanPainter();
@@ -42,7 +46,9 @@ public class Main {
 	 * Tests pour la partie de Dubois
 	 */
 	public static void test_Partie_Dubois() {
-		
+	
 	}
+
+	
 
 }

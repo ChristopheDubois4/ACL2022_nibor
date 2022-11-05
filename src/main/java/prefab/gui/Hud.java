@@ -2,7 +2,7 @@ package prefab.gui;
 
 public class Hud {
 
-    private boolean isDisplayed;
+    private boolean isDisplayed = false;
 
     public Hud() {
 

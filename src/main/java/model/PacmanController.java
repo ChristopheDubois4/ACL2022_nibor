@@ -6,6 +6,8 @@ import java.awt.event.MouseAdapter;
 
 import javax.swing.JLabel;
 
+import java.lang.Cloneable;
+
 import engine.Cmd;
 import engine.Command;
 import engine.DrawingPanel;
@@ -39,7 +41,14 @@ public class PacmanController implements GameController {
 	 * @return commande faite par le joueur
 	 */
 	public Command getCommand() {
-		return this.commandeEnCours;
+		Command c = new Command();
+		try {
+			c = (Command) commandeEnCours.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		commandeEnCours.setKeyCommand(Cmd.IDLE);
+		return c;
 	}
 
 	@Override
@@ -71,11 +80,11 @@ public class PacmanController implements GameController {
 				break;
 			// "I" : INVENTAIRE
 			case KeyEvent.VK_I:
-			cmd = Cmd.INVENTORY;
-			break;
+				cmd = Cmd.INVENTORY;
+				break;
 			case KeyEvent.VK_E:
-			cmd = Cmd.USE;
-			break;
+				cmd = Cmd.USE;
+				break;
 		}
 		this.commandeEnCours.setKeyCommand(cmd);
 	}
@@ -97,7 +106,8 @@ public class PacmanController implements GameController {
 	}
 
 	/**
-	 * WORK IN PROGRESS
+	 * (W I P)
+	 * gère la détection des clics de souris
 	 */
 	private class MouseClickHandler extends MouseAdapter {
 		// handle mouse-click event and determine which button was pressed
@@ -108,17 +118,24 @@ public class PacmanController implements GameController {
 			commandeEnCours.setClick(event.getX(), event.getY());
 		}
 
+		@Override
+		public void mouseReleased(MouseEvent event) {
+			Cmd cmd = findCommand(event.getButton());
+			commandeEnCours.setKeyCommand(cmd, "release");
+			commandeEnCours.setClick(event.getX(), event.getY());
+		}
+
 		private Cmd findCommand(int button) {
 			// Clic GAUCHE
 			if (button == MouseEvent.BUTTON1) {
-				return Cmd.mouseLEFT;
+				return Cmd.MOUSE_LEFT;
 			}
 			// Clic DROIT
 			if (button == MouseEvent.BUTTON2) {
-				return Cmd.mouseRIGHT;
+				return Cmd.MOUSE_RIGHT;
 			}
 			// Clic MOLETTE
-			return Cmd.mouseCENTER;		
+			return Cmd.MOUSE_CENTER;		
 		}
 	}	
 }

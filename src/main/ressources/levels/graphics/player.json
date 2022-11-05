@@ -1,0 +1,10 @@
+[
+	{
+		"state" : "idleDown",
+        "image" : "src\\main\\ressources\\images\\characters\\player\\idleDown.png"
+	},
+	{
+		"state" : "idleRight",
+        "image" : "src\\main\\ressources\\images\\characters\\player\\idleRight.png"
+	}
+]

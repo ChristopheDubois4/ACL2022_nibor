@@ -7,14 +7,14 @@ package prefab.information;
  * en fonction de l'orientation et de l'action en cours
  */
 public enum State {
-    IdleUP,
-    IdleDOWN,
-    IdleLEFT,
-    IdleRIGHT,
-    WalkUP,
-    WalkDOWN,
-    WalkLEFT,
-    WalkRIGHT,
+    IDLE_UP,
+    IDLE_DOWN,
+    IDLE_LEFT,
+    IDLE_RIGHT,
+    WALK_UP,
+    WALK_DOWN,
+    WALK_LEFT,
+    WALK_RIGHT,
     DEFAULT,
     CLIMBING
 }

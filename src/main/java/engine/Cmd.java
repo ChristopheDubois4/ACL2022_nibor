@@ -5,5 +5,5 @@ package engine;
  *
  */
 public enum Cmd {
-	 LEFT,RIGHT,UP,DOWN,USE,IDLE,INVENTORY, mouseLEFT, mouseRIGHT, mouseCENTER; 
+	 LEFT,RIGHT,UP,DOWN,USE,IDLE,INVENTORY, MOUSE_LEFT, MOUSE_RIGHT, MOUSE_CENTER; 
 }

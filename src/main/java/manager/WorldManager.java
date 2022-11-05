@@ -36,7 +36,7 @@ public class WorldManager {
     Player Player;
 
     // mouvement du joueur autorisé ?
-    boolean isMoveLocked = false;
+    boolean isKeyLocked = false;
 
     /**
      * constructeur de la classe WorldManager
@@ -50,6 +50,9 @@ public class WorldManager {
         initHuds();
     }
     
+    /**
+     * initialise le joueur
+     */
     public void initPlayer() {
         //TEST
         Position p1 = new Position(10, 10);
@@ -57,36 +60,41 @@ public class WorldManager {
         System.out.println("Player : "+ Player.getPosition() + "\n");
     }
 
+    /**
+     * initialise les niveaux
+     */
     public void initLevels() {
         LevelCreator levelManager = new LevelCreator();
         gameLevels = levelManager.getLevels();
         currentLevel = gameLevels.get("default");
-
     }
 
+    /**
+     * initialise les huds
+     */
     public void initHuds() {
         HudCreator hudManager = new HudCreator(this.Player);
         inventoryHud = hudManager.getInventory();
     }
 
     /**
-     * permet de choisir à quelle fréquence les touches de déplacement sont prises en 
+     * permet de choisir à quelle fréquence les touches sont prises en 
      * compte indépendament du temps de rafraichissement de l'image ou du temps de calcul
      * 
      * EX : Si le joueur met 200 ms à se déplacer d'une case à une autre : 
      *   durant ce temps de déplacement, si l'utilisateur appuit sur une touche
      *   de déplacement (z, q, s ou d) elles ne sont pas prisent en compte
      */
-    private void moveLocker() {
+    private void keyLocker() {
         Thread thread = new Thread();
         thread.start();
-        isMoveLocked = true;
+        isKeyLocked = true;
         try {
             Thread.sleep(moveTIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        isMoveLocked = false;
+        isKeyLocked = false;
     }
 
     /**
@@ -96,27 +104,33 @@ public class WorldManager {
      */
     public void updateWorld(Command command) {
         Cmd cmd = command.getKeyCommand();
+
+        if (isKeyLocked || cmd == Cmd.IDLE) {
+            return;
+        }
+
         if (cmd == Cmd.INVENTORY) {
             inventoryHud.changeDisplayState();   
+            keyLocker();
             return;         
-        }
-        else if (cmd == Cmd.USE) {
-            System.out.println("Cas d'utilisation\n");
-            usePlayer(cmd);
         }
 
         if (inventoryHud.hudIsDisplayed()) {
-            // Faire quelque chose
+            inventoryHud.processClick(command);
+            return;
+        }        
 
+        if (cmd == Cmd.USE) {
+            System.out.println("Cas d'utilisation\n");
+            keyLocker();
+            usePlayer(cmd);
             return;
         }
 
         // Faire des trucs 
 
-        if (isMoveLocked || cmd == Cmd.IDLE) {
-            return;
-        }
-        moveLocker();
+        // Si LEFT, DOWN, RIGHT ou UP (implicite à cause des "return")
+        keyLocker();
         movePlayer(cmd);        
     }
 
@@ -129,23 +143,23 @@ public class WorldManager {
         int x = 0, y = 0;
         switch (cmd) {            
             case LEFT:
-                Player.setState(State.IdleLEFT);
+                Player.setState(State.IDLE_LEFT);
                 x -= 1;
                 break;
             case RIGHT:
-                Player.setState(State.IdleRIGHT);
+                Player.setState(State.IDLE_RIGHT);
                 x += 1;
                 break;
             case UP:
-                Player.setState(State.IdleUP);
+                Player.setState(State.IDLE_UP);
                 y += 1;
                 break;
             case DOWN:
-                Player.setState(State.IdleDOWN);
+                Player.setState(State.IDLE_DOWN);
                 y -= 1;
                 break;
             default:
-                break;
+                return;
         }
 
         // si le mouvement amène en dehors de la fenêtre, on sort de la fonction 
@@ -177,16 +191,16 @@ public class WorldManager {
     private void usePlayer(Cmd cmd) {
         int x = 0, y = 0;
         switch (Player.getState()) {            
-            case IdleLEFT:
+            case IDLE_LEFT:
                 x -= 1;
                 break;
-            case IdleRIGHT:
+            case IDLE_RIGHT:
                 x += 1;
                 break;
-            case IdleUP:
+            case IDLE_UP:
                 y += 1;
                 break;
-            case IdleDOWN:
+            case IDLE_DOWN:
                 y -= 1;
                 break;
             default:
