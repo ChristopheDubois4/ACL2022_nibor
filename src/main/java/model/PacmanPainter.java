@@ -3,7 +3,10 @@ package model;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.*;
+ 
 
 import javax.imageio.ImageIO;
 
@@ -40,14 +43,21 @@ public class PacmanPainter implements GamePainter {
 		Graphics2D g = (Graphics2D) im.getGraphics();
 		//coordonnees
 		int x1=7,y1=7;
-		int x2=10,y2=10;
+		int x2=7,y2=7;
 		BufferedImage im1 =null;
 		BufferedImage im2 =null;
 
+
+
+
+		Path chemin = Paths.get("src/main/ressources/images/items/box.png");
+		Path chemin2 = Paths.get("src/main/ressources/images/characters/player/idleDown.png");
+    
+
 		//lecture chemin mais doit etre dans le meme package (pb)
 		try {
-			im1 = ImageIO.read(getClass().getResourceAsStream("box.png") );
-			im2 = ImageIO.read(getClass().getResourceAsStream("idleDown.png") );
+			im1 = ImageIO.read(new File(chemin.toAbsolutePath().toString()) );
+			im2 = ImageIO.read(new File(chemin2.toAbsolutePath().toString()) );
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
