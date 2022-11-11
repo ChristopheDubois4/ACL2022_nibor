@@ -25,6 +25,7 @@ public class GraphicalInterface  {
 	 */
 	public GraphicalInterface(DrawingPanel panel, GameController gameController){
 		JFrame f=new JFrame();
+		
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// attacher le panel contenant l'afficheur du game
@@ -33,7 +34,6 @@ public class GraphicalInterface  {
 		
 		// attacher controller au panel du game
 		this.panel.addKeyListener(gameController);	
-		
 		f.pack();
 		f.setVisible(true);
 		f.getContentPane().setFocusable(true);
