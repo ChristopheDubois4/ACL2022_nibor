@@ -4,7 +4,7 @@
 		"visual" : {
 			"image" : "src/main/ressources/images/items/door.png",
 			"lenghtX" : 1,
-			"lenghtY" : 2
+			"lenghtY" : 1
 		}       
 	}
 ]
