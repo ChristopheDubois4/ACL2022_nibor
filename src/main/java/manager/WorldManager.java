@@ -226,6 +226,8 @@ public class WorldManager implements WorldPainter{
             player.move(-x, -y);
             return;
         }
+        player.move(-x, -y);
+
         System.out.println("Player utilise : "+ check.getValue1() + "\n");
         // si l'object n'est pas utilisable, on sort de la fonction
         if (!check.getValue1().objectUse(player)) {
