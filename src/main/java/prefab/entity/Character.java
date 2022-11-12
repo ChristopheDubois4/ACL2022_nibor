@@ -7,6 +7,7 @@ import java.util.List;
 import prefab.competence.Attack;
 import prefab.competence.Spell;
 import prefab.equipment.Item;
+import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
@@ -30,7 +31,7 @@ public abstract class Character extends GameObject {
     /**
      * constructeur de la classe Character heritant de GameObject
      */
-    public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+    public Character(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
     }
 
@@ -43,7 +44,7 @@ public abstract class Character extends GameObject {
      * @param attacks les attaques par defaut du personnage
      * @param spells les sorts par defaut du personnage
      */
-    public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox,
+    public Character(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox,
             HashMap<Stats, Integer> stats, int money, int level, int xp, List<Attack> attacks,List<Spell> spells) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
         this.stats = stats;

@@ -8,11 +8,10 @@ import prefab.equipment.ArmorPieces;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
 import prefab.gui.DisplayingPlayerInventory;
+import prefab.information.Image;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.information.State;
-
-import java.awt.image.BufferedImage;
 
 
 /**
@@ -27,10 +26,10 @@ public class Player extends Character implements DisplayingPlayerInventory{
      * constructeur de la classe Player heritant de Character
      * @param classPlayed la classe de combattant du joueur
      */
-    public Player(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox, PlayerClasses classPlayed) {
+    public Player(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox, PlayerClasses classPlayed) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
         this.classPlayed = classPlayed;
-        this.xp = 0;        
+        this.xp = 0;      
         initCharacteristic();
     }
 

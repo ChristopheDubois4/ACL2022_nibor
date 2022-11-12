@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.javatuples.Pair;
 
+import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Visual;
@@ -22,7 +23,7 @@ import java.awt.image.BufferedImage;
 public class GameObject implements Comparable<GameObject> {
     
     protected Position position;
-    protected HashMap<State,BufferedImage> graphics;
+    protected HashMap<State,Image> graphics;
     protected String objectName;
     protected Pair<Integer, Integer> HitBox;
     protected State state;
@@ -35,7 +36,7 @@ public class GameObject implements Comparable<GameObject> {
      * @param objectName nom position de l'objet
      * @param HitBox (largeur, hauteur) de la hitbox de l'objet
      */
-    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+    public GameObject(Position position, HashMap<State,Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         this.position = position;
         this.graphics = graphics;
         this.objectName = objectName;
@@ -47,7 +48,7 @@ public class GameObject implements Comparable<GameObject> {
      * constructeur surchargé de la classe GameObject
      * @param state l'état de l'objet
      */
-    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox, State state) {
+    public GameObject(Position position, HashMap<State,Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox, State state) {
         this.position = position;
         this.graphics = graphics;
         this.objectName = objectName;
@@ -107,8 +108,11 @@ public class GameObject implements Comparable<GameObject> {
      /**
      * affiche l'object
      */
-    public Visual getVisual() {
-        return null;
+    public Visual getVisual() {        
+        Image image = graphics.get(state);
+        int y = position.getY() + image.getLenghtY() -1;
+        int x = position.getX();
+        return new Visual(x, y, image.getBufferedImage());
     }
     
     /**

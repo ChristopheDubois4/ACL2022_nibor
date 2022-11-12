@@ -4,16 +4,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import prefab.entity.GameObject;
+import prefab.information.Image;
 import prefab.information.Layer;
 import prefab.information.Position;
 import prefab.information.State;
@@ -106,7 +111,7 @@ public class LevelCreator {
                     Layer layer =  Layer.valueOf((String) position.get("layer"));
                     Position p = new Position(x, y, layer);
                     // graphics
-                    HashMap<State,BufferedImage> graphics = getGraphicsFromJSON((String) gameObject.get("graphics"));
+                    HashMap<State,Image> graphics = getGraphicsFromJSON((String) gameObject.get("graphics"));
                     // hitbox
                     int horizontalHitBox = (int) ((long) gameObject.get("horizontalHitBox"));
                     int verticalHitBox = (int) ((long) gameObject.get("verticalHitBox"));
@@ -156,7 +161,7 @@ public class LevelCreator {
      * @param verticalHitBox hitbox verticale
      * @param typeInfos JSONObject contenent les informations spécifique d'un objet de type Ghost
      */
-    private void createGhost(List<GameObject> gameObjects, Position p, HashMap<State, BufferedImage> graphics,
+    private void createGhost(List<GameObject> gameObjects, Position p, HashMap<State, Image> graphics,
             String objectName, int horizontalHitBox, int verticalHitBox, JSONObject typeInfos) {
         // traitement de typeInfos
         // constructeur Ghost
@@ -169,9 +174,9 @@ public class LevelCreator {
      * @param model nom du fichier JSON a prendre pour modèle
      * @return les composantes graphiques de l'objet
      */
-    public HashMap<State,BufferedImage> getGraphicsFromJSON(String model) {
+    public HashMap<State,Image> getGraphicsFromJSON(String model) {
 
-        HashMap<State,BufferedImage> graphics = new HashMap<State,BufferedImage>();
+        HashMap<State,Image> graphics = new HashMap<State,Image>();
         model = "src/main/ressources/levels/graphics/"+model+".json";
         File directory = new File(model);
         JSONParser jsonParser = new JSONParser();
@@ -183,12 +188,21 @@ public class LevelCreator {
             // parcours de toutes les images
             for (int i = 0; i < graphicObjects.size() ; i++) {
                 JSONObject graphicObject = (JSONObject) graphicObjects.get(i);
-                String path = (String) graphicObject.get("image");
+
                 State state =  State.valueOf((String) graphicObject.get("state"));
 
-                // -> Dépendra de VALENTIN
-                // Buffered Image ??
-                // graphics.put(state, buffered Image)
+                JSONObject visual = (JSONObject) graphicObject.get("visual");
+
+                String pathStr = (String) visual.get("image");
+                Path path = Paths.get(pathStr);
+                BufferedImage im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
+
+                int lengthX = (int) ((long) visual.get("lenghtX"));
+                int lengthY = (int) ((long) visual.get("lenghtY"));                
+                
+                Image image = new Image(im, lengthX, lengthY);
+
+                graphics.put(state, image);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -238,14 +252,21 @@ public class LevelCreator {
      */
     private void testMovement() {     
 
+        HashMap<State,Image> graphicsBOX = getGraphicsFromJSON("box");
+        HashMap<State,Image> graphicsDOOR = getGraphicsFromJSON("door");
+        HashMap<State,Image> graphicsLADDER = getGraphicsFromJSON("ladder");
+
+
+
+
         GameLevel level1 = new GameLevel();
         Position p1 = new Position(20, 8);
         Position p2 = new Position(5, 5);
         Position p3 = new Position(8, 5);
-        GameObject o1 = new GameObject(p1, null, "POMME", 1, 1);
-        GameObject o2 = new GameObject(p2, null, "ACIDE", 1, 1);
-        GameObject o3 = new Ladder(p3, null, 3);
-        System.out.println("\n2 Obstacles de 1 case : ACIDE en (5,5) et en POMME en (20,8)\nLadder utilisable en (8,5)/(8,6)/(8,7) \n");
+        GameObject o1 = new GameObject(p1, graphicsBOX, "BOX", 1, 1);
+        GameObject o2 = new GameObject(p2, graphicsDOOR, "DOOR", 1, 1);
+        GameObject o3 = new Ladder(p3, graphicsLADDER, 3);
+        System.out.println("\n2 Obstacles de 1 case : DOOR en (5,5) et en BOX en (20,8)\nLadder utilisable en (8,5)/(8,6)/(8,7) \n");
 
         level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2, o3)));
 

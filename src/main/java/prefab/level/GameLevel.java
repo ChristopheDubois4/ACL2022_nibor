@@ -96,14 +96,12 @@ public class GameLevel {
      * dessine les gameObjects du niveau
      */
     public List<Visual> getVisuals() {
+
         sortGameObjects();
-
         List<Visual> visuals = new ArrayList<Visual>();
-
         for (GameObject gameObject : gameObjects) {
             visuals.add(gameObject.getVisual());
         }
-
         return visuals;
     }
 

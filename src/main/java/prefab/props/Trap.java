@@ -1,8 +1,8 @@
 package prefab.props;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.entity.GameObject;
@@ -18,11 +18,11 @@ public class Trap extends GameObject{
     /**
      * constructeur de la classe Character heritant de GameObject
      */
-    public Trap(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+    public Trap(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
     }
 
-    public Trap(Position position, HashMap<State, BufferedImage> graphics,  int horizontalHitBox, int verticalHitBox, int dammage) {
+    public Trap(Position position, HashMap<State, Image> graphics,  int horizontalHitBox, int verticalHitBox, int dammage) {
         super(position, graphics, "Trap", horizontalHitBox, verticalHitBox);
         this.dammage=dammage;
     }

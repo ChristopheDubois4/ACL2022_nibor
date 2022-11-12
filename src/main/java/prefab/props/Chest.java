@@ -1,9 +1,9 @@
 package prefab.props;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 
+import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.entity.GameObject;
@@ -18,10 +18,10 @@ public class Chest extends GameObject{
     /**
      * constructeur de la classe Chest heritant de GameObject
      */
-    public Chest(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+    public Chest(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
     }
-    public Chest(Position position, HashMap<State, BufferedImage> graphics, int horizontalHitBox, int verticalHitBox, List<Item> chestContents) {
+    public Chest(Position position, HashMap<State, Image> graphics, int horizontalHitBox, int verticalHitBox, List<Item> chestContents) {
         super(position, graphics, "Chest", horizontalHitBox, verticalHitBox);
     }
 

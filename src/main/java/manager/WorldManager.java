@@ -10,6 +10,7 @@ import engine.Command;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
 import prefab.gui.InventoryHud;
+import prefab.information.Image;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.level.GameLevel;
@@ -35,7 +36,7 @@ public class WorldManager implements WorldPainter{
     InventoryHud inventoryHud;
     
     // joueur
-    Player Player;
+    Player player;
 
     // mouvement du joueur autorisé ?
     boolean isKeyLocked = false;
@@ -44,10 +45,10 @@ public class WorldManager implements WorldPainter{
      * constructeur de la classe WorldManager
      */
     public WorldManager() {    
-        // Initialisation du joueur
-        initPlayer();
         // Initialisation des niveaux
         initLevels();
+        // Initialisation du joueur
+        initPlayer();        
         // Initialisation des Huds
         initHuds();
     }
@@ -57,17 +58,19 @@ public class WorldManager implements WorldPainter{
      */
     public void initPlayer() {
         //TEST
+        HashMap<State,Image> graphicsPLAYER = levelCreator.getGraphicsFromJSON("player");
         Position p1 = new Position(10, 10);
-        Player = new Player(p1, null, "player", 1, 1, PlayerClasses.CLERIC); 
-        System.out.println("Player : "+ Player.getPosition() + "\n");
+        player = new Player(p1, graphicsPLAYER, "player", 1, 1, PlayerClasses.CLERIC); 
+        player.setState(State.IDLE_DOWN);
+        System.out.println("Player : "+ player.getPosition() + "\n");
     }
 
     /**
      * initialise les niveaux
      */
     public void initLevels() {
-        LevelCreator levelManager = new LevelCreator();
-        gameLevels = levelManager.getLevels();
+        levelCreator = new LevelCreator();
+        gameLevels = levelCreator.getLevels();
         currentLevel = gameLevels.get("default");
     }
 
@@ -75,7 +78,7 @@ public class WorldManager implements WorldPainter{
      * initialise les huds
      */
     public void initHuds() {
-        HudCreator hudManager = new HudCreator(this.Player);
+        HudCreator hudManager = new HudCreator(this.player);
         inventoryHud = hudManager.getInventory();
     }
 
@@ -145,19 +148,19 @@ public class WorldManager implements WorldPainter{
         int x = 0, y = 0;
         switch (cmd) {            
             case LEFT:
-                Player.setState(State.IDLE_LEFT);
+                player.setState(State.IDLE_LEFT);
                 x -= 1;
                 break;
             case RIGHT:
-                Player.setState(State.IDLE_RIGHT);
+                player.setState(State.IDLE_RIGHT);
                 x += 1;
                 break;
             case UP:
-                Player.setState(State.IDLE_UP);
+                player.setState(State.IDLE_UP);
                 y += 1;
                 break;
             case DOWN:
-                Player.setState(State.IDLE_DOWN);
+                player.setState(State.IDLE_DOWN);
                 y -= 1;
                 break;
             default:
@@ -165,24 +168,24 @@ public class WorldManager implements WorldPainter{
         }
 
         // si le mouvement amène en dehors de la fenêtre, on sort de la fonction 
-        if (!Player.move(x, y)) {
+        if (!player.move(x, y)) {
             return;
         } 
         /** 
          * test s'il y a un obstacle qui empêche le joueur de se déplacer 
          * et si oui retourne l'object bloquant
          */
-        Pair<Boolean, GameObject> check = currentLevel.checkMove(Player);
+        Pair<Boolean, GameObject> check = currentLevel.checkMove(player);
         // si il n'y a pas d'obstacle, on sort de la fonction
         if (check.getValue0()) {
-            System.out.println("Player : "+ Player.getPosition() + "\n");
+            System.out.println("Player : "+ player.getPosition() + "\n");
             return;
         }
 
         // sinon on remet le joueur à sa position avant le déplacement
-        Player.move(-x, -y);
+        player.move(-x, -y);
         System.out.println("MOVEMENT IMPOSSIBLE \nObjet de la collision : "+ check.getValue1() + "\n");
-        System.out.println("Player : "+ Player.getPosition() + "\n");
+        System.out.println("Player : "+ player.getPosition() + "\n");
     }
 
 
@@ -192,7 +195,7 @@ public class WorldManager implements WorldPainter{
      */
     private void usePlayer(Cmd cmd) {
         int x = 0, y = 0;
-        switch (Player.getState()) {            
+        switch (player.getState()) {            
             case IDLE_LEFT:
                 x -= 1;
                 break;
@@ -210,7 +213,7 @@ public class WorldManager implements WorldPainter{
         }
 
         // si la case utilisé est en dehors de la fenêtre, on sort de la fonction 
-        if (!Player.move(x, y)) {
+        if (!player.move(x, y)) {
             return;
         } 
 
@@ -218,14 +221,14 @@ public class WorldManager implements WorldPainter{
          * test s'il y a un objet à utiliser en face du joueur
          * et si oui retourne l'object on sort de la fonction sinon
          */
-        Pair<Boolean, GameObject> check = currentLevel.checkMove(Player);
+        Pair<Boolean, GameObject> check = currentLevel.checkMove(player);
         if (check.getValue1() == null) {
+            player.move(-x, -y);
             return;
         }
-        Player.move(-x, -y);
         System.out.println("Player utilise : "+ check.getValue1() + "\n");
         // si l'object n'est pas utilisable, on sort de la fonction
-        if (!check.getValue1().objectUse(Player)) {
+        if (!check.getValue1().objectUse(player)) {
             return;
         }
         // sinon on utilise l'objet
@@ -233,7 +236,8 @@ public class WorldManager implements WorldPainter{
 
     @Override
     public List<Visual> getVisuals() {
-
-        return null;
+        List<Visual> v = currentLevel.getVisuals();
+        v.add(player.getVisual());
+        return v;
     }
 }

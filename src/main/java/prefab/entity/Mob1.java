@@ -1,10 +1,10 @@
 package prefab.entity;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 
 import prefab.equipment.Item;
+import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
 
@@ -14,7 +14,7 @@ import prefab.information.State;
  */
 public class Mob1 extends Character implements Enemy{
 
-    public Mob1(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+    public Mob1(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
     }
 

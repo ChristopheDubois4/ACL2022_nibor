@@ -1,8 +1,8 @@
 package prefab.props;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.entity.GameObject;
@@ -16,11 +16,11 @@ public class Ladder extends GameObject{
     /**
      * constructeur de la classe Ladder heritant de GameObject
      */
-    public Ladder(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+    public Ladder(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
     }
 
-    public Ladder(Position position, HashMap<State, BufferedImage> graphics, int verticalHitBox) {
+    public Ladder(Position position, HashMap<State, Image> graphics, int verticalHitBox) {
         this(position, graphics, "Ladder",1, verticalHitBox);
     }
 
@@ -35,7 +35,7 @@ public class Ladder extends GameObject{
     @Override
     public boolean objectUse(Player user) {
         System.out.println("Utilisation échelle\n");
-        if (user.getPosition().getY()>=this.position.getY()+this.HitBox.getValue1()){
+        if (user.getPosition().getY()>=this.position.getY()+this.HitBox.getValue1()-1){
             user.getPosition().setY(this.position.getY()-1);
         }
         else if (user.getPosition().getY()<=this.position.getY()){

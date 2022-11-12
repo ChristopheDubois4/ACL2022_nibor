@@ -1,0 +1,10 @@
+[
+	{
+		"state" : "DEFAULT",
+		"visual" : {
+			"image" : "src/main/ressources/images/items/ladder.png",
+			"lenghtX" : 1,
+			"lenghtY" : 3
+		}       
+	}
+]

@@ -1,8 +1,8 @@
 package prefab.props;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.entity.GameObject;
@@ -15,7 +15,7 @@ public class Door extends GameObject{
     /**
      * constructeur de la classe Character heritant de GameObject
      */
-    public Door(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
+    public Door(Position position, HashMap<State, Image> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
         super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
     }
 
