@@ -3,12 +3,9 @@ package model;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.*;
+
 import java.util.List;
 
-import javax.imageio.ImageIO;
 
 import engine.GamePainter;
 import manager.WorldPainter;
@@ -44,33 +41,16 @@ public class PacmanPainter implements GamePainter {
 	 */
 	@Override
 	public void draw(BufferedImage im) {
-		//test affichage mais pas de transparance 
+
 		Graphics2D g = (Graphics2D) im.getGraphics();
 		
-		//coordonnees
-
+		//liste d'images avec leurs coordonnees
 		List<Visual> visuals = worldPainter.getVisuals();
 
-	
-
-		int x1=7,y1=7;
-		int x2=7,y2=7;
-		BufferedImage im1 =null;
-		BufferedImage im2 =null;
-
-
-
-
-		Path chemin = Paths.get("src/main/ressources/images/items/box.png");
-		Path chemin2 = Paths.get("src/main/ressources/images/characters/player/idleDown.png");
-    
-
-		//lecture chemin mais doit etre dans le meme package (pb)
-		try {
-			im1 = ImageIO.read(new File(chemin.toAbsolutePath().toString()) );
-			im2 = ImageIO.read(new File(chemin2.toAbsolutePath().toString()) );
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		//affichages images
+		for(int i=0; i<visuals.size();i++){
+			Visual image = visuals.get(i);
+			g.drawImage(image.getBufferedImage(), image.getX()*60, image.getY()*60, null);
 		}
 
 		//affichage quadrillage
@@ -82,10 +62,6 @@ public class PacmanPainter implements GamePainter {
 			g.drawLine(i, 0, i, 900);
 		}
 
-	
-		//affichage images
-		g.drawImage(im1, x1*60, y1*60, null);
-		g.drawImage(im2, x2*60+1, y2*60-10, null);
 	}
 
 	@Override
