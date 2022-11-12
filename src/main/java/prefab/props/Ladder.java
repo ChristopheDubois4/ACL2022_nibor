@@ -50,9 +50,5 @@ public class Ladder extends GameObject{
         System.out.println("Player : "+ user.getPosition() + "\n");
         return true;
     }
-    @Override
-    public void draw() {
-        
-    }
         
 }

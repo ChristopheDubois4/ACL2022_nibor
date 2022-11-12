@@ -1,6 +1,7 @@
 package manager;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.javatuples.Pair;
 
@@ -13,11 +14,12 @@ import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.level.GameLevel;
 import prefab.information.State;
+import prefab.information.Visual;
 
 /**
  * gère le monde dans lequel le joueur évolue
  */
-public class WorldManager {
+public class WorldManager implements WorldPainter{
 
     private final static int moveTIME = 200;
 
@@ -227,5 +229,11 @@ public class WorldManager {
             return;
         }
         // sinon on utilise l'objet
+    }
+
+    @Override
+    public List<Visual> getVisuals() {
+
+        return null;
     }
 }

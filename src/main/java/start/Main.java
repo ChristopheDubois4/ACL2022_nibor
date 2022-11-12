@@ -5,6 +5,7 @@ import prefab.information.State;
 
 import engine.DrawingPanel;
 import engine.GameEngineGraphical;
+import manager.WorldManager;
 import model.PacmanController;
 import model.PacmanGame;
 
@@ -23,11 +24,15 @@ public class Main {
 	public static void originalCode() throws InterruptedException{
 
 		//test_Partie_Dubois();
+		WorldManager worldManager = new WorldManager();
 
+		PacmanPainter painter = new PacmanPainter(worldManager);
 		
 		// creation du jeu particulier et de son afficheur
-		PacmanGame game = new PacmanGame("helpFilePacman.txt");
-		PacmanPainter painter = new PacmanPainter();
+		PacmanGame game = new PacmanGame(worldManager);
+
+
+		
 
 		/**
 		 * creation du pannel pour pouvoir le donnée au controller (détection des clics de souris)

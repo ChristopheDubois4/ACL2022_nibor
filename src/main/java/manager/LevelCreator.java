@@ -227,7 +227,7 @@ public class LevelCreator {
 
         gameLevels.put("test",level1);
         System.out.println(gameLevels.get("test"));
-        gameLevels.get("test").draw();
+        gameLevels.get("test").getVisuals();
         System.out.println(gameLevels.get("test"));
     }
 

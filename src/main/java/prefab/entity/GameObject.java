@@ -8,6 +8,7 @@ import org.javatuples.Pair;
 
 import prefab.information.Position;
 import prefab.information.State;
+import prefab.information.Visual;
 
 import java.awt.image.BufferedImage;
 
@@ -106,8 +107,8 @@ public class GameObject implements Comparable<GameObject> {
      /**
      * affiche l'object
      */
-    public void draw() {
-
+    public Visual getVisual() {
+        return null;
     }
     
     /**

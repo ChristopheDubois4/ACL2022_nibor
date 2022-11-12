@@ -6,11 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
- 
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import engine.GamePainter;
+import manager.WorldPainter;
+import prefab.information.Visual;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -25,13 +27,16 @@ public class PacmanPainter implements GamePainter {
 	 */
 	protected static final int WIDTH = 1620;
 	protected static final int HEIGHT = 900;
+
+	private WorldPainter worldPainter;
 	/**
 	 * appelle constructeur parent
 	 * 
 	 * @param game
 	 *            le jeutest a afficher
 	 */
-	public PacmanPainter() {
+	public PacmanPainter(WorldPainter worldPainter) {
+		this.worldPainter = worldPainter;
 	}
 
 	/**
@@ -41,7 +46,13 @@ public class PacmanPainter implements GamePainter {
 	public void draw(BufferedImage im) {
 		//test affichage mais pas de transparance 
 		Graphics2D g = (Graphics2D) im.getGraphics();
+		
 		//coordonnees
+
+		List<Visual> visuals = worldPainter.getVisuals();
+
+	
+
 		int x1=7,y1=7;
 		int x2=7,y2=7;
 		BufferedImage im1 =null;
@@ -70,6 +81,7 @@ public class PacmanPainter implements GamePainter {
 		for (int i = 60; i <1620; i= i+60) {
 			g.drawLine(i, 0, i, 900);
 		}
+
 	
 		//affichage images
 		g.drawImage(im1, x1*60, y1*60, null);

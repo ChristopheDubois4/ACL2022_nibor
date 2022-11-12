@@ -8,6 +8,7 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import prefab.entity.GameObject;
+import prefab.information.Visual;
 
 /**
  * représente un niveau 
@@ -94,9 +95,16 @@ public class GameLevel {
     /**
      * dessine les gameObjects du niveau
      */
-    public void draw() {
+    public List<Visual> getVisuals() {
         sortGameObjects();
-        // A completer
+
+        List<Visual> visuals = new ArrayList<Visual>();
+
+        for (GameObject gameObject : gameObjects) {
+            visuals.add(gameObject.getVisual());
+        }
+
+        return visuals;
     }
 
     /**

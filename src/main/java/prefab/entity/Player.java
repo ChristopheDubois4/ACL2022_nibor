@@ -63,11 +63,6 @@ public class Player extends Character implements DisplayingPlayerInventory{
         }
     }   
 
-    @Override   
-    public void draw() {
-
-    }
-    
     @Override
     public void die() {
         

@@ -30,10 +30,5 @@ public class Commercant1 extends Character implements Merchant{
     public void die() {
         
     }
-
-    @Override
-    public void draw() {
-        
-    }
     
 }

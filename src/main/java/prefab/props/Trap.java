@@ -39,10 +39,5 @@ public class Trap extends GameObject{
         return true;
     }
 
-    @Override
-    public void draw() {
-        
-    }
-
 }
 

@@ -38,9 +38,4 @@ public class Mob1 extends Character implements Enemy{
         
     }
 
-    @Override
-    public void draw() {
-        
-    }
-    
 }

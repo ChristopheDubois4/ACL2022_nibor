@@ -37,10 +37,4 @@ public class Chest extends GameObject{
         //A COMPLETER
         return true;
     }
-    @Override
-    public void draw() {
-        
-    }
-
-
 }

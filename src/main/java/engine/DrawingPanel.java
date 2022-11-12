@@ -54,11 +54,15 @@ public class DrawingPanel extends JPanel {
 		this.setPreferredSize(new Dimension(this.width, this.height));
 		this.painter=painter;
 
+		
+
 		// cree l'image buffer et son graphics
 		this.nextImage = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_RGB);
 		this.currentImage = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_RGB);
+
+		
 	}
 
 	/**
@@ -68,15 +72,14 @@ public class DrawingPanel extends JPanel {
 	public void drawGame() {
 		// generer la nouvelle image
 		this.painter.draw(this.nextImage);
-
+		
 		// inverses les images doublebuffereing
 		BufferedImage temp = this.currentImage;
 		// l'image a dessiner est celle qu'on a construite
 		this.currentImage = this.nextImage;
 		// l'ancienne image est videe
 		this.nextImage = temp;
-		this.nextImage.getGraphics()
-				.fillRect(0, 0, this.width, this.height);
+		this.nextImage.getGraphics().fillRect(0, 0, this.width, this.height);
 		// met a jour l'image a afficher sur le panel
 		this.repaint();
 	}
@@ -89,8 +92,8 @@ public class DrawingPanel extends JPanel {
 	 */
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(this.currentImage, 0, 0, getWidth(), getHeight(), 0, 0,
-				getWidth(), getHeight(), null);
+		
+		g.drawImage(this.currentImage, 0, 0, getWidth(), getHeight(), 0, 0, getWidth(), getHeight(), null);
 	}
 
 }

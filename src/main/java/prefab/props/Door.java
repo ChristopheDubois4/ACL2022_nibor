@@ -19,9 +19,5 @@ public class Door extends GameObject{
         super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
     }
 
-    @Override
-    public void draw() {
-        
-    }
 
 }
