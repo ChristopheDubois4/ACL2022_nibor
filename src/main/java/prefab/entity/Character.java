@@ -24,7 +24,9 @@ public abstract class Character extends GameObject {
     protected int level;    
     protected int xp;
 
-    protected List<Item> inventory;
+    private static final int inventoryLength = 171;
+    protected Item[] inventory = new Item[inventoryLength];
+
     protected List<Attack> attacks;
     protected List<Spell> spells;
 
@@ -76,6 +78,20 @@ public abstract class Character extends GameObject {
     public void healCharacter(int value){
         value = Math.max(stats.get(Stats.HP), currentStats.get(Stats.HP) + value);
         currentStats.put(Stats.HP, value);
+    }
+
+    /**
+     * ajoute un item dans l'inventaire
+     * @param item objet que l'on souhaite ajouté
+     * @param position position à laquelle on veut ranger l'objet
+     * @return 
+     *      - null si l'emplacement est vide
+     *      - l'objet à l'emplacement "position" 
+     */
+    public Item addItem(Item item, int position) {
+        Item itemExchanged = inventory[position];
+        inventory[position] = item;
+        return itemExchanged;
     }
 
     /**

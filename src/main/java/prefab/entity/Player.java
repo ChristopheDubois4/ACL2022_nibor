@@ -73,9 +73,8 @@ public class Player extends Character implements DisplayingPlayerInventory{
     }
 
     @Override
-    public List<Item> getInventory() {
-        // Trie l'inventaire avant de l'afficher
-        return null;
+    public Item[] getInventory() {
+        return inventory;
     }
 
     @Override

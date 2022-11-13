@@ -1,13 +1,13 @@
 package start;
 
-import model.PacmanPainter;
+import model.NiborPainter;
 import prefab.information.State;
 
 import engine.DrawingPanel;
 import engine.GameEngineGraphical;
 import manager.WorldManager;
-import model.PacmanController;
-import model.PacmanGame;
+import model.NiborController;
+import model.NiborGame;
 
 /**
  * lancement du moteur avec le jeu
@@ -26,10 +26,10 @@ public class Main {
 		//test_Partie_Dubois();
 		WorldManager worldManager = new WorldManager();
 
-		PacmanPainter painter = new PacmanPainter(worldManager);
+		NiborPainter painter = new NiborPainter(worldManager);
 		
 		// creation du jeu particulier et de son afficheur
-		PacmanGame game = new PacmanGame(worldManager);
+		NiborGame game = new NiborGame(worldManager);
 
 
 		
@@ -40,7 +40,7 @@ public class Main {
 		 */
 		DrawingPanel panel = new DrawingPanel(painter);
 
-		PacmanController controller = new PacmanController(panel);
+		NiborController controller = new NiborController(panel);
 
 		// classe qui lance le moteur de jeu generique
 		GameEngineGraphical engine = new GameEngineGraphical(game, panel, controller);

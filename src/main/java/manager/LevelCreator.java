@@ -169,7 +169,6 @@ public class LevelCreator {
     }
 
     /**
-     * ( W I P )
      * récupère les composantes graphiques de l'objet à partir d'un fichier JSON
      * @param model nom du fichier JSON a prendre pour modèle
      * @return les composantes graphiques de l'objet
@@ -195,6 +194,7 @@ public class LevelCreator {
 
                 String pathStr = (String) visual.get("image");
                 Path path = Paths.get(pathStr);
+
                 BufferedImage im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
 
                 int lengthX = (int) ((long) visual.get("lenghtX"));
@@ -213,7 +213,6 @@ public class LevelCreator {
         }
         return graphics;
     }
-
    
 
     /**

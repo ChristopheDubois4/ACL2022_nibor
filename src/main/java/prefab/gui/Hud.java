@@ -1,6 +1,10 @@
 package prefab.gui;
 
-public class Hud {
+import java.util.List;
+
+import prefab.information.Visual;
+
+public abstract class Hud {
 
     private boolean isDisplayed = false;
 
@@ -15,4 +19,7 @@ public class Hud {
     public void changeDisplayState() {
         isDisplayed = !isDisplayed;
     }
+
+    public abstract List<Visual> getVisual();
+    
 }

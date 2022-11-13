@@ -17,7 +17,7 @@ import prefab.information.Visual;
  * afficheur graphique pour le game
  * 
  */
-public class PacmanPainter implements GamePainter {
+public class NiborPainter implements GamePainter {
 
 	/**
 	 * la taille des cases
@@ -32,7 +32,7 @@ public class PacmanPainter implements GamePainter {
 	 * @param game
 	 *            le jeutest a afficher
 	 */
-	public PacmanPainter(WorldPainter worldPainter) {
+	public NiborPainter(WorldPainter worldPainter) {
 		this.worldPainter = worldPainter;
 	}
 

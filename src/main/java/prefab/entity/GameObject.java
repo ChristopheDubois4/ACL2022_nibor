@@ -11,8 +11,6 @@ import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Visual;
 
-import java.awt.image.BufferedImage;
-
 /**
  * représente tous les objets physiques présents dans les niveaux.
  * 

@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import engine.Cmd;
 import engine.Command;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
+import prefab.gui.Hud;
 import prefab.gui.InventoryHud;
 import prefab.information.Image;
 import prefab.information.PlayerClasses;
@@ -22,7 +24,7 @@ import prefab.information.Visual;
  */
 public class WorldManager implements WorldPainter{
 
-    private final static int moveTIME = 200;
+    private final static int moveTIME = 150;
 
     // createurs
     LevelCreator levelCreator;
@@ -33,6 +35,7 @@ public class WorldManager implements WorldPainter{
     public GameLevel currentLevel;
 
     // huds
+    List<Hud> huds;
     InventoryHud inventoryHud;
     
     // joueur
@@ -78,8 +81,11 @@ public class WorldManager implements WorldPainter{
      * initialise les huds
      */
     public void initHuds() {
+        huds = new ArrayList<Hud>();        
         HudCreator hudManager = new HudCreator(this.player);
+
         inventoryHud = hudManager.getInventory();
+        huds.add(inventoryHud);
     }
 
     /**
@@ -238,8 +244,14 @@ public class WorldManager implements WorldPainter{
 
     @Override
     public List<Visual> getVisuals() {
-        List<Visual> v = currentLevel.getVisuals();
-        v.add(player.getVisual());
-        return v;
+        List<Visual> visuals = currentLevel.getVisuals();
+        visuals.add(player.getVisual());
+        for (Hud hud : huds) {
+            if (hud.hudIsDisplayed()) {
+                visuals.addAll(hud.getVisual());
+            }
+        }
+        return visuals;
     }
+
 }

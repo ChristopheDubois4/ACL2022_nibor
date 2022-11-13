@@ -16,14 +16,14 @@ import manager.WorldManager;
  *         versions suivantes.
  * 
  */
-public class PacmanGame implements Game {
+public class NiborGame implements Game {
 
 	private WorldManager worldManager;
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
 	 */
-	public PacmanGame(WorldManager worldManager) {
+	public NiborGame(WorldManager worldManager) {
 		this.worldManager = worldManager;
 	}
 

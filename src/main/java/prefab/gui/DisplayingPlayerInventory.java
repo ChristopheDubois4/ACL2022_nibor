@@ -11,7 +11,7 @@ import prefab.equipment.Weapon;
 public interface DisplayingPlayerInventory {
     
     public int getMoney();
-    public List<Item> getInventory();
+    public Item[] getInventory();
     public HashMap<ArmorPieces, Armor> getEquipedArmor();
     public Weapon getWeapon();
 }
