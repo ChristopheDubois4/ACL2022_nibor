@@ -30,5 +30,13 @@
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
+	},
+	{
+		"state" : "DEAD",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/player/dead.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
 	}
 ]

@@ -34,13 +34,12 @@ public class Player extends Character implements DisplayingPlayerInventory{
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
         this.classPlayed = classPlayed;
         this.xp = 0;
-        this.inventory= Arrays.asList(new Item[maxInventorySize]);
         initCharacteristic();
 
         //tempo
-        this.inventory.set(0, new Item(0,null,"Item_1"));
-        this.inventory.set(1, new Item(0,null,"Item_2"));
-        this.inventory.set(2, new Item(0,null,"Item_3"));
+        //this.inventory.set(0, new Item(0,null,"Item_1"));
+        //this.inventory.set(1, new Item(0,null,"Item_2"));
+        //this.inventory.set(2, new Item(0,null,"Item_3"));
         
     }
 
@@ -81,7 +80,7 @@ public class Player extends Character implements DisplayingPlayerInventory{
 
     @Override
     public void die() {
-        
+        this.state=State.DEAD;
     }
 
     @Override
@@ -90,8 +89,7 @@ public class Player extends Character implements DisplayingPlayerInventory{
     }
 
     @Override
-    public List<Item> getInventory() {
-        // Trie l'inventaire avant de l'afficher    
+    public Item[] getInventory() {
         return inventory;
     }
 

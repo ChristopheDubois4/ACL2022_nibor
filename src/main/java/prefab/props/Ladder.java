@@ -34,14 +34,14 @@ public class Ladder extends GameObject{
     */
     @Override
     public boolean objectUse(Player user) {
-        if (user.getPosition().getY()>=this.position.getY()+this.HitBox.getValue1()-1){
+        if (user.getPosition().getY()>this.position.getY()+this.HitBox.getValue1()-1){
             user.getPosition().setY(this.position.getY()-1);
         }
-        else if (user.getPosition().getY()<=this.position.getY()){
+        else if (user.getPosition().getY()<this.position.getY()){
             user.getPosition().setY(this.position.getY()+this.HitBox.getValue1());
         }
         else {
-            System.out.println("On ne peut pas prendre l'échelle au milieu\n");
+            System.out.println("On ne peut pas prendre l'échelle sur côté\n");
             return false;
         }
         user.getPosition().setX(this.position.getX());

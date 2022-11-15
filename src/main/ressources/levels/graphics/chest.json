@@ -1,0 +1,18 @@
+[
+	{
+		"state" : "OPEN",
+		"visual" : {
+			"image" : "src/main/ressources/images/items/openChest.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}       
+	},
+	{
+		"state" : "CLOSE",
+		"visual" : {
+			"image" : "src/main/ressources/images/items/closeChest.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	}
+]

@@ -24,7 +24,7 @@ import prefab.information.Visual;
  */
 public class WorldManager implements WorldPainter{
 
-    private final static int moveTIME = 150;
+    private final static int moveTIME = 50;
 
     // createurs
     LevelCreator levelCreator;
@@ -149,7 +149,10 @@ public class WorldManager implements WorldPainter{
      * deplace le joueur
      * @param cmd commande du joueur
      */
-    private void movePlayer(Cmd cmd) {        
+    private void movePlayer(Cmd cmd) {    
+        //Si le jouer est mort il ne peut pas bouger
+        if (player.getState()==State.DEAD) return;
+
         // calcul du déplacement à effectuer
         int x = 0, y = 0;
         switch (cmd) {            

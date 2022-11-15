@@ -257,6 +257,8 @@ public class LevelCreator {
         HashMap<State,Image> graphicsBOX = getGraphicsFromJSON("box");
         HashMap<State,Image> graphicsDOOR = getGraphicsFromJSON("door");
         HashMap<State,Image> graphicsLADDER = getGraphicsFromJSON("ladder");
+        HashMap<State,Image> graphicsTRAP = getGraphicsFromJSON("trap");
+        HashMap<State,Image> graphicsCHEST = getGraphicsFromJSON("chest");
 
 
 
@@ -265,19 +267,19 @@ public class LevelCreator {
         Position p1 = new Position(20, 8);
         Position p2 = new Position(5, 5);
         Position p3 = new Position(8, 5);
-        Position p4 = new Position(10, 5);
-        List<Item> chestContents = new ArrayList<>();
-        chestContents.add(new Item(0, null, "Item_4"));
-        chestContents.add(new Item(0, null, "Item_5"));
-        chestContents.add(new Item(0, null, "Item_6"));
+        Position p4 = new Position(26, 14);
+        Position p5 = new Position(0, 0);
+
+        Item[] chestContents = new Item[]{new Item(0, null, "Item_4"),new Item(0, null, "Item_5"),new Item(0, null, "Item_6")};
 
         GameObject o1 = new GameObject(p1, graphicsBOX, "BOX", 1, 1);
         GameObject o2 = new GameObject(p2, graphicsDOOR, "DOOR", 1, 1);
         GameObject o3 = new Ladder(p3, graphicsLADDER, 3);
-        //GameObject o4 = new Chest(p4, null, 1, 1, chestContents);
+        GameObject o4 = new Trap(p4, graphicsTRAP, 1,1,30);
+        GameObject o5 = new Chest(p5, graphicsCHEST, 1, 1, chestContents);
         System.out.println("\n2 Obstacles de 1 case : ACIDE en (5,5) et en Trap en (20,8)\nLadder utilisable en (8,5)/(8,6)/(8,7)\nChest en (10,5)\n");
 
-        level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2, o3)));
+        level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2, o3, o4 ,o5)));
 
         gameLevels.put("default",level1);
     }

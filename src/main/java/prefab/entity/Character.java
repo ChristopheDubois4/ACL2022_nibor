@@ -68,12 +68,12 @@ public abstract class Character extends GameObject {
         return currentStats;
     }
     
-    public List<Item> getInventory() {
-        return inventory;
+    public Item[] getInventory() {
+        return null;
     }
 
     public void setInventory(List<Item> inventory) {
-        this.inventory = inventory;
+        //this.inventory = inventory;
     }
 
     public void displayInventoryConsole(){

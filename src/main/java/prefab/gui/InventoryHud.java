@@ -96,6 +96,7 @@ public class InventoryHud extends Hud{
 
         visuals.add(new Visual(6, 11, testSprint2().get(0)));
         visuals.add(new Visual(12, 5, testSprint2().get(1)));
+        visuals.add(new Visual(16, 7, testSprint2().get(2)));
 
         return visuals;
     }
@@ -130,6 +131,17 @@ public class InventoryHud extends Hud{
             e.printStackTrace();
         }
         images.add(im);
+
+        pathStr = "src/main/ressources/images/items/bitcoin.png";
+        path = Paths.get(pathStr);
+        try {
+            im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        images.add(im);
+
 
         return images;
     }

@@ -50,7 +50,7 @@ public class NiborPainter implements GamePainter {
 		//affichages images
 		for(int i=0; i<visuals.size();i++){
 			Visual image = visuals.get(i);
-			g.drawImage(image.getBufferedImage(), image.getX()*60, HEIGHT - image.getY()*60, null);
+			g.drawImage(image.getBufferedImage(), image.getX()*60, HEIGHT - image.getY()*60 - 60 , null);
 		}
 
 		//affichage quadrillage
