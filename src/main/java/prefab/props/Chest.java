@@ -2,6 +2,7 @@ package prefab.props;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 
 import prefab.information.Image;
 import prefab.information.Position;
@@ -14,7 +15,7 @@ import prefab.equipment.Item;
  * représente un coffre ouvrable par le joueur
  */
 public class Chest extends GameObject{
-
+    private List<Item> chestContents;
     /**
      * constructeur de la classe Chest heritant de GameObject
      */
@@ -23,6 +24,8 @@ public class Chest extends GameObject{
     }
     public Chest(Position position, HashMap<State, Image> graphics, int horizontalHitBox, int verticalHitBox, List<Item> chestContents) {
         super(position, graphics, "Chest", horizontalHitBox, verticalHitBox);
+        this.chestContents=chestContents;
+        
     }
 
 
@@ -33,8 +36,22 @@ public class Chest extends GameObject{
     */
     @Override
     public boolean objectUse(Player user) {
-        System.out.println("Utilisation chest\n");
-        //A COMPLETER
+        //A COMPLETER (format console ici)
+        boolean isOpen=true;
+        ListIterator<Item> it = chestContents.listIterator() ;
+        if (chestContents.isEmpty()){
+            System.out.print("Coffre vide");
+            return false;
+        }
+        System.out.print("Contenue du coffre :");
+        while(it.hasNext()) {
+            Item element = it.next() ;
+            System.out.print(element.getName()+" ");
+        }
+        System.out.println();
+        user.displayInventoryConsole();
+        while (isOpen){
+        }
         return true;
     }
 }

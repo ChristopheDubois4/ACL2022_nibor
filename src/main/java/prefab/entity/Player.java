@@ -1,5 +1,6 @@
 package prefab.entity;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import prefab.information.Image;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.information.State;
+import prefab.information.Stats;
 
 
 /**
@@ -20,7 +22,9 @@ import prefab.information.State;
 
 public class Player extends Character implements DisplayingPlayerInventory{
     
-    PlayerClasses classPlayed;    
+    PlayerClasses classPlayed;
+    
+    protected int maxInventorySize=20;
 
     /**
      * constructeur de la classe Player heritant de Character
@@ -29,8 +33,15 @@ public class Player extends Character implements DisplayingPlayerInventory{
     public Player(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox, PlayerClasses classPlayed) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
         this.classPlayed = classPlayed;
-        this.xp = 0;      
+        this.xp = 0;
+        this.inventory= Arrays.asList(new Item[maxInventorySize]);
         initCharacteristic();
+
+        //tempo
+        this.inventory.set(0, new Item(0,null,"Item_1"));
+        this.inventory.set(1, new Item(0,null,"Item_2"));
+        this.inventory.set(2, new Item(0,null,"Item_3"));
+        
     }
 
     /**
@@ -54,7 +65,13 @@ public class Player extends Character implements DisplayingPlayerInventory{
                 break;
 
             case CLERIC:
-            
+                //tempo
+                this.stats = new HashMap<Stats , Integer>();
+                this.currentStats = new HashMap<Stats , Integer>();
+                this.stats.put(Stats.HP, 100);
+                this.stats.put(Stats.DEFENSE, 50);
+                resetCurrentStats();
+
                 break;
         
             default:
@@ -73,7 +90,8 @@ public class Player extends Character implements DisplayingPlayerInventory{
     }
 
     @Override
-    public Item[] getInventory() {
+    public List<Item> getInventory() {
+        // Trie l'inventaire avant de l'afficher    
         return inventory;
     }
 

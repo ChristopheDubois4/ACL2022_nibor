@@ -19,11 +19,14 @@ import org.json.simple.parser.JSONParser;
 
 import prefab.entity.GameObject;
 import prefab.information.Image;
+import prefab.equipment.Item;
 import prefab.information.Layer;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.level.GameLevel;
+import prefab.props.Chest;
 import prefab.props.Ladder;
+import prefab.props.Trap;
 
 import java.awt.image.BufferedImage;
 
@@ -262,10 +265,17 @@ public class LevelCreator {
         Position p1 = new Position(20, 8);
         Position p2 = new Position(5, 5);
         Position p3 = new Position(8, 5);
+        Position p4 = new Position(10, 5);
+        List<Item> chestContents = new ArrayList<>();
+        chestContents.add(new Item(0, null, "Item_4"));
+        chestContents.add(new Item(0, null, "Item_5"));
+        chestContents.add(new Item(0, null, "Item_6"));
+
         GameObject o1 = new GameObject(p1, graphicsBOX, "BOX", 1, 1);
         GameObject o2 = new GameObject(p2, graphicsDOOR, "DOOR", 1, 1);
         GameObject o3 = new Ladder(p3, graphicsLADDER, 3);
-        System.out.println("\n2 Obstacles de 1 case : DOOR en (5,5) et en BOX en (20,8)\nLadder utilisable en (8,5)/(8,6)/(8,7) \n");
+        //GameObject o4 = new Chest(p4, null, 1, 1, chestContents);
+        System.out.println("\n2 Obstacles de 1 case : ACIDE en (5,5) et en Trap en (20,8)\nLadder utilisable en (8,5)/(8,6)/(8,7)\nChest en (10,5)\n");
 
         level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2, o3)));
 

@@ -37,6 +37,7 @@ public abstract class Character extends GameObject {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
     }
 
+
     /**
      * constructeur surchargé de la classe Character heritant de GameObject
      * @param stats les stats par defaut du personnage
@@ -58,13 +59,38 @@ public abstract class Character extends GameObject {
     public void resetCurrentStats(){
         currentStats.putAll(stats);
     }
+
+    public HashMap<Stats, Integer> getStats(){
+        return stats;
+    }
+
+    public HashMap<Stats, Integer> getCurrentStats(){
+        return currentStats;
+    }
     
+    public List<Item> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<Item> inventory) {
+        this.inventory = inventory;
+    }
+
+    public void displayInventoryConsole(){
+        System.out.print("Votre inventaire : ");
+        for (Item item : getInventory()){
+            if(item == null) System.out.print("Empty ");
+            else System.out.print(item.getName()+" ");
+        }
+        System.out.print("\n");
+    }
+
 	/**
 	 * inflige des dommages au joueur
 	 * @param value Valeur des degats
 	 */
     public void takeDammage(int value){        
-        value = (int) ( currentStats.get(Stats.HP) - value*(100-currentStats.get(Stats.DEFENSE)) );
+        value = (int) ( currentStats.get(Stats.HP) - value*(100-currentStats.get(Stats.DEFENSE))/100 );
         value =  Math.max(0, value);
         currentStats.put(Stats.HP, value);        
         if (value == 0)

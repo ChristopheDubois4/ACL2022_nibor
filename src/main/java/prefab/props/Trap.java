@@ -5,6 +5,7 @@ import java.util.HashMap;
 import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
+import prefab.information.Stats;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
 
@@ -34,8 +35,8 @@ public class Trap extends GameObject{
     */
     @Override
     public boolean objectUse(Player user) {
-        System.out.println("Utilisation trap\n");
         user.takeDammage(this.dammage);
+        System.out.println("Player PV : "+user.getCurrentStats().get(Stats.HP)+" sur "+user.getStats().get(Stats.HP)+"\n");
         return true;
     }
 

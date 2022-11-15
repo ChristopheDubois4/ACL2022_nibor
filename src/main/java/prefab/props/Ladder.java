@@ -34,7 +34,6 @@ public class Ladder extends GameObject{
     */
     @Override
     public boolean objectUse(Player user) {
-        System.out.println("Utilisation échelle\n");
         if (user.getPosition().getY()>=this.position.getY()+this.HitBox.getValue1()-1){
             user.getPosition().setY(this.position.getY()-1);
         }

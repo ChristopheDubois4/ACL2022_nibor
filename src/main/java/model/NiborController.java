@@ -3,10 +3,8 @@ package model;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
-
 import javax.swing.JLabel;
 
-import java.lang.Cloneable;
 
 import engine.Cmd;
 import engine.Command;
@@ -131,7 +129,7 @@ public class NiborController implements GameController {
 				return Cmd.MOUSE_LEFT;
 			}
 			// Clic DROIT
-			if (button == MouseEvent.BUTTON2) {
+			if (button == MouseEvent.BUTTON3) {
 				return Cmd.MOUSE_RIGHT;
 			}
 			// Clic MOLETTE
