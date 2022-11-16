@@ -1,5 +1,6 @@
 package manager;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import engine.Cmd;
 import engine.Command;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
+import prefab.gui.HealthBar;
 import prefab.gui.Hud;
 import prefab.gui.InventoryHud;
 import prefab.information.Image;
@@ -37,6 +39,7 @@ public class WorldManager implements WorldPainter{
     // huds
     List<Hud> huds;
     InventoryHud inventoryHud;
+    HealthBar healthBar;
     
     // joueur
     Player player;
@@ -85,7 +88,10 @@ public class WorldManager implements WorldPainter{
         HudCreator hudManager = new HudCreator(this.player);
 
         inventoryHud = hudManager.getInventory();
+        healthBar = hudManager.getHealthBar();
+        
         huds.add(inventoryHud);
+        huds.add(healthBar);
     }
 
     /**
@@ -255,5 +261,10 @@ public class WorldManager implements WorldPainter{
         }
         return visuals;
     }
+
+	@Override
+	public void drawHuds(Graphics2D g) {
+		healthBar.draw(g);		
+	}
 
 }

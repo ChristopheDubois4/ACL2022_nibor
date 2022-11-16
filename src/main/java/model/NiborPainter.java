@@ -43,6 +43,8 @@ public class NiborPainter implements GamePainter {
 	public void draw(BufferedImage im) {
 
 		Graphics2D g = (Graphics2D) im.getGraphics();
+				
+		worldPainter.drawHuds(g);
 		
 		//liste d'images avec leurs coordonnees
 		List<Visual> visuals = worldPainter.getVisuals();

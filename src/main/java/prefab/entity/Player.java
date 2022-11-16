@@ -104,5 +104,10 @@ public class Player extends Character implements DisplayingPlayerInventory{
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public int getHealth() {
+		return currentStats.get(Stats.HP);
+	}
     
 }

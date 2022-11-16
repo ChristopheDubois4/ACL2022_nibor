@@ -17,6 +17,7 @@ import org.json.simple.parser.JSONParser;
 
 import prefab.entity.Player;
 import prefab.gui.InventoryHud;
+import prefab.gui.HealthBar;
 import prefab.information.Image;
 
 import java.awt.image.BufferedImage;
@@ -30,6 +31,7 @@ public class HudCreator {
     Player player;
 
     InventoryHud inventory;
+    HealthBar healthBar;
 
     public HudCreator(Player player) {
         this.player = player;
@@ -48,10 +50,17 @@ public class HudCreator {
     private void testSrpint1() {   
         Image backgroundsImages = getImageFromJSON("inventory");
         inventory = new InventoryHud(player, backgroundsImages);
+        
+        healthBar = new HealthBar(player);
+        
     }
 
     public InventoryHud getInventory() {
         return inventory;
+    }
+    
+    public HealthBar getHealthBar() {
+        return healthBar;
     }
 
     /**

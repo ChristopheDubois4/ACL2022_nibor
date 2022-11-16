@@ -14,4 +14,5 @@ public interface DisplayingPlayerInventory {
     public Item[] getInventory();
     public HashMap<ArmorPieces, Armor> getEquipedArmor();
     public Weapon getWeapon();
+    public int getHealth();
 }

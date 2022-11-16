@@ -264,7 +264,7 @@ public class LevelCreator {
 
 
         GameLevel level1 = new GameLevel();
-        Position p1 = new Position(20, 8);
+        Position p1 = new Position(20, 5);
         Position p2 = new Position(5, 5);
         Position p3 = new Position(8, 5);
         Position p4 = new Position(26, 14);
