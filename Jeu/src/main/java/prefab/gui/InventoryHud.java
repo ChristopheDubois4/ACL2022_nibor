@@ -24,7 +24,7 @@ import java.io.IOException;
  */
 public class InventoryHud extends Hud{
 
-    private DisplayingPlayerInventory player;
+    private PlayerInfosFofHud player;
     private Pair<Integer, Integer> pressedClick, releaseClick;
     private Image backgroundImage;
 
@@ -32,7 +32,7 @@ public class InventoryHud extends Hud{
      * constructeur de la classe InventoryHud heritant de Hud 
      * @param player joueur
      */
-    public InventoryHud(DisplayingPlayerInventory player, Image backgroundImage) {
+    public InventoryHud(PlayerInfosFofHud player, Image backgroundImage) {
         super();
         this.player = player;
         this.backgroundImage = backgroundImage;

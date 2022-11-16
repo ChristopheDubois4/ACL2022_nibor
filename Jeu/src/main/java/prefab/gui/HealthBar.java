@@ -8,9 +8,9 @@ import prefab.information.Visual;
 
 public class HealthBar extends Hud{
 	
-    private DisplayingPlayerInventory player;
+    private PlayerInfosFofHud player;
 	
-	public HealthBar(DisplayingPlayerInventory player) {
+	public HealthBar(PlayerInfosFofHud player) {
 		this.player = player;
 	}
 	

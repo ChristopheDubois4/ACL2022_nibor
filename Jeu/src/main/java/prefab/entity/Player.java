@@ -8,7 +8,7 @@ import prefab.equipment.Armor;
 import prefab.equipment.ArmorPieces;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
-import prefab.gui.DisplayingPlayerInventory;
+import prefab.gui.PlayerInfosFofHud;
 import prefab.information.Image;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
@@ -20,7 +20,7 @@ import prefab.information.Stats;
  * représente le joueur, un personnage particulié du jeu que l'on contrôle
  */
 
-public class Player extends Character implements DisplayingPlayerInventory{
+public class Player extends Character implements PlayerInfosFofHud{
     
     PlayerClasses classPlayed;
     
