@@ -1,0 +1,27 @@
+Sprint review :
+
+ 	-> mise en place de la structure générale du jeu
+	-> implémentation du player
+	-> implémentation gameObjects
+	-> implémentation de méthode d'affichage graphique
+		-> affichage générale du plateau de jeu et des objets
+		-> début d'implémentation des HUD
+
+	Par rapport au diagramme de classe en début de Sprint :
+		- les ennemies n'ont pas pu être implanté 
+		- les equipements n'ont pas été implémenté
+		+ gestion des clics de souris
+		+ récupération d'informations via des fichiers JSON
+
+
+Sprint retrospective:
+
+	-> Christophe a beaucoup travaillé sur la structure principale du jeu ce qui a facilité grandement l'avancé du projet mais mauvais équilibre des tâches
+	-> Clément a des problèmes avec Eclipse ==> ne peut pas push
+	-> Globalement satisfait
+
+
+	-> décision pour le sprint suivant: 
+		-> Fonctionnalités : combats, ennemies, des hud (barre de vie, stats, coffre, ...), items , compétences, d'autres gameObjects
+		-> Meilleure repartission des tâches
+
