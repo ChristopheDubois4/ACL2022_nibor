@@ -17,3 +17,4 @@ Sprint retrospective:
 
 	-décision pour le sprint suivant: combats, ennemies, des hud (barre de vie, stats, coffre, ...), items , compétences, d'autres gameObjects
 		
+==> PAS DIAGRAMME DE CLASSES DU SPRINT 1 !
