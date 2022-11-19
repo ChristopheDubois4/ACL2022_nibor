@@ -2,11 +2,13 @@ package prefab.props;
 
 import java.util.HashMap;
 
-import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
+import prefab.information.Visual;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
+import java.awt.image.BufferedImage;
+
 
 /**
  * représente une échelle utilisable par le joueur
@@ -16,11 +18,11 @@ public class Ladder extends GameObject{
     /**
      * constructeur de la classe Ladder heritant de GameObject
      */
-    public Ladder(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+    public Ladder(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
     }
 
-    public Ladder(Position position, HashMap<State, Image> graphics, int verticalHitBox) {
+    public Ladder(Position position, HashMap<State, BufferedImage> graphics, int verticalHitBox) {
         this(position, graphics, "Ladder",1, verticalHitBox);
     }
 

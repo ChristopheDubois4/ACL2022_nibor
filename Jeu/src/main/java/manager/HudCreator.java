@@ -18,7 +18,6 @@ import org.json.simple.parser.JSONParser;
 import prefab.entity.Player;
 import prefab.gui.InventoryHud;
 import prefab.gui.HealthBar;
-import prefab.information.Image;
 
 import java.awt.image.BufferedImage;
 
@@ -48,9 +47,8 @@ public class HudCreator {
      * Méthode pour tester des fonctionnalitées liées au sprint 1
      */
     private void testSrpint1() {   
-        Image backgroundsImages = getImageFromJSON("inventory");
+        BufferedImage backgroundsImages = getImageFromJSON("inventory");
         inventory = new InventoryHud(player, backgroundsImages);
-        
         healthBar = new HealthBar(player);
         
     }
@@ -68,9 +66,8 @@ public class HudCreator {
      * @param model nom du fichier JSON a prendre pour modèle
      * @return les composantes graphiques de l'objet
      */
-    private Image getImageFromJSON(String model) {
-
-        Image image = null;
+    private BufferedImage getImageFromJSON(String model) {
+        BufferedImage im =null;
         model = "src/main/ressources/huds/"+model+".json";
         File directory = new File(model);
         JSONParser jsonParser = new JSONParser();
@@ -83,10 +80,7 @@ public class HudCreator {
             String pathStr = (String) visual.get("image");
             Path path = Paths.get(pathStr);
 
-            BufferedImage im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
-            int lengthX = (int) ((long) visual.get("lenghtX"));
-            int lengthY = (int) ((long) visual.get("lenghtY"));  
-            image = new Image(im, lengthX, lengthY);
+            im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -95,6 +89,6 @@ public class HudCreator {
         } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
-        return image;
+        return im;
     }
 }

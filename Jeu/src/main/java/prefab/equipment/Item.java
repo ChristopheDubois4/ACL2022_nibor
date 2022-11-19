@@ -3,7 +3,6 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import manager.JsonUtilities;
-import prefab.information.Image;
 import prefab.information.State;
 
 
@@ -13,17 +12,17 @@ import prefab.information.State;
 
 public class  Item {
     protected int price;
-    protected HashMap<State,Image> graphics;
+    protected HashMap<State,BufferedImage> graphics;
     private String name;
 
     
     /**
      * constructeur de la classe Item
-     * @param price position de l'objet
+     * @param price prix de l'objet
      * @param graphics composantes graphiques de l'objet
      * @param name nom de l'objet
      */
-    public Item(int price, HashMap<State,Image> graphics, String name) {
+    public Item(int price, HashMap<State,BufferedImage> graphics, String name) {
         this.price=price;
         this.graphics=graphics;
         this.setName(name);
@@ -35,7 +34,7 @@ public class  Item {
     	
     }
     
-    public Image getImage(State state) {
+    public BufferedImage getImage(State state) {
     	return graphics.get(state);
     }
 

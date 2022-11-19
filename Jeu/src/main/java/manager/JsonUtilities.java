@@ -15,7 +15,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import prefab.information.Image;
 import prefab.information.State;
 
 
@@ -33,9 +32,9 @@ public class JsonUtilities {
      * @param model nom du fichier JSON a prendre pour modèle
      * @return les composantes graphiques de l'objet
      */
-    public static HashMap<State,Image> getGraphicsFromJSON(String model) {
+    public static HashMap<State,BufferedImage> getGraphicsFromJSON(String model) {
 
-        HashMap<State,Image> graphics = new HashMap<State,Image>();
+        HashMap<State,BufferedImage> graphics = new HashMap<State,BufferedImage>();
         model = "src/main/ressources/levels/graphics/"+model+".json";
         File directory = new File(model);
         JSONParser jsonParser = new JSONParser();
@@ -57,12 +56,9 @@ public class JsonUtilities {
 
                 BufferedImage im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
 
-                int lengthX = (int) ((long) visual.get("lenghtX"));
-                int lengthY = (int) ((long) visual.get("lenghtY"));                
                 
-                Image image = new Image(im, lengthX, lengthY);
 
-                graphics.put(state, image);
+                graphics.put(state, im);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

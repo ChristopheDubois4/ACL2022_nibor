@@ -14,12 +14,13 @@ import prefab.entity.Player;
 import prefab.gui.HealthBar;
 import prefab.gui.Hud;
 import prefab.gui.InventoryHud;
-import prefab.information.Image;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.level.GameLevel;
 import prefab.information.State;
 import prefab.information.Visual;
+import java.awt.image.BufferedImage;
+
 
 /**
  * gère le monde dans lequel le joueur évolue
@@ -64,7 +65,7 @@ public class WorldManager implements WorldPainter {
      */
     public void initPlayer() {
         //TEST
-        HashMap<State,Image> graphicsPLAYER = JsonUtilities.getGraphicsFromJSON("player");
+        HashMap<State,BufferedImage> graphicsPLAYER = JsonUtilities.getGraphicsFromJSON("player");
         Position p1 = new Position(10, 10);
         player = new Player(p1, graphicsPLAYER, "player", 1, 1, PlayerClasses.CLERIC); 
         player.setState(State.IDLE_DOWN);

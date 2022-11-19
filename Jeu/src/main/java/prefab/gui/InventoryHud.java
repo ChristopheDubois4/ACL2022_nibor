@@ -12,7 +12,6 @@ import org.javatuples.Pair;
 import engine.Cmd;
 import engine.Command;
 import prefab.equipment.Item;
-import prefab.information.Image;
 import prefab.information.State;
 import prefab.information.Visual;
 
@@ -27,7 +26,7 @@ public class InventoryHud extends Hud{
 
     private PlayerInfosFofHud player;
     private Pair<Integer, Integer> pressedClick, releasedClick;
-    private Image backgroundImage;
+    private BufferedImage backgroundImage;
     
     // Rappel : On commence à (0,0) en bas à gauche
     private static final int firstPosX = 10, firstPosY = 8; 
@@ -37,7 +36,7 @@ public class InventoryHud extends Hud{
      * constructeur de la classe InventoryHud heritant de Hud 
      * @param player joueur
      */
-    public InventoryHud(PlayerInfosFofHud player, Image backgroundImage) {
+    public InventoryHud(PlayerInfosFofHud player, BufferedImage backgroundImage) {
         super();
         this.player = player;
         this.backgroundImage = backgroundImage;
@@ -94,7 +93,7 @@ public class InventoryHud extends Hud{
     @Override
     public List<Visual> getVisual()  {
         List<Visual> visuals = new ArrayList<Visual>();
-        visuals.add(new Visual(firstPosX, firstPosY, backgroundImage.getBufferedImage()));
+        visuals.add(new Visual(firstPosX, firstPosY, backgroundImage));
         
         Item[] inventory = player.getInventory();
         int x = firstPosX;
@@ -105,7 +104,7 @@ public class InventoryHud extends Hud{
                 y--;
             }
             if (inventory[i] != null) {
-                visuals.add(new Visual(x, y, inventory[i].getImage(State.DEFAULT).getBufferedImage()));
+                visuals.add(new Visual(x, y, inventory[i].getImage(State.DEFAULT)));
             }
             x++;
         }    

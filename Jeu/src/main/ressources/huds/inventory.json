@@ -1,5 +1,3 @@
 {
-	"image" : "src/main/ressources/images/huds/inventory/inventory.png",
-	"lenghtX" : 21,
-	"lenghtY" : 11
+	"image" : "src/main/ressources/images/huds/inventory/inventory.png"
 }     

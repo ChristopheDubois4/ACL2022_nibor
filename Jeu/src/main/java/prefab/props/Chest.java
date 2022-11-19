@@ -4,13 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 
-import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
+import prefab.information.Visual;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
 import prefab.equipment.Item;
 import prefab.gui.InventoryHud;
+import java.awt.image.BufferedImage;
+
 
 /**
  * représente un coffre ouvrable par le joueur
@@ -24,12 +26,12 @@ public class Chest extends GameObject{
     /**
      * constructeur de la classe Chest heritant de GameObject
      */
-    public Chest(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+    public Chest(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.CLOSE);
     }
     
     
-    public Chest(Position position, HashMap<State, Image> graphics, int horizontalHitBox, int verticalHitBox, Item[] chestContents) {
+    public Chest(Position position, HashMap<State, BufferedImage> graphics, int horizontalHitBox, int verticalHitBox, Item[] chestContents) {
         super(position, graphics, "Chest", horizontalHitBox, verticalHitBox, State.CLOSE);
         this.chestContents=chestContents;
         

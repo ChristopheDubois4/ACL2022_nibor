@@ -18,7 +18,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import prefab.entity.GameObject;
-import prefab.information.Image;
 import prefab.equipment.Item;
 import prefab.information.Layer;
 import prefab.information.Position;
@@ -114,7 +113,7 @@ public class LevelCreator {
                     Layer layer =  Layer.valueOf((String) position.get("layer"));
                     Position p = new Position(x, y, layer);
                     // graphics
-                    HashMap<State,Image> graphics = JsonUtilities.getGraphicsFromJSON((String) gameObject.get("graphics"));
+                    HashMap<State,BufferedImage> graphics = JsonUtilities.getGraphicsFromJSON((String) gameObject.get("graphics"));
                     // hitbox
                     int horizontalHitBox = (int) ((long) gameObject.get("horizontalHitBox"));
                     int verticalHitBox = (int) ((long) gameObject.get("verticalHitBox"));
@@ -164,7 +163,7 @@ public class LevelCreator {
      * @param verticalHitBox hitbox verticale
      * @param typeInfos JSONObject contenent les informations spécifique d'un objet de type Ghost
      */
-    private void createGhost(List<GameObject> gameObjects, Position p, HashMap<State, Image> graphics,
+    private void createGhost(List<GameObject> gameObjects, Position p, HashMap<State, BufferedImage> graphics,
             String objectName, int horizontalHitBox, int verticalHitBox, JSONObject typeInfos) {
         // traitement de typeInfos
         // constructeur Ghost
@@ -209,11 +208,11 @@ public class LevelCreator {
      */
     private void testMovement() {     
 
-        HashMap<State,Image> graphicsBOX = JsonUtilities.getGraphicsFromJSON("box");
-        HashMap<State,Image> graphicsDOOR = JsonUtilities.getGraphicsFromJSON("door");
-        HashMap<State,Image> graphicsLADDER = JsonUtilities.getGraphicsFromJSON("ladder");
-        HashMap<State,Image> graphicsTRAP = JsonUtilities.getGraphicsFromJSON("trap");
-        HashMap<State,Image> graphicsCHEST = JsonUtilities.getGraphicsFromJSON("chest");
+        HashMap<State,BufferedImage> graphicsBOX = JsonUtilities.getGraphicsFromJSON("box");
+        HashMap<State,BufferedImage> graphicsDOOR = JsonUtilities.getGraphicsFromJSON("door");
+        HashMap<State,BufferedImage> graphicsLADDER = JsonUtilities.getGraphicsFromJSON("ladder");
+        HashMap<State,BufferedImage> graphicsTRAP = JsonUtilities.getGraphicsFromJSON("trap");
+        HashMap<State,BufferedImage> graphicsCHEST = JsonUtilities.getGraphicsFromJSON("chest");
 
 
 
