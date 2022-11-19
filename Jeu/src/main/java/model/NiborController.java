@@ -16,7 +16,7 @@ import engine.GameController;
  * controleur de type KeyListener
  */
 public class NiborController implements GameController {
-
+	
 	/**
 	 * commande en cours
 	 */
@@ -45,7 +45,9 @@ public class NiborController implements GameController {
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
-		commandeEnCours.setKeyCommand(Cmd.IDLE);
+		// Fixe le problème du delay (propre à l'OS) lié à keyPressed 
+		if (commandeEnCours.getActionType() == "released")
+			commandeEnCours.setKeyCommand(Cmd.IDLE);
 		return c;
 	}
 
@@ -53,47 +55,53 @@ public class NiborController implements GameController {
 	/**
 	 * met a jour les commandes en fonction des touches appuyées
 	 */
-	public void keyPressed(KeyEvent e) {
-		Cmd cmd = Cmd.IDLE;
-		switch (e.getKeyCode()) {
-			// "Q" ou ← : GAUCHE
-			case KeyEvent.VK_LEFT:
-			case KeyEvent.VK_Q:
-				cmd = Cmd.LEFT;
-				break;	
-			// "D" ou → : DROITE
-			case KeyEvent.VK_RIGHT:	
-			case KeyEvent.VK_D:
-				cmd = Cmd.RIGHT;
-				break;	
-			// "Z" ou ↑ : HAUT
-			case KeyEvent.VK_UP:	
-			case KeyEvent.VK_Z:
-				cmd = Cmd.UP;
-				break;
-			// "S" ou ↓ : BAS
-			case KeyEvent.VK_DOWN:	
-			case KeyEvent.VK_S:
-				cmd = Cmd.DOWN;
-				break;
-			// "I" : INVENTAIRE
-			case KeyEvent.VK_I:
-				cmd = Cmd.INVENTORY;
-				break;
-			case KeyEvent.VK_E:
-				cmd = Cmd.USE;
-				break;
-		}
-		this.commandeEnCours.setKeyCommand(cmd);
+	public void keyPressed(KeyEvent e) {		
+		this.commandeEnCours.setKeyCommand(findKeyCommand(e.getKeyCode()), "pressed");
 	}
 
+	
 	@Override
 	/**
 	 * met a jour les commandes quand le joueur relache une touche
 	 */
 	public void keyReleased(KeyEvent e) {
-		this.commandeEnCours.setKeyCommand(Cmd.IDLE);
+		this.commandeEnCours.setKeyCommand(findKeyCommand(e.getKeyCode()), "released");
 	}
+	
+	/**
+	 * trouve la commande associée à une touche
+	 * @param button code de la touche
+	 * @return la commande 
+	 */
+	private Cmd findKeyCommand(int button) {
+		
+		switch (button) {
+		// "Q" ou ← : GAUCHE
+		case KeyEvent.VK_LEFT:
+		case KeyEvent.VK_Q:
+			return Cmd.LEFT;
+		// "D" ou → : DROITE
+		case KeyEvent.VK_RIGHT:	
+		case KeyEvent.VK_D:
+			return Cmd.RIGHT;
+		// "Z" ou ↑ : HAUT
+		case KeyEvent.VK_UP:	
+		case KeyEvent.VK_Z:
+			return Cmd.UP;
+		// "S" ou ↓ : BAS
+		case KeyEvent.VK_DOWN:	
+		case KeyEvent.VK_S:
+			return Cmd.DOWN;
+		// "I" : INVENTAIRE
+		case KeyEvent.VK_I:
+			return Cmd.INVENTORY;
+		// "E" : UTILISER
+		case KeyEvent.VK_E:
+			return Cmd.USE;
+		}	
+		return Cmd.IDLE;
+	}
+	
 
 	@Override
 	/**
@@ -111,19 +119,19 @@ public class NiborController implements GameController {
 		// handle mouse-click event and determine which button was pressed
 		@Override
 		public void mousePressed(MouseEvent event) {
-			Cmd cmd = findCommand(event.getButton());
+			Cmd cmd = findMouseCommand(event.getButton());
 			commandeEnCours.setKeyCommand(cmd, "pressed");
 			commandeEnCours.setClick(event.getX(), event.getY());
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent event) {
-			Cmd cmd = findCommand(event.getButton());
-			commandeEnCours.setKeyCommand(cmd, "release");
+			Cmd cmd = findMouseCommand(event.getButton());
+			commandeEnCours.setKeyCommand(cmd, "released");
 			commandeEnCours.setClick(event.getX(), event.getY());
 		}
 
-		private Cmd findCommand(int button) {
+		private Cmd findMouseCommand(int button) {
 			// Clic GAUCHE
 			if (button == MouseEvent.BUTTON1) {
 				return Cmd.MOUSE_LEFT;

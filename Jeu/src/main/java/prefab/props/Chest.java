@@ -25,15 +25,15 @@ public class Chest extends GameObject{
      * constructeur de la classe Chest heritant de GameObject
      */
     public Chest(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.CLOSE);
     }
+    
+    
     public Chest(Position position, HashMap<State, Image> graphics, int horizontalHitBox, int verticalHitBox, Item[] chestContents) {
-        super(position, graphics, "Chest", horizontalHitBox, verticalHitBox);
-        this.state=State.CLOSE;
+        super(position, graphics, "Chest", horizontalHitBox, verticalHitBox, State.CLOSE);
         this.chestContents=chestContents;
         
     }
-
 
     /**
     * le joueur ouvre le coffre

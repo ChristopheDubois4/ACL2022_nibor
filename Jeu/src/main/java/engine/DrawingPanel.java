@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import model.NiborPainter;
+
 public class DrawingPanel extends JPanel {
 
 	/**
@@ -49,8 +51,8 @@ public class DrawingPanel extends JPanel {
 	 */
 	public DrawingPanel(GamePainter painter) {
 		super();
-		this.width = painter.getWidth();
-		this.height = painter.getHeight();
+		this.width = NiborPainter.SCREEN_WIDTH;
+		this.height = NiborPainter.SCREEN_HEIGHT;
 		this.setPreferredSize(new Dimension(this.width, this.height));
 		this.painter=painter;
 

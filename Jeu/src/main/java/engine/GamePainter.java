@@ -18,9 +18,5 @@ public interface GamePainter {
 	 *            image sur laquelle dessiner
 	 */
 	public abstract void draw(BufferedImage image);
-
-	public abstract int getWidth();
-
-	public abstract int getHeight();
 	
 }

@@ -11,6 +11,7 @@ import prefab.information.Image;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
+import prefab.information.Visual;
 
 /**
  * représente les personnages du jeu de manière générale
@@ -24,17 +25,20 @@ public abstract class Character extends GameObject {
     protected int level;    
     protected int xp;
 
-    private static final int inventoryLength = 171;
+    private static final int inventoryLength = 75;
     protected Item[] inventory = new Item[inventoryLength];
 
     protected List<Attack> attacks;
     protected List<Spell> spells;
-
+    
+    private boolean isInMouvement = false;
+        
     /**
      * constructeur de la classe Character heritant de GameObject
      */
     public Character(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);        
+        initVisual();
     }
 
 
@@ -49,12 +53,12 @@ public abstract class Character extends GameObject {
      */
     public Character(Position position, HashMap<State, Image> graphics, String objectName, int horizontalHitBox, int verticalHitBox,
             HashMap<Stats, Integer> stats, int money, int level, int xp, List<Attack> attacks,List<Spell> spells) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);
         this.stats = stats;
         this.currentStats = new HashMap<Stats , Integer>();
+        initVisual();
         resetCurrentStats();
-    }        
-    
+    }            
     
     public void resetCurrentStats(){
         currentStats.putAll(stats);
@@ -129,5 +133,29 @@ public abstract class Character extends GameObject {
      * gère la mort du personnage
      */
     public abstract void die();
-
+    
+    
+    /**
+     * (W I P)
+     * @param moveTime
+     * @param nbUpdate
+     */
+    public void animateMovement(int moveTime, int nbUpdate) {
+    	isInMouvement = true;
+    	visual.resetShift();
+    	new Thread(() -> {
+    		for (int i = 0; i<nbUpdate; i++) {		     
+    			try {    				
+					visual.updateMoveShift();    	    		
+    				Thread.sleep(moveTime/nbUpdate);
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
+        	} isInMouvement = false;
+    	}).start();    	
+    }
+    
+    public boolean getIsInMouvement( ) {
+    	return isInMouvement;
+    }
 }

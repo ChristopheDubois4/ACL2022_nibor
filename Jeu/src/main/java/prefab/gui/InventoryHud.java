@@ -13,6 +13,7 @@ import engine.Cmd;
 import engine.Command;
 import prefab.equipment.Item;
 import prefab.information.Image;
+import prefab.information.State;
 import prefab.information.Visual;
 
 import java.awt.image.BufferedImage;
@@ -25,8 +26,12 @@ import java.io.IOException;
 public class InventoryHud extends Hud{
 
     private PlayerInfosFofHud player;
-    private Pair<Integer, Integer> pressedClick, releaseClick;
+    private Pair<Integer, Integer> pressedClick, releasedClick;
     private Image backgroundImage;
+    
+    // Rappel : On commence à (0,0) en bas à gauche
+    private static final int firstPosX = 10, firstPosY = 8; 
+    private static final int lengthInventoryX = 15, lengthInventoryY = 5; 
 
     /**
      * constructeur de la classe InventoryHud heritant de Hud 
@@ -45,15 +50,15 @@ public class InventoryHud extends Hud{
      */
     public void processClick(Command command) {
         System.out.println("PROCESS CLICK");
-        System.out.println("TYPE : "+command.getMouseActionType());
+        System.out.println("TYPE : "+command.getActionType());
 
         if (command.getKeyCommand() == Cmd.MOUSE_LEFT) {
-            if (command.getMouseActionType() == "pressed") {
+            if (command.getActionType() == "pressed") {
                 pressedClick = command.getNormalizedClick();
                 return;
             }
-            if (command.getMouseActionType() == "release") {
-                releaseClick = command.getNormalizedClick();
+            if (command.getActionType() == "released") {
+                releasedClick = command.getNormalizedClick();
                 swapItem();
             }
         }
@@ -63,88 +68,47 @@ public class InventoryHud extends Hud{
      * echange la position de 2 items
      */
     public void swapItem() {
-        // Si possible alors 
-        // cf Collections.swap(list, 1, 2);
+    	
+    	int indicePressed = pressedClick.getValue0() - firstPosX  + (firstPosY - pressedClick.getValue1())*lengthInventoryX;
+    	int indiceReleased = releasedClick.getValue0() - firstPosX  + (firstPosY - releasedClick.getValue1())*lengthInventoryX;
+
         System.out.println("1er click : "+pressedClick);
-        System.out.println("2er click : "+releaseClick);
+    	System.out.println("indicePressed : "+indicePressed);
+        System.out.println("2er click : "+releasedClick);
+    	System.out.println("indiceReleased : "+indiceReleased);
+
+    	Item[] inventory = player.getInventory();
+    	
+    	try {
+    		Item itemTemp = inventory[indicePressed];
+        	inventory[indicePressed] = inventory[indiceReleased];
+        	inventory[indiceReleased] = itemTemp;
+    	} catch (Exception e) {
+    	}    	    	
     }
 
     /**
-     * (W I P)
-     * (Les items n'étants pas encore implémentés, les images envoyés des items sont temporaires)
      * retourne la liste des visuels à afficher de l'inventaire
+     * @return la liste des visuels
      */
     @Override
     public List<Visual> getVisual()  {
         List<Visual> visuals = new ArrayList<Visual>();
-        visuals.add(new Visual(0, 14, backgroundImage.getBufferedImage()));
-
-        /*
+        visuals.add(new Visual(firstPosX, firstPosY, backgroundImage.getBufferedImage()));
+        
         Item[] inventory = player.getInventory();
-        int x = 6;
-        int y = 11;
+        int x = firstPosX;
+        int y = firstPosY;
         for (int i = 0; i < inventory.length; i++) {
-            if (++x > 24) {
-                x = 6;
+            if (x+1 > firstPosX + lengthInventoryX) {
+                x = firstPosX;
                 y--;
             }
             if (inventory[i] != null) {
-                visuals.add(new Visual(x, y, inventory[i].getBufferedImage());
+                visuals.add(new Visual(x, y, inventory[i].getImage(State.DEFAULT).getBufferedImage()));
             }
-        }
-        */
-
-        visuals.add(new Visual(6, 11, testSprint2().get(0)));
-        visuals.add(new Visual(12, 5, testSprint2().get(1)));
-        visuals.add(new Visual(16, 7, testSprint2().get(2)));
-
+            x++;
+        }    
         return visuals;
     }
-
-    /**
-     * (TEMPORAIRE)
-     * méthode permettant de tester l'affichage des items sur l'inventaiure le temps que 
-     * la classe Item soit implémentée
-     * @return
-     */
-    private List<BufferedImage> testSprint2() {
-
-        List<BufferedImage> images = new ArrayList<BufferedImage>();
-
-        String pathStr = "src/main/ressources/images/items/potion_heal.png";
-        Path path = Paths.get(pathStr);
-        BufferedImage im = null;
-        try {
-            im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        images.add(im);
-
-        pathStr = "src/main/ressources/images/items/sword_1.png";
-        path = Paths.get(pathStr);
-        try {
-            im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        images.add(im);
-
-        pathStr = "src/main/ressources/images/items/bitcoin.png";
-        path = Paths.get(pathStr);
-        try {
-            im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        images.add(im);
-
-
-        return images;
-    }
-
-
 }

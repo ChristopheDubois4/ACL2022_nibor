@@ -10,8 +10,7 @@ import org.javatuples.Pair;
 public class Command implements Cloneable{
     
     private Cmd keyCmd;
-
-    private String mouseActionType;
+    private String actionType;
     int clickX;
     int clickY;
     
@@ -27,19 +26,19 @@ public class Command implements Cloneable{
     }
 
     /**
-     * met a jour le type de command (clavier)
+     * met a jour le type de command
      */
     public void setKeyCommand(Cmd c) {
         keyCmd = c;
-        this.mouseActionType = "pressed";
+        this.actionType = "pressed";
     }
 
     /**
-     * met a jour le type de command (souris)
+     * met a jour le type de command
      */
-    public void setKeyCommand(Cmd c, String mouseActionType) {
+    public void setKeyCommand(Cmd c, String actionType) {
         keyCmd = c;
-        this.mouseActionType = mouseActionType;
+        this.actionType = actionType;
     }
 
     /**
@@ -68,8 +67,12 @@ public class Command implements Cloneable{
         return new Pair<Integer, Integer>(clickX/60, 14-clickY/60);
     }
 
-    public String getMouseActionType() {
-        return mouseActionType;
+    /**
+     * renvoie le type d'action de la commande
+     * @return "pressed" ou "released"
+     */
+    public String getActionType() {
+        return actionType;
     }
 
     @Override

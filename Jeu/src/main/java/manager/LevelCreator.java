@@ -114,7 +114,7 @@ public class LevelCreator {
                     Layer layer =  Layer.valueOf((String) position.get("layer"));
                     Position p = new Position(x, y, layer);
                     // graphics
-                    HashMap<State,Image> graphics = getGraphicsFromJSON((String) gameObject.get("graphics"));
+                    HashMap<State,Image> graphics = JsonUtilities.getGraphicsFromJSON((String) gameObject.get("graphics"));
                     // hitbox
                     int horizontalHitBox = (int) ((long) gameObject.get("horizontalHitBox"));
                     int verticalHitBox = (int) ((long) gameObject.get("verticalHitBox"));
@@ -171,52 +171,7 @@ public class LevelCreator {
         // gameobjects.add(ghost)                
     }
 
-    /**
-     * récupère les composantes graphiques de l'objet à partir d'un fichier JSON
-     * @param model nom du fichier JSON a prendre pour modèle
-     * @return les composantes graphiques de l'objet
-     */
-    public HashMap<State,Image> getGraphicsFromJSON(String model) {
-
-        HashMap<State,Image> graphics = new HashMap<State,Image>();
-        model = "src/main/ressources/levels/graphics/"+model+".json";
-        File directory = new File(model);
-        JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader(directory))
-        {            
-            //Read JSON file
-            Object obj = jsonParser.parse(reader); 
-            JSONArray graphicObjects = (JSONArray) obj;
-            // parcours de toutes les images
-            for (int i = 0; i < graphicObjects.size() ; i++) {
-                JSONObject graphicObject = (JSONObject) graphicObjects.get(i);
-
-                State state =  State.valueOf((String) graphicObject.get("state"));
-
-                JSONObject visual = (JSONObject) graphicObject.get("visual");
-
-                String pathStr = (String) visual.get("image");
-                Path path = Paths.get(pathStr);
-
-                BufferedImage im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
-
-                int lengthX = (int) ((long) visual.get("lenghtX"));
-                int lengthY = (int) ((long) visual.get("lenghtY"));                
-                
-                Image image = new Image(im, lengthX, lengthY);
-
-                graphics.put(state, image);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-        }
-        return graphics;
-    }
-   
+       
 
     /**
      * methode temporaire
@@ -254,11 +209,11 @@ public class LevelCreator {
      */
     private void testMovement() {     
 
-        HashMap<State,Image> graphicsBOX = getGraphicsFromJSON("box");
-        HashMap<State,Image> graphicsDOOR = getGraphicsFromJSON("door");
-        HashMap<State,Image> graphicsLADDER = getGraphicsFromJSON("ladder");
-        HashMap<State,Image> graphicsTRAP = getGraphicsFromJSON("trap");
-        HashMap<State,Image> graphicsCHEST = getGraphicsFromJSON("chest");
+        HashMap<State,Image> graphicsBOX = JsonUtilities.getGraphicsFromJSON("box");
+        HashMap<State,Image> graphicsDOOR = JsonUtilities.getGraphicsFromJSON("door");
+        HashMap<State,Image> graphicsLADDER = JsonUtilities.getGraphicsFromJSON("ladder");
+        HashMap<State,Image> graphicsTRAP = JsonUtilities.getGraphicsFromJSON("trap");
+        HashMap<State,Image> graphicsCHEST = JsonUtilities.getGraphicsFromJSON("chest");
 
 
 
@@ -272,11 +227,23 @@ public class LevelCreator {
 
         Item[] chestContents = new Item[]{new Item(0, null, "Item_4"),new Item(0, null, "Item_5"),new Item(0, null, "Item_6")};
 
+        System.out.println("BOX");
+
         GameObject o1 = new GameObject(p1, graphicsBOX, "BOX", 1, 1);
+        System.out.println("VISUAL");
+
         GameObject o2 = new GameObject(p2, graphicsDOOR, "DOOR", 1, 1);
+        System.out.println("DOOR");
+
         GameObject o3 = new Ladder(p3, graphicsLADDER, 3);
+        System.out.println("TRAP");
+
         GameObject o4 = new Trap(p4, graphicsTRAP, 1,1,30);
+        System.out.println("CHEST");
+
         GameObject o5 = new Chest(p5, graphicsCHEST, 1, 1, chestContents);
+        System.out.println("APRES CHEST");
+
         System.out.println("\n2 Obstacles de 1 case : ACIDE en (5,5) et en Trap en (20,8)\nLadder utilisable en (8,5)/(8,6)/(8,7)\nChest en (10,5)\n");
 
         level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2, o3, o4 ,o5)));

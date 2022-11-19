@@ -24,9 +24,9 @@ import prefab.information.Visual;
 /**
  * gère le monde dans lequel le joueur évolue
  */
-public class WorldManager implements WorldPainter{
+public class WorldManager implements WorldPainter {
 
-    private final static int moveTIME = 50;
+    private final static int lOCK_TIME = 150;
 
     // createurs
     LevelCreator levelCreator;
@@ -45,7 +45,7 @@ public class WorldManager implements WorldPainter{
     Player player;
 
     // mouvement du joueur autorisé ?
-    boolean isKeyLocked = false;
+    private boolean isKeyLocked = false;
 
     /**
      * constructeur de la classe WorldManager
@@ -64,7 +64,7 @@ public class WorldManager implements WorldPainter{
      */
     public void initPlayer() {
         //TEST
-        HashMap<State,Image> graphicsPLAYER = levelCreator.getGraphicsFromJSON("player");
+        HashMap<State,Image> graphicsPLAYER = JsonUtilities.getGraphicsFromJSON("player");
         Position p1 = new Position(10, 10);
         player = new Player(p1, graphicsPLAYER, "player", 1, 1, PlayerClasses.CLERIC); 
         player.setState(State.IDLE_DOWN);
@@ -94,6 +94,7 @@ public class WorldManager implements WorldPainter{
         huds.add(healthBar);
     }
 
+    
     /**
      * permet de choisir à quelle fréquence les touches sont prises en 
      * compte indépendament du temps de rafraichissement de l'image ou du temps de calcul
@@ -103,16 +104,17 @@ public class WorldManager implements WorldPainter{
      *   de déplacement (z, q, s ou d) elles ne sont pas prisent en compte
      */
     private void keyLocker() {
-        Thread thread = new Thread();
-        thread.start();
-        isKeyLocked = true;
-        try {
-            Thread.sleep(moveTIME);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        isKeyLocked = false;
-    }
+    	
+    	isKeyLocked = true;    	
+    	new Thread(() -> { 
+    		try {
+				Thread.sleep(lOCK_TIME);
+				isKeyLocked = false;  
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+		} }).start();        
+    }  
+    
 
     /**
      * met à jour les données du monde
@@ -120,13 +122,14 @@ public class WorldManager implements WorldPainter{
      * @throws InterruptedException
      */
     public void updateWorld(Command command) {
-        Cmd cmd = command.getKeyCommand();
 
+        Cmd cmd = command.getKeyCommand();        
+        
         if (isKeyLocked || cmd == Cmd.IDLE) {
             return;
         }
 
-        if (cmd == Cmd.INVENTORY) {
+        if (cmd == Cmd.INVENTORY && command.getActionType() == "released") {
             inventoryHud.changeDisplayState();   
             keyLocker();
             return;         
@@ -146,9 +149,11 @@ public class WorldManager implements WorldPainter{
 
         // Faire des trucs 
 
-        // Si LEFT, DOWN, RIGHT ou UP (implicite à cause des "return")
-        keyLocker();
-        movePlayer(cmd);        
+        // Si LEFT, DOWN, RIGHT ou UP (implicite à cause des "return")       
+       
+       
+        if (!player.getIsInMouvement())
+        	movePlayer(cmd);  
     }
 
     /**
@@ -181,7 +186,12 @@ public class WorldManager implements WorldPainter{
             default:
                 return;
         }
+        
 
+        /**
+         * (W I P)
+         * checkMove() a changer
+         */
         // si le mouvement amène en dehors de la fenêtre, on sort de la fonction 
         if (!player.move(x, y)) {
             return;
@@ -194,6 +204,10 @@ public class WorldManager implements WorldPainter{
         // si il n'y a pas d'obstacle, on sort de la fonction
         if (check.getValue0()) {
             System.out.println("Player : "+ player.getPosition() + "\n");
+            player.getVisual().setDirection(x, y);
+            player.animateMovement(lOCK_TIME, 10);
+            keyLocker();
+        	//System.out.println(" SET DIRECTION x,y = "+x+","+y);
             return;
         }
 
@@ -202,7 +216,8 @@ public class WorldManager implements WorldPainter{
         System.out.println("MOVEMENT IMPOSSIBLE \nObjet de la collision : "+ check.getValue1() + "\n");
         System.out.println("Player : "+ player.getPosition() + "\n");
     }
-
+    
+    
 
     /**
      * utilise l'objet en face du joueur
@@ -251,8 +266,13 @@ public class WorldManager implements WorldPainter{
     }
 
     @Override
+    /**
+     * récupère les visuels que l'on souhaite afficher
+     * @return les visuels à afficher
+     */
     public List<Visual> getVisuals() {
         List<Visual> visuals = currentLevel.getVisuals();
+        
         visuals.add(player.getVisual());
         for (Hud hud : huds) {
             if (hud.hudIsDisplayed()) {
@@ -261,10 +281,16 @@ public class WorldManager implements WorldPainter{
         }
         return visuals;
     }
-
+    
+    /**
+     * dessine les visuels spécifiques des Huds 
+     */
 	@Override
 	public void drawHuds(Graphics2D g) {
 		healthBar.draw(g);		
 	}
+
+
+	
 
 }

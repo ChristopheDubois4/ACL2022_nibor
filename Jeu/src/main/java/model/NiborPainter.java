@@ -22,8 +22,9 @@ public class NiborPainter implements GamePainter {
 	/**
 	 * la taille des cases
 	 */
-	protected static final int WIDTH = 1620;
-	protected static final int HEIGHT = 900;
+	public static final int SCREEN_WIDTH = 1620;
+	public static final int SCREEN_HEIGHT = 900;
+	public static final int TILE_LENGTH = 60;
 
 	private WorldPainter worldPainter;
 	/**
@@ -51,8 +52,8 @@ public class NiborPainter implements GamePainter {
 
 		//affichages images
 		for(int i=0; i<visuals.size();i++){
-			Visual image = visuals.get(i);
-			g.drawImage(image.getBufferedImage(), image.getX()*60, HEIGHT - image.getY()*60 - 60 , null);
+			Visual visual = visuals.get(i);
+			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY() , null);
 		}
 
 		//affichage quadrillage
@@ -65,15 +66,4 @@ public class NiborPainter implements GamePainter {
 		}
 
 	}
-
-	@Override
-	public int getWidth() {
-		return WIDTH;
-	}
-
-	@Override
-	public int getHeight() {
-		return HEIGHT;
-	}
-
 }

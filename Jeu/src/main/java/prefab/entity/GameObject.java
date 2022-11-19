@@ -25,6 +25,7 @@ public class GameObject implements Comparable<GameObject> {
     protected String objectName;
     protected Pair<Integer, Integer> HitBox;
     protected State state;
+    protected Visual visual;
 
 
     /**
@@ -40,6 +41,7 @@ public class GameObject implements Comparable<GameObject> {
         this.objectName = objectName;
         this.HitBox = new Pair<Integer, Integer>(horizontalHitBox, verticalHitBox);
         this.state = State.DEFAULT;
+        initVisual();
     }
 
     /**
@@ -52,7 +54,18 @@ public class GameObject implements Comparable<GameObject> {
         this.objectName = objectName;
         this.HitBox = new Pair<Integer, Integer>(horizontalHitBox, verticalHitBox);
         this.state = state;
+        initVisual();
     }
+    
+    public void initVisual() {
+
+   	 	Image image = graphics.get(state);
+        int y = position.getY() + image.getLenghtY() -1;
+        int x = position.getX();
+
+        visual = new Visual(x, y, image.getBufferedImage());
+
+   }
 
     public void setPosition(Position position) {
         this.position=position;
@@ -103,20 +116,22 @@ public class GameObject implements Comparable<GameObject> {
     }
 
 
-     /**
-     * affiche l'object
+    /**
+     * récupère les visuels que l'on souhaite afficher
+     * @return les visuels à afficher
      */
     public Visual getVisual() {        
-        Image image = graphics.get(state);
-        int y = position.getY() + image.getLenghtY() -1;
-        int x = position.getX();
-        return new Visual(x, y, image.getBufferedImage());
+    	Image image = graphics.get(state);
+    	visual.setBufferedImage(image.getBufferedImage());
+        visual.setY( position.getY() + image.getLenghtY() -1);
+        visual.setX(position.getX());
+        return visual;
     }
     
     /**
      * déplace l'object
      */
-    public boolean move(int x, int y) {
+    public boolean move(int x, int y) {    	
         return this.position.addToXY(x, y);
     }
 

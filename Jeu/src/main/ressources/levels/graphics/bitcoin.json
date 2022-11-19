@@ -1,0 +1,10 @@
+[
+	{
+		"state" : "DEFAULT",
+		"visual" : {
+			"image" : "src/main/ressources/images/items/bitcoin.png",
+			"lenghtX" : 0,
+			"lenghtY" : 0
+		}       
+	}
+]

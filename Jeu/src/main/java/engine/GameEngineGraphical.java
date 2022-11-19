@@ -6,7 +6,7 @@ package engine;
  * moteur de game generique.
  * On lui passe un game et un afficheur et il permet d'executer un game.
  */
-public class GameEngineGraphical {
+public class GameEngineGraphical implements Runnable{
 
 	/**
 	 * le game a executer
@@ -49,10 +49,11 @@ public class GameEngineGraphical {
 	/**
 	 * permet de lancer le game
 	 */
-	public void run() throws InterruptedException {
+	public void run() {
 
 		// creation de l'interface graphique
 		this.gui = new GraphicalInterface(this.panel, this.gameController);
+		boolean test = true;
 
 		// boucle de game
 		while (!this.game.isFinished()) {
@@ -63,7 +64,12 @@ public class GameEngineGraphical {
 			// affiche le game
 			this.gui.paint();
 			// met en attente
-			Thread.sleep(25); 
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 		}
 	}
 

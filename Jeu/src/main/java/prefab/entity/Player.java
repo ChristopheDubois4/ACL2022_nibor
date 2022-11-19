@@ -24,8 +24,6 @@ public class Player extends Character implements PlayerInfosFofHud{
     
     PlayerClasses classPlayed;
     
-    protected int maxInventorySize=20;
-
     /**
      * constructeur de la classe Player heritant de Character
      * @param classPlayed la classe de combattant du joueur
@@ -69,6 +67,8 @@ public class Player extends Character implements PlayerInfosFofHud{
                 this.currentStats = new HashMap<Stats , Integer>();
                 this.stats.put(Stats.HP, 100);
                 this.stats.put(Stats.DEFENSE, 50);
+                inventory[0] = new Item("epeeDelaMort", "sword_1");
+                inventory[52] = new Item("truc", "bitcoin");
                 resetCurrentStats();
 
                 break;
