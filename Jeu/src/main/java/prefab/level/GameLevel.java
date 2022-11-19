@@ -8,6 +8,7 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import prefab.entity.GameObject;
+import prefab.entity.Character;
 import prefab.information.Visual;
 
 /**
@@ -70,20 +71,24 @@ public class GameLevel {
      * test si le déplacement d'un objet est possible dans le niveau en
      * regardant toutes les coordonées déjà occupées par les autres objets
      * 
-     * @param objectToTest le GameObject que l'ont souhaite tester
+     * @param character le GameObject que l'ont souhaite tester
      * @return un tuple qui contient :
      *  - un booléen qui vaut :
-     *      -> true si l'objet à tester peut se déplacer
+     *      -> true si le personngae peut se déplacer
      *      -> false sinon
-     *  - un GameObject : l'object qui bloc le passage (null sinon)
+     *  - un GameObject : l'objet qui bloc le passage (null sinon)
      */
-    public Pair<Boolean, GameObject> checkMove(GameObject objectToTest) {
+    public Pair<Boolean, GameObject> checkMove(Character character, int deltaX, int deltaY) {
+        // On test si le personnage se retrouve en dehors de la map
+        if (!character.getPosition().authorizedPosition(deltaX, deltaY)) {
+            return new Pair<Boolean, GameObject>(false, null);
+        }
         // Récupérations de toutes le coordonées de l'objet à tester
-        List<Pair<Integer, Integer>> coordinatesToTests = objectToTest.getOccupiedCoordinates();
+        List<Pair<Integer, Integer>> coordinatesToTests = character.getOccupiedCoordinates(deltaX, deltaY);
         // Parcours de la liste des objets du niveau
         for (GameObject gameObject : this.gameObjects) {
             // Récupérations de toutes le coordonées de l'objet dans la liste
-            List<Pair<Integer, Integer>> coordinates = gameObject.getOccupiedCoordinates();
+            List<Pair<Integer, Integer>> coordinates = gameObject.getOccupiedCoordinates(0, 0);
             // Si les deux listes de coordonées ont au moins un élément en commun
             if ( !Collections.disjoint(coordinates, coordinatesToTests) ) {
                 return new Pair<Boolean, GameObject>(false, gameObject);

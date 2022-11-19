@@ -1,28 +1,25 @@
 package prefab.gui;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import org.javatuples.Pair;
 
 import engine.Cmd;
 import engine.Command;
+import manager.Utilities;
 import prefab.equipment.Item;
 import prefab.information.State;
 import prefab.information.Visual;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * gère l'HUD lié à l'inventaire
  */
 public class InventoryHud extends Hud{
+
+    private String inventoryPath = "src/main/ressources/images/huds/inventory/inventory.png";
 
     private PlayerInfosFofHud player;
     private Pair<Integer, Integer> pressedClick, releasedClick;
@@ -36,10 +33,10 @@ public class InventoryHud extends Hud{
      * constructeur de la classe InventoryHud heritant de Hud 
      * @param player joueur
      */
-    public InventoryHud(PlayerInfosFofHud player, BufferedImage backgroundImage) {
+    public InventoryHud(PlayerInfosFofHud player) {
         super();
         this.player = player;
-        this.backgroundImage = backgroundImage;
+        this.backgroundImage = Utilities.getImage(inventoryPath);
         
     }
 
@@ -48,8 +45,8 @@ public class InventoryHud extends Hud{
      * @param command commande émise par le joueur
      */
     public void processClick(Command command) {
-        System.out.println("PROCESS CLICK");
-        System.out.println("TYPE : "+command.getActionType());
+        //System.out.println("PROCESS CLICK");
+        //System.out.println("TYPE : "+command.getActionType());
 
         if (command.getKeyCommand() == Cmd.MOUSE_LEFT) {
             if (command.getActionType() == "pressed") {
@@ -67,21 +64,26 @@ public class InventoryHud extends Hud{
      * echange la position de 2 items
      */
     public void swapItem() {
+        int xPressed = pressedClick.getValue0(), yPressed = pressedClick.getValue1();
+        int xReleased = releasedClick.getValue0(), yReleased = releasedClick.getValue1();
+
+        //if (xPressed >= 8)
     	
-    	int indicePressed = pressedClick.getValue0() - firstPosX  + (firstPosY - pressedClick.getValue1())*lengthInventoryX;
-    	int indiceReleased = releasedClick.getValue0() - firstPosX  + (firstPosY - releasedClick.getValue1())*lengthInventoryX;
+    	int indicePressed = xPressed - firstPosX  + (firstPosY - yPressed)*lengthInventoryX;
+    	int indiceReleased = xReleased - firstPosX  + (firstPosY - yReleased)*lengthInventoryX;
 
         System.out.println("1er click : "+pressedClick);
     	System.out.println("indicePressed : "+indicePressed);
         System.out.println("2er click : "+releasedClick);
     	System.out.println("indiceReleased : "+indiceReleased);
 
-    	Item[] inventory = player.getInventory();
+    	Item[] playerInventory = player.getInventory();
     	
+        
     	try {
-    		Item itemTemp = inventory[indicePressed];
-        	inventory[indicePressed] = inventory[indiceReleased];
-        	inventory[indiceReleased] = itemTemp;
+    		Item itemTemp = playerInventory[indicePressed];
+        	playerInventory[indicePressed] = playerInventory[indiceReleased];
+        	playerInventory[indiceReleased] = itemTemp;
     	} catch (Exception e) {
     	}    	    	
     }

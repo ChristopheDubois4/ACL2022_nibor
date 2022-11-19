@@ -80,17 +80,20 @@ public class Position implements Comparable<Position> {
     *   -> false si le déplacement dépasse les limites de la fenêtre
     *   -> true sinon
     */
-    public boolean addToXY(int x, int y) {
-        // vérification du respect des limites sur l'axe horizontale de la fenêtre
-        if ( (this.x + x > xMax ) || (this.x + x < xMin )) {
+    public void addToXY(int deltaX, int deltaY) {             
+        this.x = this.x + deltaX;
+        this.y = this.y + deltaY;
+    }
+
+    public boolean authorizedPosition(int deltaX, int deltaY) {
+         // vérification du respect des limites sur l'axe horizontale de la fenêtre
+         if ( (this.x + deltaX > xMax ) || (this.x + deltaX < xMin )) {
             return false;
         }   
         // vérification du respect des limites sur l'axe vertical de la fenêtre 
-        if ( (this.y + y > yMax ) || (this.y + y < yMin )) {
+        if ( (this.y + deltaY > yMax ) || (this.y + deltaY < yMin )) {
             return false;
-        }       
-        this.x = this.x + x;
-        this.y = this.y + y;
+        } 
         return true;
     }
     

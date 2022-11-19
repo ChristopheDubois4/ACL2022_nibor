@@ -1,13 +1,11 @@
 package prefab.information;
 
 import java.awt.image.BufferedImage;
-
 import model.NiborPainter;
 
 public class Visual {
 			
 	private BufferedImage image;
-	private State state = null;
     
     private int x, y;
     /**
@@ -42,7 +40,7 @@ public class Visual {
     } 
     
     public void setY(int y) {
-   	 this.y = y;
+   	    this.y = y;
    } 
 
     public void setBufferedImage(BufferedImage image) {
@@ -53,7 +51,6 @@ public class Visual {
     	this.directionX = directionX;
     	this.directionY = directionY;
     } 
-    
     
     // On places de positons pas des déplacements
 
@@ -74,13 +71,9 @@ public class Visual {
     }
     
     public void updateMoveShift() {
-    	//System.out.println("DIRECTION, SHIF =  "+directionX+","+shift);
     	if (shift <= 0) {
     		shift = defaultShift;
     	}
     	shift = shift - 6;
-    	//System.out.println("POSITION X = "+(x*NiborPainter.TILE_LENGTH - directionX*shift));
-
     }
-    
 }

@@ -27,7 +27,10 @@ import java.awt.image.BufferedImage;
  */
 public class WorldManager implements WorldPainter {
 
-    private final static int lOCK_TIME = 150;
+    public static final int KEY_TIME = 50;
+
+    public static final int MOVE_TIME = 150;
+    public static final int IMAGES_PER_MOVE = 10;
 
     // createurs
     LevelCreator levelCreator;
@@ -65,7 +68,7 @@ public class WorldManager implements WorldPainter {
      */
     public void initPlayer() {
         //TEST
-        HashMap<State,BufferedImage> graphicsPLAYER = JsonUtilities.getGraphicsFromJSON("player");
+        HashMap<State,BufferedImage> graphicsPLAYER = Utilities.getGraphicsFromJSON("player");
         Position p1 = new Position(10, 10);
         player = new Player(p1, graphicsPLAYER, "player", 1, 1, PlayerClasses.CLERIC); 
         player.setState(State.IDLE_DOWN);
@@ -104,12 +107,12 @@ public class WorldManager implements WorldPainter {
      *   durant ce temps de déplacement, si l'utilisateur appuit sur une touche
      *   de déplacement (z, q, s ou d) elles ne sont pas prisent en compte
      */
-    private void keyLocker() {
+    private void keyLocker(int lockTime) {
     	
     	isKeyLocked = true;    	
     	new Thread(() -> { 
     		try {
-				Thread.sleep(lOCK_TIME);
+				Thread.sleep((long) lockTime);
 				isKeyLocked = false;  
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -132,7 +135,7 @@ public class WorldManager implements WorldPainter {
 
         if (cmd == Cmd.INVENTORY && command.getActionType() == "released") {
             inventoryHud.changeDisplayState();   
-            keyLocker();
+            keyLocker(KEY_TIME);
             return;         
         }
 
@@ -141,9 +144,9 @@ public class WorldManager implements WorldPainter {
             return;
         }        
 
-        if (cmd == Cmd.USE) {
+        if (cmd == Cmd.USE && command.getActionType() == "released") {
             System.out.println("Cas d'utilisation\n");
-            keyLocker();
+            keyLocker(KEY_TIME);
             usePlayer(cmd);
             return;
         }
@@ -166,54 +169,41 @@ public class WorldManager implements WorldPainter {
         if (player.getState()==State.DEAD) return;
 
         // calcul du déplacement à effectuer
-        int x = 0, y = 0;
+        int deltaX = 0, deltaY = 0;
         switch (cmd) {            
             case LEFT:
                 player.setState(State.IDLE_LEFT);
-                x -= 1;
+                deltaX -= 1;
                 break;
             case RIGHT:
                 player.setState(State.IDLE_RIGHT);
-                x += 1;
+                deltaX += 1;
                 break;
             case UP:
                 player.setState(State.IDLE_UP);
-                y += 1;
+                deltaY += 1;
                 break;
             case DOWN:
                 player.setState(State.IDLE_DOWN);
-                y -= 1;
+                deltaY -= 1;
                 break;
             default:
                 return;
         }
         
-
-        /**
-         * (W I P)
-         * checkMove() a changer
-         */
-        // si le mouvement amène en dehors de la fenêtre, on sort de la fonction 
-        if (!player.move(x, y)) {
-            return;
-        } 
         /** 
-         * test s'il y a un obstacle qui empêche le joueur de se déplacer 
-         * et si oui retourne l'object bloquant
+         * si le joueur peut se déplacer retourne <true, ...>, sinon <false, ...>
+         * si c'est un objet qui bloque le personnage retourne <..., l'objet en question >, sinon <..., null> 
          */
-        Pair<Boolean, GameObject> check = currentLevel.checkMove(player);
-        // si il n'y a pas d'obstacle, on sort de la fonction
-        if (check.getValue0()) {
-            System.out.println("Player : "+ player.getPosition() + "\n");
-            player.getVisual().setDirection(x, y);
-            player.animateMovement(lOCK_TIME, 10);
-            keyLocker();
-        	//System.out.println(" SET DIRECTION x,y = "+x+","+y);
+        Pair<Boolean, GameObject> check = currentLevel.checkMove(player, deltaX, deltaY);
+        /**
+         * s'il n'y a pas d'obstacle, déplace le joueur
+         */
+        if (check.getValue0()) {             
+            player.move(deltaX, deltaY);              
             return;
         }
 
-        // sinon on remet le joueur à sa position avant le déplacement
-        player.move(-x, -y);
         System.out.println("MOVEMENT IMPOSSIBLE \nObjet de la collision : "+ check.getValue1() + "\n");
         System.out.println("Player : "+ player.getPosition() + "\n");
     }
@@ -225,39 +215,36 @@ public class WorldManager implements WorldPainter {
      * @param cmd commande du joueur
      */
     private void usePlayer(Cmd cmd) {
-        int x = 0, y = 0;
+        int deltaX = 0, deltaY = 0;
         switch (player.getState()) {            
             case IDLE_LEFT:
-                x -= 1;
+                deltaX -= 1;
                 break;
             case IDLE_RIGHT:
-                x += 1;
+                deltaX += 1;
                 break;
             case IDLE_UP:
-                y += 1;
+                deltaY += 1;
                 break;
             case IDLE_DOWN:
-                y -= 1;
+                deltaY -= 1;
                 break;
             default:
                 break;
         }
 
-        // si la case utilisé est en dehors de la fenêtre, on sort de la fonction 
-        if (!player.move(x, y)) {
+        /** 
+         * si le joueur peut se déplacer retourne <true, ...>, sinon <false, ...>
+         * si c'est un objet qui bloque le personnage retourne <..., l'objet en question >, sinon <..., null> 
+         */
+        Pair<Boolean, GameObject> check = currentLevel.checkMove(player, deltaX, deltaY);
+        /**
+         * s'il n'y a pas d'obstacle, déplace le joueur
+         */
+        if (check.getValue1() == null) {                        
             return;
         } 
 
-        /** 
-         * test s'il y a un objet à utiliser en face du joueur
-         * et si oui retourne l'object on sort de la fonction sinon
-         */
-        Pair<Boolean, GameObject> check = currentLevel.checkMove(player);
-        if (check.getValue1() == null) {
-            player.move(-x, -y);
-            return;
-        }
-        player.move(-x, -y);
         System.out.println("Player utilise : "+ check.getValue1() + "\n");
         // si l'object n'est pas utilisable, on sort de la fonction
         if (!check.getValue1().objectUse(player)) {
@@ -290,8 +277,5 @@ public class WorldManager implements WorldPainter {
 	public void drawHuds(Graphics2D g) {
 		healthBar.draw(g);		
 	}
-
-
-	
 
 }

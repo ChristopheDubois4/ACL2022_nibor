@@ -31,7 +31,7 @@ public class NiborGame implements Game {
 	@Override
 	public void evolve(Command commande) {
 		if (commande.getKeyCommand() != Cmd.IDLE) {
-			System.out.println("Execute "+commande.getKeyCommand());
+			//System.out.println("Execute "+commande.getKeyCommand());
 		}
 		worldManager.updateWorld(commande);
 	}

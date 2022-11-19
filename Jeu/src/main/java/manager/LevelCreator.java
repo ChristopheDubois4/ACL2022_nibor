@@ -4,14 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -113,7 +109,7 @@ public class LevelCreator {
                     Layer layer =  Layer.valueOf((String) position.get("layer"));
                     Position p = new Position(x, y, layer);
                     // graphics
-                    HashMap<State,BufferedImage> graphics = JsonUtilities.getGraphicsFromJSON((String) gameObject.get("graphics"));
+                    HashMap<State,BufferedImage> graphics = Utilities.getGraphicsFromJSON((String) gameObject.get("graphics"));
                     // hitbox
                     int horizontalHitBox = (int) ((long) gameObject.get("horizontalHitBox"));
                     int verticalHitBox = (int) ((long) gameObject.get("verticalHitBox"));
@@ -170,37 +166,6 @@ public class LevelCreator {
         // gameobjects.add(ghost)                
     }
 
-       
-
-    /**
-     * methode temporaire
-     * 
-     * niveau pour tester le triage d'un liste de gameObject
-     */
-    private void testTriage() {     
-
-        GameLevel level1 = new GameLevel();
-
-        Position p1 = new Position(10, 10, Layer.BACKGROUND);
-        Position p2 = new Position(0, 0, Layer.DEFAULT);
-        Position p3 = new Position(14, 8, Layer.DEFAULT);
-        Position p4 = new Position(14, 15, Layer.DEFAULT);
-        Position p5 = new Position(14, 1, Layer.FOREGROUND);
-
-        GameObject o1 = new GameObject(p1, null, "o1", 2, 2);
-        GameObject o2 = new GameObject(p2, null, "o2", 1, 1);
-        GameObject o3 = new GameObject(p3, null, "o3", 2, 6);
-        GameObject o4 = new GameObject(p4, null, "o4", 2, 6);
-        GameObject o5 = new GameObject(p5, null, "o5", 2, 6);
-
-        level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o4, o3, o5, o2, o1)));
-
-        gameLevels.put("test",level1);
-        System.out.println(gameLevels.get("test"));
-        gameLevels.get("test").getVisuals();
-        System.out.println(gameLevels.get("test"));
-    }
-
      /**
      * methode temporaire
      * 
@@ -208,13 +173,11 @@ public class LevelCreator {
      */
     private void testMovement() {     
 
-        HashMap<State,BufferedImage> graphicsBOX = JsonUtilities.getGraphicsFromJSON("box");
-        HashMap<State,BufferedImage> graphicsDOOR = JsonUtilities.getGraphicsFromJSON("door");
-        HashMap<State,BufferedImage> graphicsLADDER = JsonUtilities.getGraphicsFromJSON("ladder");
-        HashMap<State,BufferedImage> graphicsTRAP = JsonUtilities.getGraphicsFromJSON("trap");
-        HashMap<State,BufferedImage> graphicsCHEST = JsonUtilities.getGraphicsFromJSON("chest");
-
-
+        HashMap<State,BufferedImage> graphicsBOX = Utilities.getGraphicsFromJSON("box");
+        HashMap<State,BufferedImage> graphicsDOOR = Utilities.getGraphicsFromJSON("door");        
+        HashMap<State,BufferedImage> graphicsLADDER = Utilities.getGraphicsFromJSON("ladder");
+        HashMap<State,BufferedImage> graphicsTRAP = Utilities.getGraphicsFromJSON("trap");
+        HashMap<State,BufferedImage> graphicsCHEST = Utilities.getGraphicsFromJSON("chest");
 
 
         GameLevel level1 = new GameLevel();

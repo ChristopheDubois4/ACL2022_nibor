@@ -1,9 +1,6 @@
 package prefab.entity;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
 import prefab.equipment.Armor;
 import prefab.equipment.ArmorPieces;
 import prefab.equipment.Item;

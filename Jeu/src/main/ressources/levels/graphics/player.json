@@ -32,6 +32,38 @@
 		}     
 	},
 	{
+		"state" : "WALK_DOWN",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/player/walkDown.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	},
+	{
+		"state" : "WALK_RIGHT",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/player/walkRight.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	},
+	{
+		"state" : "WALK_UP",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/player/walkUp.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	},
+	{
+		"state" : "WALK_LEFT",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/player/walkLeft.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	},
+	{
 		"state" : "DEAD",
 		"visual" : {
 			"image" : "src/main/ressources/images/characters/player/dead.png",

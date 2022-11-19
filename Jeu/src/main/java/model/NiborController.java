@@ -21,6 +21,7 @@ public class NiborController implements GameController {
 	 * commande en cours
 	 */
 	private Command commandeEnCours;
+	private Command commandePrecedente;
 
 	JLabel label;
 	
@@ -29,6 +30,7 @@ public class NiborController implements GameController {
 	 */
 	public NiborController(DrawingPanel panel) {
 		this.commandeEnCours = new Command();
+		this.commandePrecedente = new Command();
 		panel.addMouseListener(new MouseClickHandler());
 	}
 
@@ -46,8 +48,14 @@ public class NiborController implements GameController {
 			e.printStackTrace();
 		}
 		// Fixe le problème du delay (propre à l'OS) lié à keyPressed 
-		if (commandeEnCours.getActionType() == "released")
-			commandeEnCours.setKeyCommand(Cmd.IDLE);
+		if (commandeEnCours.getActionType() == "released" )
+			if (commandePrecedente.getKeyCommand() == commandeEnCours.getKeyCommand()) {
+				
+				commandeEnCours.setKeyCommand(Cmd.IDLE);
+
+			}
+
+			commandePrecedente = c;
 		return c;
 	}
 

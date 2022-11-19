@@ -2,7 +2,7 @@ package prefab.equipment;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-import manager.JsonUtilities;
+import manager.Utilities;
 import prefab.information.State;
 
 
@@ -30,7 +30,7 @@ public class  Item {
     
     public Item(String name, String graphicsSelector) {
 
-    	graphics = JsonUtilities.getGraphicsFromJSON(graphicsSelector);
+    	graphics = Utilities.getGraphicsFromJSON(graphicsSelector);
     	
     }
     

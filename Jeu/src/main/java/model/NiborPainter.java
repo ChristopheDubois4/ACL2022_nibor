@@ -19,10 +19,8 @@ import prefab.information.Visual;
  */
 public class NiborPainter implements GamePainter {
 
-	/**
-	 * la taille des cases
-	 */
-	public static final int SCREEN_WIDTH = 1620;
+	
+    public static final int SCREEN_WIDTH = 1620;
 	public static final int SCREEN_HEIGHT = 900;
 	public static final int TILE_LENGTH = 60;
 
@@ -55,7 +53,7 @@ public class NiborPainter implements GamePainter {
 			Visual visual = visuals.get(i);
 			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY() , null);
 		}
-
+		
 		//affichage quadrillage
 		g.setColor(Color.blue);
 		for (int i = 60; i <900; i= i+60) {

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
-import prefab.information.Visual;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
 import java.awt.image.BufferedImage;

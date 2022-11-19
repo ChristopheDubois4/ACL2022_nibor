@@ -1,12 +1,8 @@
 package prefab.props;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-
 import prefab.information.Position;
 import prefab.information.State;
-import prefab.information.Visual;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
 import prefab.equipment.Item;

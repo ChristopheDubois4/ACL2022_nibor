@@ -89,15 +89,15 @@ public class GameObject implements Comparable<GameObject> {
      * Ex : si x = 0, y = 0, HitBox = (1, 2) => Liste = [(0,0), (0,1)]
      * @return liste des coordonées
      */
-    public List<Pair<Integer, Integer>> getOccupiedCoordinates() {
+    public List<Pair<Integer, Integer>> getOccupiedCoordinates(int deltaX, int deltaY) {
         // Initialisation de la liste que l'on renverra
         List<Pair<Integer, Integer>> occupiedCoordinates = new ArrayList<Pair<Integer, Integer>>();
         // Parcours des coordonées qu'occupe la hitbox à l'horizontale
         for (int i = 0; i < this.HitBox.getValue0(); i++) {
-            int x = this.position.getX() + i;  
+            int x = this.position.getX() + deltaX + i;  
             // Parcours des coordonées qu'occupe la hitbox à la verticale
             for (int j = 0; j < this.HitBox.getValue1(); j++) {
-                int y = this.position.getY() + j;     
+                int y = this.position.getY() + deltaY + j;     
                 occupiedCoordinates.add(new Pair<Integer, Integer>(x, y) );               
             }
         }
@@ -128,11 +128,9 @@ public class GameObject implements Comparable<GameObject> {
         return visual;
     }
     
-    /**
-     * déplace l'object
-     */
-    public boolean move(int x, int y) {    	
-        return this.position.addToXY(x, y);
+    public void move(int deltaX, int deltaY) {   
+        position.addToXY(deltaX, deltaY);
+        visual.setDirection(deltaX, deltaY);
     }
 
     /**

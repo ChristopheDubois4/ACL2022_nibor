@@ -23,7 +23,7 @@ import prefab.information.State;
  * a voir si on garde la classe
  */
 
-public class JsonUtilities {
+public class Utilities {
 	
 	
 	
@@ -36,6 +36,7 @@ public class JsonUtilities {
 
         HashMap<State,BufferedImage> graphics = new HashMap<State,BufferedImage>();
         model = "src/main/ressources/levels/graphics/"+model+".json";
+
         File directory = new File(model);
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader(directory))
@@ -52,13 +53,9 @@ public class JsonUtilities {
                 JSONObject visual = (JSONObject) graphicObject.get("visual");
 
                 String pathStr = (String) visual.get("image");
-                Path path = Paths.get(pathStr);
+                BufferedImage image = getImage(pathStr);
 
-                BufferedImage im = ImageIO.read(new File(path.toAbsolutePath().toString()) );
-
-                
-
-                graphics.put(state, im);
+                graphics.put(state, image);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -71,5 +68,16 @@ public class JsonUtilities {
     }
 
 	
-	
+    public static BufferedImage getImage(String pathStr) {
+
+        BufferedImage image = null;
+        Path path = Paths.get(pathStr);
+        try {
+            image = ImageIO.read(new File(path.toAbsolutePath().toString()) );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
 }

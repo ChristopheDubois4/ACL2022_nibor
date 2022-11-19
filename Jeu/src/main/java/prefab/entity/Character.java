@@ -11,6 +11,7 @@ import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
 import prefab.information.Visual;
+import manager.WorldManager;
 
 /**
  * représente les personnages du jeu de manière générale
@@ -133,20 +134,25 @@ public abstract class Character extends GameObject {
      */
     public abstract void die();
     
+    /**
+     * déplace le personnage
+     */
+    public void move(int deltaX, int deltaY) {  
+        super.move(deltaX, deltaY);
+        animateMovement();       
+    }
     
     /**
-     * (W I P)
-     * @param moveTime
-     * @param nbUpdate
+     * permet de mettre a jour la position et l'état du personnage lors d'un déplacement
      */
-    public void animateMovement(int moveTime, int nbUpdate) {
+    private void animateMovement() {
     	isInMouvement = true;
     	visual.resetShift();
     	new Thread(() -> {
-    		for (int i = 0; i<nbUpdate; i++) {		     
+    		for (int i = 0; i<WorldManager.IMAGES_PER_MOVE; i++) {		     
     			try {    				
 					visual.updateMoveShift();    	    		
-    				Thread.sleep(moveTime/nbUpdate);
+    				Thread.sleep((long) (WorldManager.MOVE_TIME/WorldManager.IMAGES_PER_MOVE));
     			} catch (InterruptedException e) {
     				e.printStackTrace();
     			}
