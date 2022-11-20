@@ -2,7 +2,8 @@ package manager;
 
 import prefab.entity.Player;
 import prefab.gui.InventoryHud;
-import prefab.gui.HealthBar;
+import prefab.gui.StatsHud;
+import prefab.gui.VitalResourcesHud;
 
 
 /**
@@ -14,7 +15,8 @@ public class HudCreator {
 
 
     InventoryHud inventory;
-    HealthBar healthBar;
+    VitalResourcesHud healthBar;
+    StatsHud statsInfo;
 
     public HudCreator(Player player) {
         this.player = player;
@@ -33,6 +35,15 @@ public class HudCreator {
     private void testSrpint1() {   
         inventory = new InventoryHud(player);
         healthBar = new HealthBar(player);
+        BufferedImage backgroundsImages = getImageFromJSON("inventory");
+        BufferedImage backgroundsImages2 = getImageFromJSON("vitalresources");
+        BufferedImage backgroundsImages3 = getImageFromJSON("stats");
+
+        inventory = new InventoryHud(player, backgroundsImages);
+        
+        healthBar = new VitalResourcesHud(player,backgroundsImages2);
+
+        statsInfo = new StatsHud(player,backgroundsImages3);
         
     }
 
@@ -40,7 +51,7 @@ public class HudCreator {
         return inventory;
     }
     
-    public HealthBar getHealthBar() {
+    public VitalResourcesHud getHealthBar() {
         return healthBar;
     }
 }

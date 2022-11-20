@@ -43,7 +43,7 @@ public class NiborPainter implements GamePainter {
 
 		Graphics2D g = (Graphics2D) im.getGraphics();
 				
-		worldPainter.drawHuds(g);
+		
 		
 		//liste d'images avec leurs coordonnees
 		List<Visual> visuals = worldPainter.getVisuals();
@@ -53,15 +53,17 @@ public class NiborPainter implements GamePainter {
 			Visual visual = visuals.get(i);
 			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY() , null);
 		}
-		
+
+		worldPainter.drawHuds(g);
+
 		//affichage quadrillage
-		g.setColor(Color.blue);
-		for (int i = 60; i <900; i= i+60) {
-			g.drawLine(0, i, 1620, i);
-		}
-		for (int i = 60; i <1620; i= i+60) {
-			g.drawLine(i, 0, i, 900);
-		}
+		// g.setColor(Color.blue);
+		// for (int i = 60; i <900; i= i+60) {
+		// 	g.drawLine(0, i, 1620, i);
+		// }
+		// for (int i = 60; i <1620; i= i+60) {
+		// 	g.drawLine(i, 0, i, 900);
+		// }
 
 	}
 }

@@ -11,9 +11,10 @@ import engine.Cmd;
 import engine.Command;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
-import prefab.gui.HealthBar;
+import prefab.gui.VitalResourcesHud;
 import prefab.gui.Hud;
 import prefab.gui.InventoryHud;
+import prefab.gui.StatsHud;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.level.GameLevel;
@@ -43,7 +44,8 @@ public class WorldManager implements WorldPainter {
     // huds
     List<Hud> huds;
     InventoryHud inventoryHud;
-    HealthBar healthBar;
+    VitalResourcesHud healthBar;
+    StatsHud statsInfo;
     
     // joueur
     Player player;
@@ -93,9 +95,11 @@ public class WorldManager implements WorldPainter {
 
         inventoryHud = hudManager.getInventory();
         healthBar = hudManager.getHealthBar();
+        statsInfo = hudManager.getStatsInfo();
         
         huds.add(inventoryHud);
         huds.add(healthBar);
+        huds.add(statsInfo);
     }
 
     
@@ -275,7 +279,8 @@ public class WorldManager implements WorldPainter {
      */
 	@Override
 	public void drawHuds(Graphics2D g) {
-		healthBar.draw(g);		
+		healthBar.draw(g);
+        statsInfo.draw(g);		
 	}
 
 }

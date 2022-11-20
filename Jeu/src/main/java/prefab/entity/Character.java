@@ -25,8 +25,9 @@ public abstract class Character extends GameObject {
     protected int level;    
     protected int xp;
 
-    private static final int inventoryLength = 75;
-    protected Item[] inventory = new Item[inventoryLength];
+    private static final int inventoryLengthX = 15;
+    private static final int inventoryLengthy = 6;
+    protected Item[][] inventory = new Item[inventoryLengthX][inventoryLengthy];
 
     protected List<Attack> attacks;
     protected List<Spell> spells;
@@ -72,7 +73,7 @@ public abstract class Character extends GameObject {
         return currentStats;
     }
     
-    public Item[] getInventory() {
+    public Item[][] getInventory() {
         return null;
     }
 
@@ -81,12 +82,13 @@ public abstract class Character extends GameObject {
     }
 
     public void displayInventoryConsole(){
-        System.out.print("Votre inventaire : ");
-        for (Item item : getInventory()){
-            if(item == null) System.out.print("Empty ");
-            else System.out.print(item.getName()+" ");
+        for ( int line=0; line<getInventory().length; line++ ) {
+            for ( int column=0; column<getInventory()[line].length; column++ ) {
+                if(getInventory()[line][column] == null) System.out.print("Empty ");
+                else System.out.print(getInventory()[line][column].getName()+ " " );
+            }
+            System.out.println();
         }
-        System.out.print("\n");
     }
 
 	/**
@@ -118,9 +120,9 @@ public abstract class Character extends GameObject {
      *      - null si l'emplacement est vide
      *      - l'objet à l'emplacement "position" 
      */
-    public Item addItem(Item item, int position) {
-        Item itemExchanged = inventory[position];
-        inventory[position] = item;
+    public Item addItem(Item item, int positionX,int positionY) {
+        Item itemExchanged = inventory[positionX][positionY];
+        inventory[positionX][positionY] = item;
         return itemExchanged;
     }
 

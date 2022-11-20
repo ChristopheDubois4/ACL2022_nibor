@@ -63,10 +63,16 @@ public class Player extends Character implements PlayerInfosFofHud{
                 //tempo
                 this.stats = new HashMap<Stats , Integer>();
                 this.currentStats = new HashMap<Stats , Integer>();
+
                 this.stats.put(Stats.HP, 100);
+                this.stats.put(Stats.MANA, 100);
+                this.stats.put(Stats.STAMINA, 100);
+
                 this.stats.put(Stats.DEFENSE, 50);
-                inventory[0] = new Item("epeeDelaMort", "sword_1");
-                inventory[52] = new Item("truc", "bitcoin");
+                this.stats.put(Stats.SPEED, 100);
+                this.stats.put(Stats.DAMAGE, 5);
+                inventory[0][0] = new Item("epeeDelaMort", "sword_1");
+                inventory[13][5] = new Item("truc", "bitcoin");
                 resetCurrentStats();
 
                 break;
@@ -75,7 +81,7 @@ public class Player extends Character implements PlayerInfosFofHud{
                 break;
         }
     }   
-
+    
     @Override
     public void die() {
         this.state=State.DEAD;
@@ -87,7 +93,7 @@ public class Player extends Character implements PlayerInfosFofHud{
     }
 
     @Override
-    public Item[] getInventory() {
+    public Item[][] getInventory() {
         return inventory;
     }
 
@@ -103,7 +109,6 @@ public class Player extends Character implements PlayerInfosFofHud{
         return null;
     }
 
-	@Override
 	public int getHealth() {
 		return currentStats.get(Stats.HP);
 	}

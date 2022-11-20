@@ -8,6 +8,7 @@ public class Visual {
 	private BufferedImage image;
     
     private int x, y;
+    private int deltaX = 0 , deltaY = 0;
     /**
      * direction horizontale
      * gauche : -1
@@ -43,6 +44,11 @@ public class Visual {
    	    this.y = y;
    } 
 
+   public void setDeltaPos(int deltaX, int deltaY) {
+    this.deltaX = deltaX;
+    this.deltaY = deltaY;
+} 
+
     public void setBufferedImage(BufferedImage image) {
     	this.image = image;
     } 
@@ -55,11 +61,11 @@ public class Visual {
     // On places de positons pas des déplacements
 
     public int getX() {
-        return x*NiborPainter.TILE_LENGTH - directionX*shift ;
+        return x*NiborPainter.TILE_LENGTH - directionX*shift + deltaX ;
     } 
 
     public int getY() {
-        return NiborPainter.SCREEN_HEIGHT - NiborPainter.TILE_LENGTH*(y+1) + directionY*shift;
+        return NiborPainter.SCREEN_HEIGHT - NiborPainter.TILE_LENGTH*(y+1) + directionY*shift - deltaY;
     } 
 
     public BufferedImage getBufferedImage() {

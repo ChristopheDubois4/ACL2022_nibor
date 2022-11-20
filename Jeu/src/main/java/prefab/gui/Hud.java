@@ -6,7 +6,7 @@ import prefab.information.Visual;
 
 public abstract class Hud {
 
-    private boolean isDisplayed = false;
+    protected boolean isDisplayed = false;
 
     public Hud() {
 

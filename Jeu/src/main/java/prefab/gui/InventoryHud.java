@@ -27,7 +27,8 @@ public class InventoryHud extends Hud{
     
     // Rappel : On commence à (0,0) en bas à gauche
     private static final int firstPosX = 10, firstPosY = 8; 
-    private static final int lengthInventoryX = 15, lengthInventoryY = 5; 
+    private static final int lengthInventoryX = 15, lengthInventoryY = 6; 
+    private Visual visual;
 
     /**
      * constructeur de la classe InventoryHud heritant de Hud 
@@ -37,6 +38,8 @@ public class InventoryHud extends Hud{
         super();
         this.player = player;
         this.backgroundImage = Utilities.getImage(inventoryPath);
+        this.visual = new Visual(firstPosX, firstPosY, backgroundImage);
+        visual.setDeltaPos(0,30);
         
     }
 
@@ -64,26 +67,26 @@ public class InventoryHud extends Hud{
      * echange la position de 2 items
      */
     public void swapItem() {
-        int xPressed = pressedClick.getValue0(), yPressed = pressedClick.getValue1();
-        int xReleased = releasedClick.getValue0(), yReleased = releasedClick.getValue1();
-
-        //if (xPressed >= 8)
     	
-    	int indicePressed = xPressed - firstPosX  + (firstPosY - yPressed)*lengthInventoryX;
-    	int indiceReleased = xReleased - firstPosX  + (firstPosY - yReleased)*lengthInventoryX;
+    	int indicePressedX = (pressedClick.getValue0() - firstPosX) % (lengthInventoryX + 1);
+        int indicePressedY = -(( pressedClick.getValue1() - firstPosY )) ;
+
+    	int indiceReleasedX =  (releasedClick.getValue0() - firstPosX) % (lengthInventoryX + 1);
+        int indiceReleasedY = -(( releasedClick.getValue1() - firstPosY )) ;
+
 
         System.out.println("1er click : "+pressedClick);
-    	System.out.println("indicePressed : "+indicePressed);
+    	System.out.println("indicePressed : "+indicePressedX+" "+indicePressedY);
         System.out.println("2er click : "+releasedClick);
-    	System.out.println("indiceReleased : "+indiceReleased);
+    	System.out.println("indiceReleased : "+indiceReleasedX+" "+indiceReleasedY);
 
-    	Item[] playerInventory = player.getInventory();
+    	Item[][] playerInventory = player.getInventory();
     	
         
     	try {
-    		Item itemTemp = playerInventory[indicePressed];
-        	playerInventory[indicePressed] = playerInventory[indiceReleased];
-        	playerInventory[indiceReleased] = itemTemp;
+    		Item itemTemp = playerInventory[indicePressedX][indicePressedY];
+        	playerInventory[indicePressedX][indicePressedY] = playerInventory[indiceReleasedX][indiceReleasedY];
+        	playerInventory[indiceReleasedX][indiceReleasedY] = itemTemp;
     	} catch (Exception e) {
     	}    	    	
     }
@@ -95,20 +98,17 @@ public class InventoryHud extends Hud{
     @Override
     public List<Visual> getVisual()  {
         List<Visual> visuals = new ArrayList<Visual>();
-        visuals.add(new Visual(firstPosX, firstPosY, backgroundImage));
+        visuals.add(visual);
         
-        Item[] inventory = player.getInventory();
-        int x = firstPosX;
-        int y = firstPosY;
-        for (int i = 0; i < inventory.length; i++) {
-            if (x+1 > firstPosX + lengthInventoryX) {
-                x = firstPosX;
-                y--;
+        
+        Item[][] inventory = player.getInventory();
+
+        for ( int line=0; line<inventory.length; line++ ) {
+            int x = firstPosX + line;
+            for ( int column=0; column<inventory[line].length; column++ ) {
+                int  y = firstPosY - column;
+                if(inventory[line][column] != null)  visuals.add(new Visual(x, y, inventory[line][column].getImage(State.DEFAULT)));
             }
-            if (inventory[i] != null) {
-                visuals.add(new Visual(x, y, inventory[i].getImage(State.DEFAULT)));
-            }
-            x++;
         }    
         return visuals;
     }

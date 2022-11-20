@@ -6,12 +6,14 @@ import prefab.equipment.Armor;
 import prefab.equipment.ArmorPieces;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
+import prefab.information.Stats;
 
 public interface PlayerInfosFofHud {
     
     public int getMoney();
-    public Item[] getInventory();
+    public Item[][] getInventory();
     public HashMap<ArmorPieces, Armor> getEquipedArmor();
     public Weapon getWeapon();
-    public int getHealth();
+    public HashMap<Stats, Integer> getCurrentStats();
+    public HashMap<Stats, Integer> getStats();
 }
