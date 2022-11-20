@@ -15,7 +15,7 @@ public class HudCreator {
 
 
     InventoryHud inventory;
-    VitalResourcesHud healthBar;
+    VitalResourcesHud vitalResourceshBar;
     StatsHud statsInfo;
 
     public HudCreator(Player player) {
@@ -34,16 +34,10 @@ public class HudCreator {
      */
     private void testSrpint1() {   
         inventory = new InventoryHud(player);
-        healthBar = new HealthBar(player);
-        BufferedImage backgroundsImages = getImageFromJSON("inventory");
-        BufferedImage backgroundsImages2 = getImageFromJSON("vitalresources");
-        BufferedImage backgroundsImages3 = getImageFromJSON("stats");
 
-        inventory = new InventoryHud(player, backgroundsImages);
-        
-        healthBar = new VitalResourcesHud(player,backgroundsImages2);
+        vitalResourceshBar = new VitalResourcesHud(player);
 
-        statsInfo = new StatsHud(player,backgroundsImages3);
+        statsInfo = new StatsHud(player);
         
     }
 
@@ -52,6 +46,10 @@ public class HudCreator {
     }
     
     public VitalResourcesHud getHealthBar() {
-        return healthBar;
+        return vitalResourceshBar;
+    }
+
+    public StatsHud getStatsInfo() {
+        return statsInfo;
     }
 }
