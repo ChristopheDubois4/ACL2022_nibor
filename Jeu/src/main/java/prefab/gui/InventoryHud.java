@@ -8,6 +8,7 @@ import org.javatuples.Pair;
 import engine.Cmd;
 import engine.Command;
 import manager.Utilities;
+import manager.ItemManager;
 import prefab.equipment.Item;
 import prefab.information.State;
 import prefab.information.Visual;
@@ -50,6 +51,12 @@ public class InventoryHud extends Hud{
     public void processClick(Command command) {
         //System.out.println("PROCESS CLICK");
         //System.out.println("TYPE : "+command.getActionType());
+        if (command.getKeyCommand() == Cmd.MOUSE_RIGHT) {
+            if (command.getActionType() == "pressed") {
+                pressedClick = command.getNormalizedClick();
+                useItem();
+            }
+        }
 
         if (command.getKeyCommand() == Cmd.MOUSE_LEFT) {
             if (command.getActionType() == "pressed") {
@@ -63,32 +70,58 @@ public class InventoryHud extends Hud{
         }
     }
 
+     /**
+     * renvoi la position de l'item cliqué
+     */
+    public int[] getPosItemInventoryFromClick(Pair<Integer, Integer> Click){
+
+        int X = (Click.getValue0() - firstPosX) % (lengthInventoryX + 1);
+        int Y = -((Click.getValue1() - firstPosY )) ;
+
+        System.out.println("1er click : "+Click);
+    	System.out.println("indice : "+X+" "+Y);
+
+        int[] pos = {X,Y};
+        return pos;
+
+    }
+
     /**
      * echange la position de 2 items
      */
     public void swapItem() {
-    	
-    	int indicePressedX = (pressedClick.getValue0() - firstPosX) % (lengthInventoryX + 1);
-        int indicePressedY = -(( pressedClick.getValue1() - firstPosY )) ;
 
-    	int indiceReleasedX =  (releasedClick.getValue0() - firstPosX) % (lengthInventoryX + 1);
-        int indiceReleasedY = -(( releasedClick.getValue1() - firstPosY )) ;
-
-
-        System.out.println("1er click : "+pressedClick);
-    	System.out.println("indicePressed : "+indicePressedX+" "+indicePressedY);
-        System.out.println("2er click : "+releasedClick);
-    	System.out.println("indiceReleased : "+indiceReleasedX+" "+indiceReleasedY);
-
-    	Item[][] playerInventory = player.getInventory();
-    	
+    	int[] posItemPressed = getPosItemInventoryFromClick(pressedClick);
+        int[] posItemReleased = getPosItemInventoryFromClick(releasedClick);
         
+        Item[][] playerInventory = player.getInventory();
     	try {
-    		Item itemTemp = playerInventory[indicePressedX][indicePressedY];
-        	playerInventory[indicePressedX][indicePressedY] = playerInventory[indiceReleasedX][indiceReleasedY];
-        	playerInventory[indiceReleasedX][indiceReleasedY] = itemTemp;
+    		Item itemTemp = playerInventory[posItemPressed[0]][posItemPressed[1]];
+        	playerInventory[posItemPressed[0]][posItemPressed[1]] = playerInventory[posItemReleased[0]][posItemReleased[1]];
+        	playerInventory[posItemReleased[0]][posItemReleased[1]] = itemTemp;
     	} catch (Exception e) {
     	}    	    	
+    }
+
+    //on utlise l'item
+    public void useItem(){
+    	int[] posItem = getPosItemInventoryFromClick(pressedClick);
+
+        Item[][] playerInventory = player.getInventory();
+        Item item = playerInventory[posItem[0]][posItem[1]];
+
+        //si c'est un consommable on eneleve l'item de l'inventaire
+        if (ItemManager.consumeItem(item)){
+            deleteItem();
+        }
+    }
+
+    //on delete l'item
+    public void deleteItem(){
+        int[] posItem = getPosItemInventoryFromClick(pressedClick);
+        Item[][] playerInventory = player.getInventory();
+
+        playerInventory[posItem[0]][posItem[1]] = null;
     }
 
     /**
