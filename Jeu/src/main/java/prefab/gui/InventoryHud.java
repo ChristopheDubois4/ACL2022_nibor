@@ -170,11 +170,9 @@ public class InventoryHud extends Hud{
         } 
 
         if (chestDisplay) {
-            System.out.println("POURQUOI TU PASSES LA FDP1");
             chestVisual.setDeltaPos(0,30);
             visuals.add(chestVisual);
             visuals.addAll(chest.getVisuals()); 
-            System.out.println("POURQUOI TU PASSES LA FDP2");
             return visuals;
         }
         
@@ -192,7 +190,6 @@ public class InventoryHud extends Hud{
     public void changeDisplayState() {
         isDisplayed = !isDisplayed;
         if (chestDisplay){
-            System.out.println("POURQUOI TU PASSES LA FDP3");
             chestDisplay = !chestDisplay;
         }
     }

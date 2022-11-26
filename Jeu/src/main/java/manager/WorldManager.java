@@ -137,25 +137,25 @@ public class WorldManager implements WorldPainter {
             return;
         }
 
-        if (cmd == Cmd.INVENTORY && command.getActionType() == "released") {
+        if (cmd == Cmd.INVENTORY && command.getActionType() == "released"  && !inventoryHud.isChestDisplay()) {
             inventoryHud.changeDisplayState(); 
             keyLocker(KEY_TIME);
             return;         
         }
 
-
-
-        if (inventoryHud.hudIsDisplayed() && !inventoryHud.isChestDisplay()) {
-            inventoryHud.processClick(command);
-            return;
-        }
-        
         if (cmd == Cmd.USE && command.getActionType() == "released" && inventoryHud.isChestDisplay()) {
             keyLocker(KEY_TIME);
             inventoryHud.changeDisplayState(); 
             usePlayer(cmd);
             return;
         }
+
+        if (inventoryHud.hudIsDisplayed()) {
+            inventoryHud.processClick(command);
+            return;
+        }
+        
+
 
         if (cmd == Cmd.USE && command.getActionType() == "released") {
             System.out.println("Cas d'utilisation\n");
