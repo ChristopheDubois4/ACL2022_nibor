@@ -2,6 +2,7 @@ package prefab.gui;
 
 import java.util.List;
 
+import engine.Command;
 import prefab.information.Visual;
 
 public abstract class Hud {
@@ -21,5 +22,8 @@ public abstract class Hud {
     }
 
     public abstract List<Visual> getVisual();
+
+    public void processClick(Command command) {
+    }
     
 }

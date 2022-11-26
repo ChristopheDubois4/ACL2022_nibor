@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.javatuples.Pair;
 
+import engine.Cmd;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Visual;
@@ -107,12 +108,12 @@ public class GameObject implements Comparable<GameObject> {
 
     /**
     * permet de donner un usage à un objet
+     * @param cmd
     * @return un boolean qui vaut :
     *   -> false l'objet n'est pas utilisable
     *   -> true sinon
      */
-    public boolean objectUse(Player user) {
-        return false;
+    public void objectUse(Player user, Cmd cmd) {
     }
 
 

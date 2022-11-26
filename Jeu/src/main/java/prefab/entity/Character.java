@@ -6,7 +6,10 @@ import java.util.List;
 
 import prefab.competence.Attack;
 import prefab.competence.Spell;
+import prefab.equipment.Armor;
+import prefab.equipment.ArmorPieces;
 import prefab.equipment.Item;
+import prefab.equipment.Weapon;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
@@ -28,6 +31,9 @@ public abstract class Character extends GameObject {
     private static final int inventoryLengthX = 15;
     private static final int inventoryLengthy = 6;
     protected Item[][] inventory = new Item[inventoryLengthX][inventoryLengthy];
+
+    private HashMap<ArmorPieces,Armor> equippedArmor;
+    protected Weapon weapon;
 
     protected List<Attack> attacks;
     protected List<Spell> spells;
@@ -57,6 +63,7 @@ public abstract class Character extends GameObject {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);
         this.stats = stats;
         this.currentStats = new HashMap<Stats , Integer>();
+        initDefaultEquipment();
         initVisual();
         resetCurrentStats();
     }            
@@ -71,6 +78,14 @@ public abstract class Character extends GameObject {
 
     public HashMap<Stats, Integer> getCurrentStats(){
         return currentStats;
+    }
+
+    public HashMap<ArmorPieces, Armor> initDefaultEquipment(){
+        equippedArmor.put(ArmorPieces.HELMET,null);
+        equippedArmor.put(ArmorPieces.CHESTPLATE,null);
+        equippedArmor.put(ArmorPieces.LEGGING,null);
+        equippedArmor.put(ArmorPieces.BOOTS,null);
+        return equippedArmor;
     }
     
     public Item[][] getInventory() {

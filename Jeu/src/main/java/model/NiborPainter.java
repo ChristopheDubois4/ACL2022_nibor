@@ -57,13 +57,13 @@ public class NiborPainter implements GamePainter {
 		worldPainter.drawHuds(g);
 
 		//affichage quadrillage
-		// g.setColor(Color.blue);
-		// for (int i = 60; i <900; i= i+60) {
-		// 	g.drawLine(0, i, 1620, i);
-		// }
-		// for (int i = 60; i <1620; i= i+60) {
-		// 	g.drawLine(i, 0, i, 900);
-		// }
+		g.setColor(Color.blue);
+		for (int i = 60; i <900; i= i+60) {
+			g.drawLine(0, i, 1620, i);
+		}
+		for (int i = 60; i <1620; i= i+60) {
+			g.drawLine(i, 0, i, 900);
+		}
 
 	}
 }

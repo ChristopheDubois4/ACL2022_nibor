@@ -11,10 +11,7 @@ import engine.Cmd;
 import engine.Command;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
-import prefab.gui.VitalResourcesHud;
-import prefab.gui.Hud;
-import prefab.gui.InventoryHud;
-import prefab.gui.StatsHud;
+import prefab.gui.*;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.level.GameLevel;
@@ -42,7 +39,7 @@ public class WorldManager implements WorldPainter {
     public GameLevel currentLevel;
 
     // huds
-    List<Hud> huds;
+    static List<Hud> huds;
     InventoryHud inventoryHud;
     VitalResourcesHud healthBar;
     StatsHud statsInfo;
@@ -57,12 +54,12 @@ public class WorldManager implements WorldPainter {
      * constructeur de la classe WorldManager
      */
     public WorldManager() {    
-        // Initialisation des niveaux
-        initLevels();
         // Initialisation du joueur
         initPlayer();        
         // Initialisation des Huds
         initHuds();
+        // Initialisation des niveaux
+        initLevels();
     }
     
     /**
@@ -81,7 +78,7 @@ public class WorldManager implements WorldPainter {
      * initialise les niveaux
      */
     public void initLevels() {
-        levelCreator = new LevelCreator();
+        levelCreator = new LevelCreator(inventoryHud);
         gameLevels = levelCreator.getLevels();
         currentLevel = gameLevels.get("default");
     }
@@ -91,15 +88,19 @@ public class WorldManager implements WorldPainter {
      */
     public void initHuds() {
         huds = new ArrayList<Hud>();        
-        HudCreator hudManager = new HudCreator(this.player);
 
-        inventoryHud = hudManager.getInventory();
-        healthBar = hudManager.getHealthBar();
-        statsInfo = hudManager.getStatsInfo();
+        inventoryHud = new InventoryHud(player);
+        healthBar =  new VitalResourcesHud(player);
+        statsInfo = new StatsHud(player);
         
-        huds.add(inventoryHud);
         huds.add(healthBar);
         huds.add(statsInfo);
+        huds.add(inventoryHud);
+
+    }
+
+    public static List<Hud> getHuds(){
+        return huds;
     }
 
     
@@ -123,7 +124,6 @@ public class WorldManager implements WorldPainter {
 		} }).start();        
     }  
     
-
     /**
      * met à jour les données du monde
      * @param cmd commande du joueur
@@ -138,15 +138,24 @@ public class WorldManager implements WorldPainter {
         }
 
         if (cmd == Cmd.INVENTORY && command.getActionType() == "released") {
-            inventoryHud.changeDisplayState();   
+            inventoryHud.changeDisplayState(); 
             keyLocker(KEY_TIME);
             return;         
         }
 
-        if (inventoryHud.hudIsDisplayed()) {
+
+
+        if (inventoryHud.hudIsDisplayed() && !inventoryHud.isChestDisplay()) {
             inventoryHud.processClick(command);
             return;
-        }        
+        }
+        
+        if (cmd == Cmd.USE && command.getActionType() == "released" && inventoryHud.isChestDisplay()) {
+            keyLocker(KEY_TIME);
+            inventoryHud.changeDisplayState(); 
+            usePlayer(cmd);
+            return;
+        }
 
         if (cmd == Cmd.USE && command.getActionType() == "released") {
             System.out.println("Cas d'utilisation\n");
@@ -154,6 +163,8 @@ public class WorldManager implements WorldPainter {
             usePlayer(cmd);
             return;
         }
+
+
 
         // Faire des trucs 
 
@@ -169,7 +180,7 @@ public class WorldManager implements WorldPainter {
      * @param cmd commande du joueur
      */
     private void movePlayer(Cmd cmd) {    
-        //Si le jouer est mort il ne peut pas bouger
+        //Si le joueur est mort il ne peut pas bouger
         if (player.getState()==State.DEAD) return;
 
         // calcul du déplacement à effectuer
@@ -243,18 +254,16 @@ public class WorldManager implements WorldPainter {
          */
         Pair<Boolean, GameObject> check = currentLevel.checkMove(player, deltaX, deltaY);
         /**
-         * s'il n'y a pas d'obstacle, déplace le joueur
+         * s'il n'y a pas d'objet utilisable rien ne se passe, on sort de la fonction
          */
         if (check.getValue1() == null) {                        
             return;
         } 
 
         System.out.println("Player utilise : "+ check.getValue1() + "\n");
-        // si l'object n'est pas utilisable, on sort de la fonction
-        if (!check.getValue1().objectUse(player)) {
-            return;
-        }
-        // sinon on utilise l'objet
+        //si l'objet est utilisable, on l'utilise
+        //si un HUD est nécessaire return true
+        check.getValue1().objectUse(player,cmd);
     }
 
     @Override

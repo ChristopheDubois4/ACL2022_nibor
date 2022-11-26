@@ -12,6 +12,7 @@ import manager.ItemManager;
 import prefab.equipment.Item;
 import prefab.information.State;
 import prefab.information.Visual;
+import prefab.props.Chest;
 
 import java.awt.image.BufferedImage;
 
@@ -21,15 +22,33 @@ import java.awt.image.BufferedImage;
 public class InventoryHud extends Hud{
 
     private String inventoryPath = "src/main/ressources/images/huds/inventory/inventory.png";
+    // Rappel : On commence à (0,0) en bas à gauche
+    private static final int inventoryFirstPosX = 10, inventoryFirstPosY = 8; 
+    private static final int lengthInventoryX = 15, lengthInventoryY = 1;
+
+    private String chestPath = "src/main/ressources/images/huds/inventory/chest.png";
+    private static final int chestFirstPosX = 10, chestFirstPosY = 10;
+    private Visual chestVisual = new Visual(chestFirstPosX, chestFirstPosY, Utilities.getImage(chestPath));
+    
+
+    private boolean chestDisplay = false;
+    public boolean isChestDisplay() {
+        return chestDisplay;
+    }
+
+    private Chest chest;
+
+
+    private String equippedStuffPath = "src/main/ressources/images/huds/inventory/equippedStuff.png";
+    private static final int equippedStuffFirstPosX = 5, equippedStuffFirstPosY = 10; 
 
     private PlayerInfosFofHud player;
     private Pair<Integer, Integer> pressedClick, releasedClick;
     private BufferedImage backgroundImage;
     
-    // Rappel : On commence à (0,0) en bas à gauche
-    private static final int firstPosX = 10, firstPosY = 8; 
-    private static final int lengthInventoryX = 15, lengthInventoryY = 6; 
+     
     private Visual visual;
+    private Visual visual1;
 
     /**
      * constructeur de la classe InventoryHud heritant de Hud 
@@ -38,9 +57,16 @@ public class InventoryHud extends Hud{
     public InventoryHud(PlayerInfosFofHud player) {
         super();
         this.player = player;
+
         this.backgroundImage = Utilities.getImage(inventoryPath);
-        this.visual = new Visual(firstPosX, firstPosY, backgroundImage);
+        this.visual = new Visual(inventoryFirstPosX, inventoryFirstPosY, backgroundImage);
         visual.setDeltaPos(0,30);
+
+        this.backgroundImage = Utilities.getImage(equippedStuffPath);
+        this.visual1 = new Visual(equippedStuffFirstPosX, equippedStuffFirstPosY, backgroundImage);
+        visual1.setDeltaPos(0,0);
+
+
         
     }
 
@@ -75,8 +101,8 @@ public class InventoryHud extends Hud{
      */
     public int[] getPosItemInventoryFromClick(Pair<Integer, Integer> Click){
 
-        int X = (Click.getValue0() - firstPosX) % (lengthInventoryX + 1);
-        int Y = -((Click.getValue1() - firstPosY )) ;
+        int X = (Click.getValue0() - inventoryFirstPosX) % (lengthInventoryX + 1);
+        int Y = -((Click.getValue1() - inventoryFirstPosY )) ;
 
         System.out.println("1er click : "+Click);
     	System.out.println("indice : "+X+" "+Y);
@@ -129,20 +155,45 @@ public class InventoryHud extends Hud{
      * @return la liste des visuels
      */
     @Override
-    public List<Visual> getVisual()  {
+    public List<Visual> getVisual()  {      
         List<Visual> visuals = new ArrayList<Visual>();
         visuals.add(visual);
-        
-        
+        visuals.add(visual1);
         Item[][] inventory = player.getInventory();
 
         for ( int line=0; line<inventory.length; line++ ) {
-            int x = firstPosX + line;
+            int x = inventoryFirstPosX + line;
             for ( int column=0; column<inventory[line].length; column++ ) {
-                int  y = firstPosY - column;
+                int  y = inventoryFirstPosY - column;
                 if(inventory[line][column] != null)  visuals.add(new Visual(x, y, inventory[line][column].getImage(State.DEFAULT)));
             }
-        }    
+        } 
+
+        if (chestDisplay) {
+            System.out.println("POURQUOI TU PASSES LA FDP1");
+            chestVisual.setDeltaPos(0,30);
+            visuals.add(chestVisual);
+            visuals.addAll(chest.getVisuals()); 
+            System.out.println("POURQUOI TU PASSES LA FDP2");
+            return visuals;
+        }
+        
+        
         return visuals;
+    }
+
+    public void openWith(Chest chest) {
+        this.chest=chest;
+        this.changeDisplayState();
+        chestDisplay = !chestDisplay;
+    }
+
+    @Override
+    public void changeDisplayState() {
+        isDisplayed = !isDisplayed;
+        if (chestDisplay){
+            System.out.println("POURQUOI TU PASSES LA FDP3");
+            chestDisplay = !chestDisplay;
+        }
     }
 }
