@@ -52,7 +52,7 @@ public class StatsHud extends Hud{
 	}
 
     @Override
-    public List<Visual> getVisual() {
+    public List<Visual> getVisuals() {
         List<Visual> visuals = new ArrayList<Visual>();
         visuals.add(visual);
         return visuals;

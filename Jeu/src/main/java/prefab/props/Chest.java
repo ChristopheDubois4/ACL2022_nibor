@@ -76,7 +76,7 @@ public class Chest extends GameObject{
         ArrayList<Visual> visuals = new ArrayList<Visual>();
         for ( int line=0; line<chestContents.length; line++ ) {
             int x = chestFirstPosX + line ;
-            if(chestContents[line] != null)  visuals.add(new Visual(x,chestFirstPosY, chestContents[line].getImage(State.DEFAULT)));
+            if(chestContents[line] != null)  visuals.add(new Visual(x,chestFirstPosY, chestContents[line].getImage()));
         }    
     return visuals;
     }

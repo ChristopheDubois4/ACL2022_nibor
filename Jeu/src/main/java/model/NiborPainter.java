@@ -1,11 +1,10 @@
 package model;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.BasicStroke;
 
 import java.util.List;
-
 
 import engine.GamePainter;
 import manager.WorldPainter;
@@ -41,6 +40,8 @@ public class NiborPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage im) {
 
+		
+
 		Graphics2D g = (Graphics2D) im.getGraphics();
 				
 		
@@ -53,17 +54,30 @@ public class NiborPainter implements GamePainter {
 			Visual visual = visuals.get(i);
 			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY() , null);
 		}
-
+		
 		worldPainter.drawHuds(g);
 
+		visuals = worldPainter.getFrontVisuals();
+
+		//affichages images (devant les Huds)
+		for(int i=0; i<visuals.size();i++){
+			Visual visual = visuals.get(i);
+			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY() , null);
+		}
+
+
+		g.setStroke(new BasicStroke(1));
+
+
 		//affichage quadrillage
-		g.setColor(Color.blue);
-		for (int i = 60; i <900; i= i+60) {
-			g.drawLine(0, i, 1620, i);
-		}
-		for (int i = 60; i <1620; i= i+60) {
-			g.drawLine(i, 0, i, 900);
-		}
+		//g.setColor(Color.black);
+		// for (int i = 60; i <900; i= i+60) {
+		// 	g.drawLine(0, i, 1620, i);
+		// }
+		// for (int i = 60; i <1620; i= i+60) {
+		// 	g.drawLine(i, 0, i, 900);
+		// }
+
 
 	}
 }

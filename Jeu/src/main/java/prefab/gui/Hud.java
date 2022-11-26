@@ -1,5 +1,6 @@
 package prefab.gui;
 
+import java.awt.Graphics2D;
 import java.util.List;
 
 import engine.Command;
@@ -21,7 +22,9 @@ public abstract class Hud {
         isDisplayed = !isDisplayed;
     }
 
-    public abstract List<Visual> getVisual();
+    public abstract void draw(Graphics2D g);
+
+    public abstract List<Visual> getVisuals();
 
     public void processClick(Command command) {
     }

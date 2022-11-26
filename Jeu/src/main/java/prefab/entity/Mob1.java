@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import prefab.equipment.Item;
+import prefab.equipment.Weapon;
 import prefab.information.Position;
 import prefab.information.State;
+import prefab.information.Stats;
+
 import java.awt.image.BufferedImage;
 
 
@@ -17,6 +20,20 @@ public class Mob1 extends Character implements Enemy{
 
     public Mob1(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+
+        this.stats = new HashMap<Stats , Integer>();
+        this.currentStats = new HashMap<Stats , Integer>();
+
+        this.stats.put(Stats.HP, 100);
+        this.stats.put(Stats.MANA, 100);
+        this.stats.put(Stats.STAMINA, 100);
+
+        this.stats.put(Stats.DEFENSE, 50);
+        this.stats.put(Stats.SPEED, 100);
+        this.stats.put(Stats.DAMAGE, 5);
+        inventory[0][0] = new Weapon("epeeDelaMort", "sword_1");
+        inventory[13][5] = new Weapon("truc", "bitcoin");
+        resetCurrentStats();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package prefab.information;
 
 import java.awt.image.BufferedImage;
+
+import manager.WorldManager;
 import model.NiborPainter;
 
 public class Visual {
@@ -35,7 +37,16 @@ public class Visual {
         this.y = y;
         this.image = image;
     }
-    
+
+    public Visual(int x, int y, int deltaX, int deltaY, BufferedImage image) {
+        
+        this.x = x;
+        this.y = y;
+        this.deltaX = deltaX;
+        this.deltaY = deltaY;
+        this.image = image;
+    }
+        
     public void setX(int x) {
     	 this.x = x;
     } 
@@ -80,6 +91,6 @@ public class Visual {
     	if (shift <= 0) {
     		shift = defaultShift;
     	}
-    	shift = shift - 6;
+    	shift = shift - (int) defaultShift/WorldManager.IMAGES_PER_MOVE;
     }
 }

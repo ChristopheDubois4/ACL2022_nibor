@@ -15,7 +15,6 @@ import prefab.equipment.Armor.ArmorPieces;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
-import prefab.information.Visual;
 import manager.WorldManager;
 
 /**
@@ -30,9 +29,9 @@ public abstract class Character extends GameObject {
     protected int level;    
     protected int xp;
 
-    private static final int inventoryLengthX = 15;
-    private static final int inventoryLengthy = 6;
-    protected Item[][] inventory = new Item[inventoryLengthX][inventoryLengthy];
+    public static final int inventoryLengthX = 15;
+    public static final int inventoryLengthY = 6;
+    protected Item[][] inventory = new Item[inventoryLengthX][inventoryLengthY];
 
     protected HashMap<ArmorPieces,Armor> equippedArmor;
 
@@ -49,7 +48,9 @@ public abstract class Character extends GameObject {
      * constructeur de la classe Character heritant de GameObject
      */
     public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);      
+        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+        this.attacks = new ArrayList<Attack>();   
+        this.spells = new ArrayList<Spell>();  
         this.effects=new ArrayList<>();
         initVisual();
     }
@@ -66,8 +67,10 @@ public abstract class Character extends GameObject {
      */
     public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox,
             HashMap<Stats, Integer> stats, int money, int level, int xp, List<Attack> attacks,List<Spell> spells) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);
+        this(position, graphics, objectName, horizontalHitBox, verticalHitBox);
         this.stats = stats;
+        this.attacks = attacks;
+        this.spells = spells;
         this.effects=new ArrayList<>();
         this.currentStats = new HashMap<Stats , Integer>();
         initDefaultEquipment();
@@ -96,7 +99,14 @@ public abstract class Character extends GameObject {
     }
     
     public Item[][] getInventory() {
-        return null;
+        return inventory;
+    }
+
+    public List<Attack> getAttacks() {
+        return attacks;
+    }
+    public List<Spell> getSpells() {
+        return spells;
     }
 
     public void setInventory(List<Item> inventory) {
@@ -120,7 +130,8 @@ public abstract class Character extends GameObject {
     public void takeDammage(int value){        
         value = (int) ( currentStats.get(Stats.HP) - value*(100-currentStats.get(Stats.DEFENSE))/100 );
         value =  Math.max(0, value);
-        currentStats.put(Stats.HP, value);        
+        currentStats.put(Stats.HP, value);  
+        
         if (value == 0)
             die();
     }
@@ -130,14 +141,8 @@ public abstract class Character extends GameObject {
 	 * @param value Valeur des points de vie rendus
 	 */
     public void healCharacter(int value){
-        if (currentStats.get(Stats.HP)<stats.get(Stats.HP)){
-            if (currentStats.get(Stats.HP)+value>stats.get(Stats.HP)){
-                currentStats.put(Stats.HP, stats.get(Stats.HP));
-            }
-            else{
-                currentStats.put(Stats.HP, value+currentStats.get(Stats.HP));
-            }
-        }
+        value = Math.min(stats.get(Stats.HP), currentStats.get(Stats.HP) + value);
+        currentStats.put(Stats.HP, value);
     }
 
     /**

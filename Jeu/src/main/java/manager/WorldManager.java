@@ -10,6 +10,7 @@ import org.javatuples.Pair;
 import engine.Cmd;
 import engine.Command;
 import prefab.entity.GameObject;
+import prefab.entity.Mob1;
 import prefab.entity.Player;
 import prefab.gui.*;
 import prefab.information.PlayerClasses;
@@ -31,18 +32,21 @@ public class WorldManager implements WorldPainter {
     public static final int IMAGES_PER_MOVE = 10;
 
     // createurs
-    LevelCreator levelCreator;
-    HudCreator hudCreator;
+    private LevelCreator levelCreator;
+
+    // combats
+    private FightManager fightManager;
     
     // niveaux
     public HashMap<String, GameLevel> gameLevels;
     public GameLevel currentLevel;
 
     // huds
-    static List<Hud> huds;
-    InventoryHud inventoryHud;
-    VitalResourcesHud healthBar;
-    StatsHud statsInfo;
+    private List<Hud> huds;
+    private InventoryHud inventoryHud;
+    private VitalResourcesHud healthBar;
+    private StatsHud statsInfo;
+    private FightHud fightHud;
     
     // joueur
     Player player;
@@ -60,6 +64,23 @@ public class WorldManager implements WorldPainter {
         initHuds();
         // Initialisation des niveaux
         initLevels();
+        // Initialisation du gestionnaire de combats
+        fightHud = new FightHud(player);
+        fightManager = new FightManager(player, fightHud);     
+        //testCombats();
+    }
+
+    /**
+     * methode temporaire
+     */
+    public void testCombats() {
+
+        Position p1 = new Position(20, 5);
+        HashMap<State,BufferedImage> graphicsBOX = Utilities.getGraphicsFromJSON("player");
+        Mob1 mob = new Mob1(p1, graphicsBOX, "Jean le Destructeur", 1, 1);
+        fightManager.getIsInFight();
+        fightManager.startNewFight(mob);
+        
     }
     
     /**
@@ -69,7 +90,7 @@ public class WorldManager implements WorldPainter {
         //TEST
         HashMap<State,BufferedImage> graphicsPLAYER = Utilities.getGraphicsFromJSON("player");
         Position p1 = new Position(10, 10);
-        player = new Player(p1, graphicsPLAYER, "player", 1, 1, PlayerClasses.CLERIC); 
+        player = new Player(p1, graphicsPLAYER, "II_ChRom3_II", 1, 1, PlayerClasses.CLERIC); 
         player.setState(State.IDLE_DOWN);
         System.out.println("Player : "+ player.getPosition() + "\n");
     }
@@ -87,7 +108,7 @@ public class WorldManager implements WorldPainter {
      * initialise les huds
      */
     public void initHuds() {
-        huds = new ArrayList<Hud>();        
+        huds = new ArrayList<Hud>();       
 
         inventoryHud = new InventoryHud(player);
         healthBar =  new VitalResourcesHud(player);
@@ -98,11 +119,6 @@ public class WorldManager implements WorldPainter {
         huds.add(inventoryHud);
 
     }
-
-    public static List<Hud> getHuds(){
-        return huds;
-    }
-
     
     /**
      * permet de choisir à quelle fréquence les touches sont prises en 
@@ -131,10 +147,16 @@ public class WorldManager implements WorldPainter {
      */
     public void updateWorld(Command command) {
 
-        Cmd cmd = command.getKeyCommand();        
+        Cmd cmd = command.getKeyCommand();      
         
         if (isKeyLocked || cmd == Cmd.IDLE) {
             return;
+        }
+
+        if (fightManager.getIsInFight()) {
+            fightManager.evolve(command);
+            keyLocker(3*KEY_TIME);
+            return;            
         }
 
         if (cmd == Cmd.INVENTORY && command.getActionType() == "released"  && !inventoryHud.isChestDisplay()) {
@@ -272,24 +294,47 @@ public class WorldManager implements WorldPainter {
      * @return les visuels à afficher
      */
     public List<Visual> getVisuals() {
-        List<Visual> visuals = currentLevel.getVisuals();
-        
+
+        if (fightManager.getIsInFight()) {
+            return fightHud.getVisuals();
+        }
+
+        List<Visual> visuals = currentLevel.getVisuals();        
         visuals.add(player.getVisual());
         for (Hud hud : huds) {
             if (hud.hudIsDisplayed()) {
-                visuals.addAll(hud.getVisual());
+                visuals.addAll(hud.getVisuals());
             }
         }
         return visuals;
     }
+
+    /**
+     * récupère les visuels que l'on souhaite afficher par dessus les huds
+     * @return les visuels à afficher
+     */
+    public List<Visual> getFrontVisuals() {
+
+        if (fightManager.getIsInFight()) {
+            return fightHud.getFrontVisuals();
+        }
+        return new ArrayList<Visual>();
+    }     
+    
     
     /**
      * dessine les visuels spécifiques des Huds 
      */
 	@Override
 	public void drawHuds(Graphics2D g) {
-		healthBar.draw(g);
-        statsInfo.draw(g);		
+
+        if (fightManager.getIsInFight()) {
+            fightHud.draw(g);
+        } else {
+            for (Hud hud : huds) {
+                hud.draw(g);
+            }
+        }
 	}
 
 }

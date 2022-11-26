@@ -10,17 +10,23 @@ import prefab.information.State;
  */
 
 public class Armor extends Item {
-    public Armor(int price, HashMap<State, BufferedImage> graphics, String name) {
-        super(price, graphics, name);
-    }
-    public Armor(String name, String graphicsSelector) {
-        super(name, graphicsSelector);  	
-    }
-	public enum ArmorPieces {
+
+    public enum ArmorPieces {
 		HELMET,
 		CHESTPLATE,
 		LEGGING,
 		BOOTS,
 	}
+
+    ArmorPieces armorPiece;
+
+    public Armor(String name, String graphicsSelector, int price , ArmorPieces armorPiece) {
+        super(name, graphicsSelector, price);
+        this.armorPiece  = armorPiece;
+    }
+    public Armor(String name, String graphicsSelector, ArmorPieces armorPiece) {
+        this(name, graphicsSelector, 0, armorPiece);
+    }
+	
     
 }

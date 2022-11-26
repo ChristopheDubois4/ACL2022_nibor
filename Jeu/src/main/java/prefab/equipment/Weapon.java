@@ -9,11 +9,14 @@ import prefab.information.State;
  */
 
 public class Weapon extends Item {
-    public Weapon(int price, HashMap<State, BufferedImage> graphics, String name) {
-        super(price, graphics, name);
+
+    public Weapon(String name, String graphicsSelector, int price) {
+        super(name, graphicsSelector);
     }
+
     public Weapon(String name, String graphicsSelector) {
-        super(name, graphicsSelector);  	
+        super(name, graphicsSelector);
     }
+
     
 }

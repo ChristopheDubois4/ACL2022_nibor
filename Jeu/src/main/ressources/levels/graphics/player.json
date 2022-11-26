@@ -70,5 +70,13 @@
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
+	},
+	{
+		"state" : "DEFAULT",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/player/player_1.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
 	}
 ]

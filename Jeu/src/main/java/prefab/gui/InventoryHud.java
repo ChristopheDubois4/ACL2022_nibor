@@ -20,6 +20,7 @@ import prefab.information.State;
 import prefab.information.Visual;
 import prefab.props.Chest;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -161,33 +162,33 @@ public class InventoryHud extends Hud{
 
     //on utlise l'item
     public void useItem(){
-    	int[] posItem = getPosItemInventoryFromClick(pressedClick);
 
-        Item[][] playerInventory = player.getInventory();
-        Item item = playerInventory[posItem[0]][posItem[1]];
+        try {
+            int[] posItem = getPosItemInventoryFromClick(pressedClick);
 
-        //si c'est un consommable on eneleve l'item de l'inventaire
-        
-        
-        
-    	if( item instanceof Consumable) {
-    		ItemManager.useConsumable(posItem, (Character) player);
-    		return;
-    	}
-    	
-    	if( item instanceof Weapon) {
-    		
-    		return;
-    	}
-    	
-    	
-    	if( item instanceof Armor) {
-    		
-    		return;
-    	}
+            Item[][] playerInventory = player.getInventory();
+            Item item = playerInventory[posItem[0]][posItem[1]];
 
-    	
-    	
+            //si c'est un consommable on eneleve l'item de l'inventaire
+        
+            if( item instanceof Consumable) {
+                ItemManager.useConsumable(posItem, (Character) player);
+                return;
+            }
+            
+            if( item instanceof Weapon) {
+                
+                return;
+            }            
+            
+            if( item instanceof Armor) {
+                
+                return;
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
    
@@ -196,7 +197,7 @@ public class InventoryHud extends Hud{
      * @return la liste des visuels
      */
     @Override
-    public List<Visual> getVisual()  {      
+    public List<Visual> getVisuals()  {      
         List<Visual> visuals = new ArrayList<Visual>();
         visuals.add(visual);
         visuals.add(visual1);
@@ -206,28 +207,28 @@ public class InventoryHud extends Hud{
             int x = inventoryFirstPosX + line;
             for ( int column=0; column<inventory[line].length; column++ ) {
                 int  y = inventoryFirstPosY - column;
-                if(inventory[line][column] != null)  visuals.add(new Visual(x, y, inventory[line][column].getImage(State.DEFAULT)));
+                if(inventory[line][column] != null)  visuals.add(new Visual(x, y, inventory[line][column].getImage()));
             }
         } 
 
         for (Map.Entry<ArmorPieces,Armor> armor : player.getEquipedArmor().entrySet()){
             switch(armor.getKey()){
                 case HELMET:
-                    visuals.add(new Visual(posHelmet.getValue0(), posHelmet.getValue1(), armor.getValue().getImage(State.DEFAULT)));
+                    visuals.add(new Visual(posHelmet.getValue0(), posHelmet.getValue1(), armor.getValue().getImage()));
                     break;
                 case CHESTPLATE:
-                    visuals.add(new Visual(posChestplate.getValue0(), posChestplate.getValue1(), armor.getValue().getImage(State.DEFAULT)));
+                    visuals.add(new Visual(posChestplate.getValue0(), posChestplate.getValue1(), armor.getValue().getImage()));
                     break;
                 case LEGGING:
-                    visuals.add(new Visual(posLegging.getValue0(), posLegging.getValue1(), armor.getValue().getImage(State.DEFAULT)));
+                    visuals.add(new Visual(posLegging.getValue0(), posLegging.getValue1(), armor.getValue().getImage()));
                     break;
                 case BOOTS:
-                    visuals.add(new Visual(posBoots.getValue0(), posBoots.getValue1(), armor.getValue().getImage(State.DEFAULT)));
+                    visuals.add(new Visual(posBoots.getValue0(), posBoots.getValue1(), armor.getValue().getImage()));
                     break;
             }
         }
         
-        visuals.add(new Visual(posWeapon.getValue0(), posWeapon.getValue1(), player.getWeapon().getImage(State.DEFAULT)));
+        visuals.add(new Visual(posWeapon.getValue0(), posWeapon.getValue1(), player.getWeapon().getImage()));
 
         if (chestDisplay) {
             chestVisual.setDeltaPos(1,29);
@@ -259,5 +260,11 @@ public class InventoryHud extends Hud{
         if (chestDisplay){
             chestDisplay = !chestDisplay;
         }
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        // TODO Auto-generated method stub
+        
     }
 }

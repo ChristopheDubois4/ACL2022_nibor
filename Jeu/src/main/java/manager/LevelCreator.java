@@ -14,7 +14,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import prefab.entity.GameObject;
+import prefab.equipment.Consumable;
+import prefab.equipment.Effect;
 import prefab.equipment.Item;
+import prefab.equipment.Effect.TypeEffects;
 import prefab.gui.InventoryHud;
 import prefab.information.Layer;
 import prefab.information.Position;
@@ -182,6 +185,7 @@ public class LevelCreator {
         HashMap<State,BufferedImage> graphicsTRAP = Utilities.getGraphicsFromJSON("trap");
         HashMap<State,BufferedImage> graphicsCHEST = Utilities.getGraphicsFromJSON("chest");
         HashMap<State,BufferedImage> graphicsITEM = Utilities.getGraphicsFromJSON("sword_1");
+        HashMap<State,BufferedImage> graphicsbitcoin = Utilities.getGraphicsFromJSON("bitcoin");
 
 
         GameLevel level1 = new GameLevel();
@@ -191,7 +195,7 @@ public class LevelCreator {
         Position p4 = new Position(26, 14);
         Position p5 = new Position(0, 0);
 
-        Item[] chestContents = new Item[]{new Item(0, graphicsITEM, "Item_4"),new Item(0, graphicsITEM, "Item_5"),new Item(0, graphicsITEM, "Item_6")};
+        Item[] chestContents = new Item[]{new Consumable("epee sdaacre","sword_1", new Effect(TypeEffects.HIT, 20)),new Consumable("epee sdaacre","bitcoin", new Effect(TypeEffects.HIT, 20))};
 
         System.out.println("BOX");
 
