@@ -298,7 +298,6 @@ public class WorldManager implements WorldPainter {
         if (fightManager.getIsInFight()) {
             return fightHud.getVisuals();
         }
-
         List<Visual> visuals = currentLevel.getVisuals();        
         visuals.add(player.getVisual());
         for (Hud hud : huds) {

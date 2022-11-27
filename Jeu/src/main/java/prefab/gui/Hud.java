@@ -25,8 +25,5 @@ public abstract class Hud {
     public abstract void draw(Graphics2D g);
 
     public abstract List<Visual> getVisuals();
-
-    public void processClick(Command command) {
-    }
     
 }

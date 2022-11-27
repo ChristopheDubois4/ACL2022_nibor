@@ -57,7 +57,7 @@ public class FightManager {
 		isInFight = true;
 		this.enemy = enemy;
         fightHud.loadEnemy(enemy);
-		fightHud.changeDisplayState();
+		fightHud.changeDisplayState(0);
 
         playerOptions = new Object[] {player.getAttacks(), player.getSpells(), getConsumables(player.getInventory())};
         enemyOptions = new Object[] {enemy.getAttacks(), enemy.getSpells(), getConsumables(enemy.getInventory())};
