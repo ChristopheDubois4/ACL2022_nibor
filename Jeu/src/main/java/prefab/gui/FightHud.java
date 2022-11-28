@@ -13,6 +13,7 @@ import java.util.List;
 import model.NiborPainter;
 import prefab.entity.Enemy;
 import prefab.entity.Player;
+import prefab.information.State;
 import prefab.information.Stats;
 import prefab.information.Visual;
 import manager.Utilities;

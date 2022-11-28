@@ -79,8 +79,7 @@ public class WorldManager implements WorldPainter {
         HashMap<State,BufferedImage> graphicsBOX = Utilities.getGraphicsFromJSON("player");
         Mob1 mob = new Mob1(p1, graphicsBOX, "Jean le Destructeur", 1, 1);
         fightManager.getIsInFight();
-        fightManager.startNewFight(mob);
-        
+        fightManager.startNewFight(mob);        
     }
     
     /**

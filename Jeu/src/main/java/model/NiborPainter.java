@@ -67,17 +67,14 @@ public class NiborPainter implements GamePainter {
 
 		g.setStroke(new BasicStroke(1));
 
-		if (true) {
-			return;
-		}
-
+	
 		//affichage quadrillage
-		 for (int i = 60; i <900; i= i+60) {
-		 	g.drawLine(0, i, 1620, i);
-		 }
-		 for (int i = 60; i <1620; i= i+60) {
-		 	g.drawLine(i, 0, i, 900);
-		 }
+		//for (int i = 60; i <900; i= i+60) {
+		//	g.drawLine(0, i, 1620, i);
+		//}
+		//for (int i = 60; i <1620; i= i+60) {
+		//	g.drawLine(i, 0, i, 900);
+		//}
 
 
 	}
