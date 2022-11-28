@@ -2,6 +2,7 @@ package prefab.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -9,6 +10,8 @@ import engine.Cmd;
 import engine.Command;
 import manager.Utilities;
 import manager.ItemManager;
+import prefab.equipment.Armor;
+import prefab.equipment.ArmorPieces;
 import prefab.equipment.Item;
 import prefab.information.State;
 import prefab.information.Visual;
@@ -24,23 +27,23 @@ public class InventoryHud extends Hud{
     private String inventoryPath = "src/main/ressources/images/huds/inventory/inventory.png";
     // Rappel : On commence à (0,0) en bas à gauche
     private static final int inventoryFirstPosX = 10, inventoryFirstPosY = 8; 
-    private static final int lengthInventoryX = 15, lengthInventoryY = 1;
+    private static final int lengthInventoryX = 15, lengthInventoryY = 5;
 
     private String chestPath = "src/main/ressources/images/huds/inventory/chest.png";
-    private static final int chestFirstPosX = 10, chestFirstPosY = 10;
+    private static final int chestFirstPosX = 10, chestFirstPosY = 11;
     private Visual chestVisual = new Visual(chestFirstPosX, chestFirstPosY, Utilities.getImage(chestPath));
-    
-
     private boolean chestDisplay = false;
-    public boolean isChestDisplay() {
-        return chestDisplay;
-    }
 
     private Chest chest;
 
 
     private String equippedStuffPath = "src/main/ressources/images/huds/inventory/equippedStuff.png";
-    private static final int equippedStuffFirstPosX = 5, equippedStuffFirstPosY = 10; 
+    private static final int equippedStuffFirstPosX = 3, equippedStuffFirstPosY = 11; 
+    private static final Pair<Integer,Integer> posHelmet = new Pair<Integer,Integer>(6, 10);
+    private static final Pair<Integer,Integer> posChestplate = new Pair<Integer,Integer>(6, 8);
+    private static final Pair<Integer,Integer> posLegging = new Pair<Integer,Integer>(6, 6);
+    private static final Pair<Integer,Integer> posBoots = new Pair<Integer,Integer>(6, 4);
+    private static final Pair<Integer,Integer> posWeapon = new Pair<Integer,Integer>(4, 7);
 
     private PlayerInfosFofHud player;
     private Pair<Integer, Integer> pressedClick, releasedClick;
@@ -60,7 +63,7 @@ public class InventoryHud extends Hud{
 
         this.backgroundImage = Utilities.getImage(inventoryPath);
         this.visual = new Visual(inventoryFirstPosX, inventoryFirstPosY, backgroundImage);
-        visual.setDeltaPos(0,30);
+        visual.setDeltaPos(1,29);
 
         this.backgroundImage = Utilities.getImage(equippedStuffPath);
         this.visual1 = new Visual(equippedStuffFirstPosX, equippedStuffFirstPosY, backgroundImage);
@@ -101,7 +104,7 @@ public class InventoryHud extends Hud{
      */
     public int[] getPosItemInventoryFromClick(Pair<Integer, Integer> Click){
 
-        int X = (Click.getValue0() - inventoryFirstPosX) % (lengthInventoryX + 1);
+        int X = (Click.getValue0() - inventoryFirstPosX) % (lengthInventoryX + 2);
         int Y = -((Click.getValue1() - inventoryFirstPosY )) ;
 
         System.out.println("1er click : "+Click);
@@ -112,10 +115,34 @@ public class InventoryHud extends Hud{
 
     }
 
+         /**
+     * renvoi la position de l'item cliqué
+     */
+    public int getPosItemChestFromClick(Pair<Integer, Integer> Click){
+
+        int X = (Click.getValue0() - chestFirstPosX) % (lengthInventoryX + 2);
+
+        System.out.println("1er click : "+Click);
+    	System.out.println("indice : "+X);
+        return X;
+
+    }
+
     /**
      * echange la position de 2 items
      */
     public void swapItem() {
+        if (chestDisplay && pressedClick.getValue1()==11 && releasedClick.getValue1()==11){
+            System.out.println("OUI");
+            int posChestItemPressed = getPosItemChestFromClick(pressedClick);
+            int posChestItemReleased = getPosItemChestFromClick(releasedClick);
+            try {
+            Item itemTemp = chest.getChestContents()[posChestItemPressed];
+            chest.getChestContents()[posChestItemPressed] = chest.getChestContents()[posChestItemReleased];
+            chest.getChestContents()[posChestItemReleased] = itemTemp;
+            } catch (Exception e) {
+    	    }    
+        }
 
     	int[] posItemPressed = getPosItemInventoryFromClick(pressedClick);
         int[] posItemReleased = getPosItemInventoryFromClick(releasedClick);
@@ -169,8 +196,27 @@ public class InventoryHud extends Hud{
             }
         } 
 
+        for (Map.Entry<ArmorPieces,Armor> armor : player.getEquipedArmor().entrySet()){
+            switch(armor.getKey()){
+                case HELMET:
+                    visuals.add(new Visual(posHelmet.getValue0(), posHelmet.getValue1(), armor.getValue().getImage(State.DEFAULT)));
+                    break;
+                case CHESTPLATE:
+                    visuals.add(new Visual(posChestplate.getValue0(), posChestplate.getValue1(), armor.getValue().getImage(State.DEFAULT)));
+                    break;
+                case LEGGING:
+                    visuals.add(new Visual(posLegging.getValue0(), posLegging.getValue1(), armor.getValue().getImage(State.DEFAULT)));
+                    break;
+                case BOOTS:
+                    visuals.add(new Visual(posBoots.getValue0(), posBoots.getValue1(), armor.getValue().getImage(State.DEFAULT)));
+                    break;
+            }
+        }
+        
+        visuals.add(new Visual(posWeapon.getValue0(), posWeapon.getValue1(), player.getWeapon().getImage(State.DEFAULT)));
+
         if (chestDisplay) {
-            chestVisual.setDeltaPos(0,30);
+            chestVisual.setDeltaPos(1,29);
             visuals.add(chestVisual);
             visuals.addAll(chest.getVisuals()); 
             return visuals;
@@ -180,11 +226,18 @@ public class InventoryHud extends Hud{
         return visuals;
     }
 
+    public boolean isChestDisplay() {
+        return chestDisplay;
+    }
+
+
     public void openWith(Chest chest) {
         this.chest=chest;
         this.changeDisplayState();
         chestDisplay = !chestDisplay;
     }
+
+
 
     @Override
     public void changeDisplayState() {

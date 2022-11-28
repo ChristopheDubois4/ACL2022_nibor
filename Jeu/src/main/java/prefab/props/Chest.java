@@ -25,7 +25,7 @@ import java.awt.image.BufferedImage;
 public class Chest extends GameObject{
     
 
-    private static final int chestFirstPosX = 10;
+    private static final int chestFirstPosX = 10, chestFirstPosY = 11;
     private static final int inventoryLength = 15;
     private Item[] chestContents = new Item[inventoryLength];
 
@@ -42,9 +42,19 @@ public class Chest extends GameObject{
     
     public Chest(Position position, HashMap<State, BufferedImage> graphics, int horizontalHitBox, int verticalHitBox, Item[] chestContents, InventoryHud inventoryHud) {
         super(position, graphics, "Chest", horizontalHitBox, verticalHitBox, State.CLOSE);
-        this.chestContents=chestContents;
+        initChestContents(chestContents);
         this.inventoryHud=inventoryHud;
         
+    }
+
+    public void initChestContents(Item [] c){
+        for(Item item : c){
+            int k=0;
+            while (chestContents[k] != null){
+                k++;
+            }
+            chestContents[k]=item;
+        }
     }
 
     /**
@@ -67,8 +77,8 @@ public class Chest extends GameObject{
     public List<Visual> getVisuals(){
         ArrayList<Visual> visuals = new ArrayList<Visual>();
         for ( int line=0; line<chestContents.length; line++ ) {
-            int x = chestFirstPosX + line;
-            if(chestContents[line] != null)  visuals.add(new Visual(x,chestFirstPosX, chestContents[line].getImage(State.DEFAULT)));
+            int x = chestFirstPosX + line ;
+            if(chestContents[line] != null)  visuals.add(new Visual(x,chestFirstPosY, chestContents[line].getImage(State.DEFAULT)));
         }    
     return visuals;
     }

@@ -32,7 +32,8 @@ public abstract class Character extends GameObject {
     private static final int inventoryLengthy = 6;
     protected Item[][] inventory = new Item[inventoryLengthX][inventoryLengthy];
 
-    private HashMap<ArmorPieces,Armor> equippedArmor;
+    protected HashMap<ArmorPieces,Armor> equippedArmor;
+
     protected Weapon weapon;
 
     protected List<Attack> attacks;
@@ -175,6 +176,10 @@ public abstract class Character extends GameObject {
     			}
         	} isInMouvement = false;
     	}).start();    	
+    }
+
+    public void setEquippedArmor(HashMap<ArmorPieces, Armor> equippedArmor) {
+        this.equippedArmor = equippedArmor;
     }
     
     public boolean getIsInMouvement( ) {

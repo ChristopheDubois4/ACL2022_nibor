@@ -73,6 +73,15 @@ public class Player extends Character implements PlayerInfosFofHud{
                 this.stats.put(Stats.DAMAGE, 5);
                 inventory[0][0] = new Item("epeeDelaMort", "sword_1");
                 inventory[13][5] = new Item("truc", "bitcoin");
+
+                weapon=new Weapon("epeeDelaMort", "sword_1");
+                HashMap<ArmorPieces,Armor> equippedArmorTemp = new HashMap<ArmorPieces,Armor>();
+                equippedArmorTemp.put(ArmorPieces.HELMET,new Armor("Helmet", "helmet_1"));
+                equippedArmorTemp.put(ArmorPieces.CHESTPLATE,new Armor("ChestPlate", "chestplate_1"));
+                equippedArmorTemp.put(ArmorPieces.LEGGING,new Armor("Legging", "legging_1"));
+                equippedArmorTemp.put(ArmorPieces.BOOTS,new Armor("Boots", "boots_1"));
+                setEquippedArmor(equippedArmorTemp);
+
                 resetCurrentStats();
 
                 break;
@@ -100,13 +109,13 @@ public class Player extends Character implements PlayerInfosFofHud{
     @Override
     public HashMap<ArmorPieces, Armor> getEquipedArmor() {
         // TODO Auto-generated method stub
-        return null;
+        return equippedArmor;
     }
 
     @Override
     public Weapon getWeapon() {
         // TODO Auto-generated method stub
-        return null;
+        return weapon;
     }
 
 	public int getHealth() {
