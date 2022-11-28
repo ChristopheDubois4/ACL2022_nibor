@@ -1,0 +1,10 @@
+[
+	{
+		"state" : "DEFAULT",
+		"visual" : {
+			"image" : "src/main/ressources/images/items/chestplate_1.png",
+			"lenghtX" : 0,
+			"lenghtY" : 0
+		}       
+	}
+]

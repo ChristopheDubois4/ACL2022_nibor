@@ -14,7 +14,7 @@ public class HudCreator {
     Player player;
 
 
-    InventoryHud inventory;
+    InventoryHud inventoryHud;
     VitalResourcesHud vitalResourceshBar;
     StatsHud statsInfo;
 
@@ -33,7 +33,7 @@ public class HudCreator {
      * Méthode pour tester des fonctionnalitées liées au sprint 1
      */
     private void testSrpint1() {   
-        inventory = new InventoryHud(player);
+        inventoryHud = new InventoryHud(player);
 
         vitalResourceshBar = new VitalResourcesHud(player);
 
@@ -41,9 +41,10 @@ public class HudCreator {
         
     }
 
-    public InventoryHud getInventory() {
-        return inventory;
+    public InventoryHud getInventoryHud() {
+        return inventoryHud;
     }
+
     
     public VitalResourcesHud getHealthBar() {
         return vitalResourceshBar;

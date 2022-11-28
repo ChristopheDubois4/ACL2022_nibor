@@ -10,10 +10,12 @@ import prefab.information.State;
  * Descriptions d un item
  */
 
-public class  Item {
-    protected int price;
-    protected HashMap<State,BufferedImage> graphics;
+public abstract class Item {
+    protected int price = 0;
+    protected BufferedImage graphics;
     private String name;
+
+    private String path = "src/main/ressources/images/items/";
 
     
     /**
@@ -22,20 +24,20 @@ public class  Item {
      * @param graphics composantes graphiques de l'objet
      * @param name nom de l'objet
      */
-    public Item(int price, HashMap<State,BufferedImage> graphics, String name) {
+    
+    public Item(String name, String graphicsSelector, int price) {
         this.price=price;
-        this.graphics=graphics;
+        graphics = Utilities.getImage(path+graphicsSelector+".png");
+        System.out.println((graphics == null));
         this.setName(name);
-    }
+    } 
     
     public Item(String name, String graphicsSelector) {
-
-    	graphics = Utilities.getGraphicsFromJSON(graphicsSelector);
-    	
+    	this(name, graphicsSelector, 0);
     }
     
-    public BufferedImage getImage(State state) {
-    	return graphics.get(state);
+    public BufferedImage getImage() {
+    	return graphics;
     }
 
 
@@ -48,4 +50,8 @@ public class  Item {
         this.name = name;
     }
     
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

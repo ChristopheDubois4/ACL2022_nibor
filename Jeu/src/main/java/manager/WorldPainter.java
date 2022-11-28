@@ -9,5 +9,6 @@ import prefab.information.Visual;
 public interface WorldPainter {
 
     public List<Visual> getVisuals();
+    public List<Visual> getFrontVisuals();
     public void drawHuds(Graphics2D g);
 }

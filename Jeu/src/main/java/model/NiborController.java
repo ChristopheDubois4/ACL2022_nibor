@@ -47,16 +47,23 @@ public class NiborController implements GameController {
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
-		// Fixe le problème du delay (propre à l'OS) lié à keyPressed 
-		if (commandeEnCours.getActionType() == "released" )
-			if (commandePrecedente.getKeyCommand() == commandeEnCours.getKeyCommand()) {
-				
+
+		// si on relache une touche, on envoie la commande par défaut (pour ne rien faire)
+		if (commandeEnCours.getActionType() == "released" )	{	
 				commandeEnCours.setKeyCommand(Cmd.IDLE);
-
-			}
-
-			commandePrecedente = c;
+		}
 		return c;
+	}
+
+	/**
+	 * sauvegarde la commande précédente avant qu'elle ne soit ramplacée par la nouvelle
+	 */
+	public void saveFormerCommand() {
+		try {
+			commandePrecedente = (Command) commandeEnCours.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -64,6 +71,7 @@ public class NiborController implements GameController {
 	 * met a jour les commandes en fonction des touches appuyées
 	 */
 	public void keyPressed(KeyEvent e) {		
+		saveFormerCommand();
 		this.commandeEnCours.setKeyCommand(findKeyCommand(e.getKeyCode()), "pressed");
 	}
 
@@ -73,7 +81,14 @@ public class NiborController implements GameController {
 	 * met a jour les commandes quand le joueur relache une touche
 	 */
 	public void keyReleased(KeyEvent e) {
-		this.commandeEnCours.setKeyCommand(findKeyCommand(e.getKeyCode()), "released");
+		saveFormerCommand();
+		/**
+		 * si la touche relachée est la même que la dernière touche appuyé 
+		 * alors on met a jours la commande en cours
+		 */
+		if (commandePrecedente.getKeyCommand() == findKeyCommand(e.getKeyCode())) {
+			this.commandeEnCours.setKeyCommand(findKeyCommand(e.getKeyCode()), "released");
+		}
 	}
 	
 	/**

@@ -2,6 +2,7 @@ package prefab.props;
 
 import java.util.HashMap;
 
+import engine.Cmd;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.entity.GameObject;
@@ -34,7 +35,7 @@ public class Ladder extends GameObject{
     *   -> true sinon
     */
     @Override
-    public boolean objectUse(Player user) {
+    public void objectUse(Player user, Cmd cmd) {
         if (user.getPosition().getY()>this.position.getY()+this.HitBox.getValue1()-1){
             user.getPosition().setY(this.position.getY()-1);
         }
@@ -43,12 +44,9 @@ public class Ladder extends GameObject{
         }
         else {
             System.out.println("On ne peut pas prendre l'échelle sur côté\n");
-            return false;
+            return;
         }
         user.getPosition().setX(this.position.getX());
-
         System.out.println("Player : "+ user.getPosition() + "\n");
-        return true;
     }
-        
 }

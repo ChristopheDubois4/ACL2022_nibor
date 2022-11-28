@@ -53,7 +53,6 @@ public class GameEngineGraphical implements Runnable{
 
 		// creation de l'interface graphique
 		this.gui = new GraphicalInterface(this.panel, this.gameController);
-		boolean test = true;
 
 		// boucle de game
 		while (!this.game.isFinished()) {

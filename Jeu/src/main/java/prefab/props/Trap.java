@@ -2,6 +2,7 @@ package prefab.props;
 
 import java.util.HashMap;
 
+import engine.Cmd;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
@@ -35,11 +36,10 @@ public class Trap extends GameObject{
     * @return true ça fait mal
     */
     @Override
-    public boolean objectUse(Player user) {
+    public void objectUse(Player user,Cmd cmd) {
         user.takeDammage(this.dammage);
         System.out.println("Player PV : "+user.getCurrentStats().get(Stats.HP)+" sur "+user.getStats().get(Stats.HP)+"\n");
-        return true;
+        return;
     }
-
 }
 

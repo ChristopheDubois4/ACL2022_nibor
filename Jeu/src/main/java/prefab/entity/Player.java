@@ -1,10 +1,16 @@
 package prefab.entity;
 
 import java.util.HashMap;
+
+import prefab.competence.Attack;
+import prefab.competence.Spell;
 import prefab.equipment.Armor;
-import prefab.equipment.ArmorPieces;
+import prefab.equipment.Armor.ArmorPieces;
+import prefab.equipment.Consumable;
+import prefab.equipment.Effect;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
+import prefab.equipment.Effect.TypeEffects;
 import prefab.gui.PlayerInfosFofHud;
 import prefab.information.PlayerClasses;
 import prefab.information.Position;
@@ -64,6 +70,13 @@ public class Player extends Character implements PlayerInfosFofHud{
                 this.stats = new HashMap<Stats , Integer>();
                 this.currentStats = new HashMap<Stats , Integer>();
 
+                spells.add(new Spell("boule de feux"));
+                spells.add(new Spell("lance de glace"));
+
+                attacks.add(new Attack("charge"));
+                attacks.add(new Attack("regard malaisant"));
+                attacks.add(new Attack("lancé de Clément"));
+
                 this.stats.put(Stats.HP, 100);
                 this.stats.put(Stats.MANA, 100);
                 this.stats.put(Stats.STAMINA, 100);
@@ -71,8 +84,24 @@ public class Player extends Character implements PlayerInfosFofHud{
                 this.stats.put(Stats.DEFENSE, 50);
                 this.stats.put(Stats.SPEED, 100);
                 this.stats.put(Stats.DAMAGE, 5);
-                inventory[0][0] = new Item("epeeDelaMort", "sword_1");
-                inventory[13][5] = new Item("truc", "bitcoin");
+
+                Effect effectPopo = new Effect(TypeEffects.HEAL, 10);
+
+                inventory[0][0] = new Weapon("epeeDelaMort", "sword_1");
+                inventory[13][5] = new Consumable("truc", "bitcoin",effectPopo);
+                inventory[13][2] = new Consumable("truc", "bitcoin",effectPopo);
+                inventory[13][4] = new Consumable("truc", "bitcoin",effectPopo);
+
+
+                weapon=new Weapon("epeeDelaMort", "sword_1");
+                HashMap<ArmorPieces,Armor> equippedArmorTemp = new HashMap<ArmorPieces,Armor>();
+
+                equippedArmorTemp.put(ArmorPieces.HELMET,new Armor("Helmet", "helmet_1", ArmorPieces.HELMET));
+                equippedArmorTemp.put(ArmorPieces.CHESTPLATE,new Armor("ChestPlate", "chestplate_1", ArmorPieces.CHESTPLATE));
+                equippedArmorTemp.put(ArmorPieces.LEGGING,new Armor("Legging", "legging_1", ArmorPieces.LEGGING));
+                equippedArmorTemp.put(ArmorPieces.BOOTS,new Armor("Boots", "boots_1", ArmorPieces.BOOTS));
+                setEquippedArmor(equippedArmorTemp);
+
                 resetCurrentStats();
 
                 break;
@@ -91,26 +120,24 @@ public class Player extends Character implements PlayerInfosFofHud{
     public int getMoney() {       
         return this.money;
     }
-
-    @Override
-    public Item[][] getInventory() {
-        return inventory;
-    }
-
+  
     @Override
     public HashMap<ArmorPieces, Armor> getEquipedArmor() {
         // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Weapon getWeapon() {
-        // TODO Auto-generated method stub
-        return null;
+        return equippedArmor;
     }
 
 	public int getHealth() {
 		return currentStats.get(Stats.HP);
 	}
+
+    @Override
+    public Weapon getWeapon() {
+        // TODO Auto-generated method stub
+        return weapon;
+    }
+
+
+
     
 }

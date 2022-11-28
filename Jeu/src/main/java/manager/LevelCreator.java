@@ -14,7 +14,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import prefab.entity.GameObject;
+import prefab.equipment.Consumable;
+import prefab.equipment.Effect;
 import prefab.equipment.Item;
+import prefab.equipment.Effect.TypeEffects;
+import prefab.gui.InventoryHud;
 import prefab.information.Layer;
 import prefab.information.Position;
 import prefab.information.State;
@@ -32,12 +36,14 @@ public class LevelCreator {
 
     public HashMap<String, GameLevel> gameLevels;
     String defaultfile = "src/main/ressources/levels/default.json";
+    private InventoryHud inventoryHud;
 
     
     /**
      * constructeur de la classe LevelManager
      */
-    public LevelCreator() {
+    public LevelCreator(InventoryHud inventoryHud) {
+        this.inventoryHud=inventoryHud;
         gameLevels = new HashMap<String, GameLevel>();
         // Quand les tests seront fini dé-commenter : 
         // initGameLevels(); 
@@ -178,6 +184,8 @@ public class LevelCreator {
         HashMap<State,BufferedImage> graphicsLADDER = Utilities.getGraphicsFromJSON("ladder");
         HashMap<State,BufferedImage> graphicsTRAP = Utilities.getGraphicsFromJSON("trap");
         HashMap<State,BufferedImage> graphicsCHEST = Utilities.getGraphicsFromJSON("chest");
+        HashMap<State,BufferedImage> graphicsITEM = Utilities.getGraphicsFromJSON("sword_1");
+        HashMap<State,BufferedImage> graphicsbitcoin = Utilities.getGraphicsFromJSON("bitcoin");
 
 
         GameLevel level1 = new GameLevel();
@@ -187,7 +195,7 @@ public class LevelCreator {
         Position p4 = new Position(26, 14);
         Position p5 = new Position(0, 0);
 
-        Item[] chestContents = new Item[]{new Item(0, null, "Item_4"),new Item(0, null, "Item_5"),new Item(0, null, "Item_6")};
+        Item[] chestContents = new Item[]{new Consumable("epee sdaacre","sword_1", new Effect(TypeEffects.HIT, 20)),new Consumable("epee sdaacre","bitcoin", new Effect(TypeEffects.HIT, 20))};
 
         System.out.println("BOX");
 
@@ -203,7 +211,7 @@ public class LevelCreator {
         GameObject o4 = new Trap(p4, graphicsTRAP, 1,1,30);
         System.out.println("CHEST");
 
-        GameObject o5 = new Chest(p5, graphicsCHEST, 1, 1, chestContents);
+        GameObject o5 = new Chest(p5, graphicsCHEST, 1, 1, chestContents, inventoryHud);
         System.out.println("APRES CHEST");
 
         System.out.println("\n2 Obstacles de 1 case : ACIDE en (5,5) et en Trap en (20,8)\nLadder utilisable en (8,5)/(8,6)/(8,7)\nChest en (10,5)\n");
