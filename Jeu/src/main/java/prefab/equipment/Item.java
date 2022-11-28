@@ -29,9 +29,7 @@ public class  Item {
     }
     
     public Item(String name, String graphicsSelector) {
-
     	graphics = Utilities.getGraphicsFromJSON(graphicsSelector);
-    	
     }
     
     public BufferedImage getImage(State state) {

@@ -12,9 +12,7 @@ import prefab.information.Visual;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
 import prefab.equipment.Item;
-import prefab.gui.Hud;
 import prefab.gui.InventoryHud;
-import manager.WorldManager;
 
 import java.awt.image.BufferedImage;
 

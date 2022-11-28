@@ -1,15 +1,17 @@
 package prefab.entity;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import prefab.competence.Attack;
 import prefab.competence.Spell;
 import prefab.equipment.Armor;
-import prefab.equipment.ArmorPieces;
+import prefab.equipment.Effect;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
+import prefab.equipment.Armor.ArmorPieces;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
@@ -39,13 +41,16 @@ public abstract class Character extends GameObject {
     protected List<Attack> attacks;
     protected List<Spell> spells;
     
+    protected List<Effect> effects;
+    
     private boolean isInMouvement = false;
         
     /**
      * constructeur de la classe Character heritant de GameObject
      */
     public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);        
+        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);      
+        this.effects=new ArrayList<>();
         initVisual();
     }
 
@@ -63,6 +68,7 @@ public abstract class Character extends GameObject {
             HashMap<Stats, Integer> stats, int money, int level, int xp, List<Attack> attacks,List<Spell> spells) {
         super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);
         this.stats = stats;
+        this.effects=new ArrayList<>();
         this.currentStats = new HashMap<Stats , Integer>();
         initDefaultEquipment();
         initVisual();
@@ -124,8 +130,14 @@ public abstract class Character extends GameObject {
 	 * @param value Valeur des points de vie rendus
 	 */
     public void healCharacter(int value){
-        value = Math.max(stats.get(Stats.HP), currentStats.get(Stats.HP) + value);
-        currentStats.put(Stats.HP, value);
+        if (currentStats.get(Stats.HP)<stats.get(Stats.HP)){
+            if (currentStats.get(Stats.HP)+value>stats.get(Stats.HP)){
+                currentStats.put(Stats.HP, stats.get(Stats.HP));
+            }
+            else{
+                currentStats.put(Stats.HP, value+currentStats.get(Stats.HP));
+            }
+        }
     }
 
     /**
@@ -184,5 +196,15 @@ public abstract class Character extends GameObject {
     
     public boolean getIsInMouvement( ) {
     	return isInMouvement;
+    }
+
+
+    public List<Effect> getEffects() {
+        return  this.effects;
+    }
+
+
+    public void addEffects(List<Effect> effects2) {
+        this.effects.addAll(effects2);
     }
 }

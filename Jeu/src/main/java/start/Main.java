@@ -1,7 +1,6 @@
 package start;
 
 import model.NiborPainter;
-import prefab.information.State;
 
 import engine.DrawingPanel;
 import engine.GameEngineGraphical;
