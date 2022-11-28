@@ -3,7 +3,7 @@ package prefab.gui;
 import java.util.HashMap;
 
 import prefab.equipment.Armor;
-import prefab.equipment.ArmorPieces;
+import prefab.equipment.Armor.ArmorPieces;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
 import prefab.information.Stats;

@@ -9,7 +9,11 @@ import engine.Cmd;
 import engine.Command;
 import manager.Utilities;
 import manager.ItemManager;
+import prefab.entity.Character;
+import prefab.equipment.Armor;
+import prefab.equipment.Consumable;
 import prefab.equipment.Item;
+import prefab.equipment.Weapon;
 import prefab.information.State;
 import prefab.information.Visual;
 import prefab.props.Chest;
@@ -137,19 +141,30 @@ public class InventoryHud extends Hud{
         Item item = playerInventory[posItem[0]][posItem[1]];
 
         //si c'est un consommable on eneleve l'item de l'inventaire
-        if (ItemManager.consumeItem(item)){
-            deleteItem();
-        }
+        
+        
+        
+    	if( item instanceof Consumable) {
+    		ItemManager.useConsumable(posItem, (Character) player);
+    		return;
+    	}
+    	
+    	if( item instanceof Weapon) {
+    		
+    		return;
+    	}
+    	
+    	
+    	if( item instanceof Armor) {
+    		
+    		return;
+    	}
+
+    	
+    	
     }
 
-    //on delete l'item
-    public void deleteItem(){
-        int[] posItem = getPosItemInventoryFromClick(pressedClick);
-        Item[][] playerInventory = player.getInventory();
-
-        playerInventory[posItem[0]][posItem[1]] = null;
-    }
-
+   
     /**
      * retourne la liste des visuels à afficher de l'inventaire
      * @return la liste des visuels

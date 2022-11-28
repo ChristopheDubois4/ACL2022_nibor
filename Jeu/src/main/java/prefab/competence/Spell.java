@@ -3,7 +3,6 @@ package prefab.competence;
 
 import java.awt.image.BufferedImage;
 
-import prefab.equipment.Effects;
 
 /**
  * représente les sorts des personnages de manière générale
@@ -12,7 +11,6 @@ public abstract class Spell {
 
     protected String name;
     protected int damage;
-    protected Effects spellEffect;
     protected int manaConsuption;
 
     protected BufferedImage graphics;

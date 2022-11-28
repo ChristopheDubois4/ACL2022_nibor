@@ -35,3 +35,5 @@ List of Maven commands for development
 | mvn test    | run the tests |
 | mvn site    | generate a site with general information about the project |
 | mvn exec:java    | run the application |
+
+
