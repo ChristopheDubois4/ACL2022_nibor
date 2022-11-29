@@ -8,7 +8,6 @@ import prefab.equipment.Armor;
 import prefab.equipment.Armor.ArmorPieces;
 import prefab.equipment.Consumable;
 import prefab.equipment.Effect;
-import prefab.equipment.Item;
 import prefab.equipment.Weapon;
 import prefab.equipment.Effect.TypeEffects;
 import prefab.gui.PlayerInfosFofHud;

@@ -1,11 +1,5 @@
 package prefab.equipment;
 
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import manager.Utilities;
-
-
-import prefab.information.State;
 
 /**
  * Effets des consommables

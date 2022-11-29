@@ -35,7 +35,7 @@ public class WorldManager implements WorldPainter {
     private LevelCreator levelCreator;
 
     // combats
-    private FightManager fightManager;
+    private static FightManager fightManager;
     
     // niveaux
     public HashMap<String, GameLevel> gameLevels;
@@ -73,7 +73,7 @@ public class WorldManager implements WorldPainter {
     /**
      * methode temporaire
      */
-    public void testCombats() {
+    public static void testCombats() {
 
         Position p1 = new Position(20, 5);
         HashMap<State,BufferedImage> graphicsBOX = Utilities.getGraphicsFromJSON("player");

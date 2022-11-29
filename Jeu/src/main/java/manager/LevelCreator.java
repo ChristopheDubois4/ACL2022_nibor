@@ -13,7 +13,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import prefab.entity.Enemy;
 import prefab.entity.GameObject;
+import prefab.entity.Mob1;
 import prefab.equipment.Consumable;
 import prefab.equipment.Effect;
 import prefab.equipment.Item;
@@ -26,6 +28,7 @@ import prefab.level.GameLevel;
 import prefab.props.Chest;
 import prefab.props.Ladder;
 import prefab.props.Trap;
+import prefab.props.TrappedBox;
 
 import java.awt.image.BufferedImage;
 
@@ -184,9 +187,6 @@ public class LevelCreator {
         HashMap<State,BufferedImage> graphicsLADDER = Utilities.getGraphicsFromJSON("ladder");
         HashMap<State,BufferedImage> graphicsTRAP = Utilities.getGraphicsFromJSON("trap");
         HashMap<State,BufferedImage> graphicsCHEST = Utilities.getGraphicsFromJSON("chest");
-        HashMap<State,BufferedImage> graphicsITEM = Utilities.getGraphicsFromJSON("sword_1");
-        HashMap<State,BufferedImage> graphicsbitcoin = Utilities.getGraphicsFromJSON("bitcoin");
-
 
         GameLevel level1 = new GameLevel();
         Position p1 = new Position(20, 5);
@@ -197,22 +197,21 @@ public class LevelCreator {
 
         Item[] chestContents = new Item[]{new Consumable("epee sdaacre","sword_1", new Effect(TypeEffects.HIT, 20)),new Consumable("epee sdaacre","bitcoin", new Effect(TypeEffects.HIT, 20))};
 
-        System.out.println("BOX");
-
-        GameObject o1 = new GameObject(p1, graphicsBOX, "BOX", 1, 1);
-        System.out.println("VISUAL");
+        Mob1 mob = new Mob1(p1, graphicsBOX, "Jean le Destructeur", 1, 1);
+        GameObject o1 = new TrappedBox(p1, graphicsBOX, 1, 1,mob);
+        System.out.println("TRAPPEDBOX");
 
         GameObject o2 = new GameObject(p2, graphicsDOOR, "DOOR", 1, 1);
         System.out.println("DOOR");
 
         GameObject o3 = new Ladder(p3, graphicsLADDER, 3);
-        System.out.println("TRAP");
+        System.out.println("LADDER");
 
         GameObject o4 = new Trap(p4, graphicsTRAP, 1,1,30);
-        System.out.println("CHEST");
+        System.out.println("TRAP");
 
         GameObject o5 = new Chest(p5, graphicsCHEST, 1, 1, chestContents, inventoryHud);
-        System.out.println("APRES CHEST");
+        System.out.println("CHEST");
 
         System.out.println("\n2 Obstacles de 1 case : ACIDE en (5,5) et en Trap en (20,8)\nLadder utilisable en (8,5)/(8,6)/(8,7)\nChest en (10,5)\n");
 

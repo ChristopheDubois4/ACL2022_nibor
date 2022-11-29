@@ -16,7 +16,6 @@ import prefab.equipment.Consumable;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
 import prefab.equipment.Armor.ArmorPieces;
-import prefab.information.State;
 import prefab.information.Visual;
 import prefab.props.Chest;
 
