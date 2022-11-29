@@ -69,12 +69,12 @@ public class Player extends Character implements PlayerInfosFofHud{
                 this.stats = new HashMap<Stats , Integer>();
                 this.currentStats = new HashMap<Stats , Integer>();
 
-                spells.add(new Spell("boule de feux"));
-                spells.add(new Spell("lance de glace"));
+                spells.add(new Spell("Boule de feux"));
+                spells.add(new Spell("Lance de glace"));
 
-                attacks.add(new Attack("charge"));
-                attacks.add(new Attack("regard malaisant"));
-                attacks.add(new Attack("lancé de Clément"));
+                attacks.add(new Attack("Charge"));
+                attacks.add(new Attack("Regard malaisant"));
+                attacks.add(new Attack("Lancé de Cl?ment"));
 
                 this.stats.put(Stats.HP, 100);
                 this.stats.put(Stats.MANA, 100);
@@ -87,9 +87,9 @@ public class Player extends Character implements PlayerInfosFofHud{
                 Effect effectPopo = new Effect(TypeEffects.HEAL, 10);
 
                 inventory[0][0] = new Weapon("epeeDelaMort", "sword_1");
-                inventory[13][5] = new Consumable("truc", "bitcoin",effectPopo);
-                inventory[13][2] = new Consumable("truc", "bitcoin",effectPopo);
-                inventory[13][4] = new Consumable("truc", "bitcoin",effectPopo);
+                inventory[13][5] = new Consumable("Potion de soin", "potion_heal",effectPopo);
+                inventory[13][2] = new Consumable("Potion de soin", "potion_heal",effectPopo);
+                inventory[13][4] = new Consumable("Potion de soin", "potion_heal",effectPopo);
 
 
                 weapon=new Weapon("epeeDelaMort", "sword_1");

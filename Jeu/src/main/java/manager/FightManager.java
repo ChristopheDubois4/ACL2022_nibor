@@ -147,7 +147,7 @@ public class FightManager {
 		return isInFight;
 	}
 	
-	private void finishFight() {
+	public void finishFight() {
 		isInFight = false;
 		fightHud.changeDisplayState();
 		

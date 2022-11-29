@@ -153,6 +153,10 @@ public class WorldManager implements WorldPainter {
         }
 
         if (fightManager.getIsInFight()) {
+            if (cmd == Cmd.CLOSE) {
+                fightManager.finishFight();
+                return;
+            }
             fightManager.evolve(command);
             keyLocker(3*KEY_TIME);
             return;            
@@ -172,6 +176,16 @@ public class WorldManager implements WorldPainter {
         }
 
         if (inventoryHud.hudIsDisplayed()) {
+            if (cmd == Cmd.CLOSE && inventoryHud.isChestDisplay()) {
+                keyLocker(KEY_TIME);
+                inventoryHud.changeDisplayState(); 
+                usePlayer(cmd);
+                return;
+            }
+            if (cmd == Cmd.CLOSE && !inventoryHud.isChestDisplay()) { 
+                inventoryHud.changeDisplayState(); 
+                return;
+            }
             inventoryHud.processClick(command);
             return;
         }

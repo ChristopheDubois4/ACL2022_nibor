@@ -1,0 +1,10 @@
+[
+	{
+		"state" : "DEFAULT",
+		"visual" : {
+			"image" : "src/main/ressources/images/items/potion_heal.png",
+			"lenghtX" : 0,
+			"lenghtY" : 0
+		}       
+	}
+]

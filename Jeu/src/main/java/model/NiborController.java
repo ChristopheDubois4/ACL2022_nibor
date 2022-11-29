@@ -121,6 +121,9 @@ public class NiborController implements GameController {
 		// "E" : UTILISER
 		case KeyEvent.VK_E:
 			return Cmd.USE;
+		// "ECHAPE" : FERMER
+		case KeyEvent.VK_ESCAPE:
+			return Cmd.CLOSE;
 		}	
 		return Cmd.IDLE;
 	}

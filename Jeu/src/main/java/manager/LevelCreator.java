@@ -195,7 +195,7 @@ public class LevelCreator {
         Position p4 = new Position(26, 14);
         Position p5 = new Position(0, 0);
 
-        Item[] chestContents = new Item[]{new Consumable("epee sdaacre","sword_1", new Effect(TypeEffects.HIT, 20)),new Consumable("epee sdaacre","bitcoin", new Effect(TypeEffects.HIT, 20))};
+        Item[] chestContents = new Item[]{new Consumable("epee sdaacre","sword_1", new Effect(TypeEffects.HIT, 20)),new Consumable("epee sdaacre","bitcoin", new Effect(TypeEffects.HIT, 20)),new Consumable("epee sdaacre","potion_heal", new Effect(TypeEffects.HIT, 20))};
 
         Mob1 mob = new Mob1(p1, graphicsBOX, "Jean le Destructeur", 1, 1);
         GameObject o1 = new TrappedBox(p1, graphicsBOX, 1, 1,mob);
