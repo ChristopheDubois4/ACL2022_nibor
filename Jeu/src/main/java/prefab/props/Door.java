@@ -16,8 +16,8 @@ public class Door extends GameObject{
     /**
      * constructeur de la classe Character heritant de GameObject
      */
-    public Door(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
-        super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
+    public Door(Position position, HashMap<State, BufferedImage> graphics, int verticalHitBox, int horizontalHitBox) {
+        super(position, graphics, verticalHitBox, horizontalHitBox);
     }
 
 

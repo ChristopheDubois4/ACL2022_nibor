@@ -11,7 +11,11 @@ import prefab.information.State;
 import prefab.information.Visual;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
+import prefab.equipment.Consumable;
+import prefab.equipment.Effect;
 import prefab.equipment.Item;
+import prefab.equipment.Weapon;
+import prefab.equipment.Effect.TypeEffects;
 import prefab.gui.InventoryHud;
 
 import java.awt.image.BufferedImage;
@@ -33,13 +37,13 @@ public class Chest extends GameObject{
     /**
      * constructeur de la classe Chest heritant de GameObject
      */
-    public Chest(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox,InventoryHud inventoryHud) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.CLOSE);
+    public Chest(Position position, HashMap<State, BufferedImage> graphics, int horizontalHitBox, int verticalHitBox,InventoryHud inventoryHud) {
+        super(position, graphics, horizontalHitBox, verticalHitBox, State.CLOSE);
     }
     
     
-    public Chest(Position position, HashMap<State, BufferedImage> graphics, int horizontalHitBox, int verticalHitBox, Item[] chestContents, InventoryHud inventoryHud) {
-        super(position, graphics, "Chest", horizontalHitBox, verticalHitBox, State.CLOSE);
+    public Chest(Position position, HashMap<State, BufferedImage> graphics, Item[] chestContents, InventoryHud inventoryHud) {
+        super(position, graphics,  1, 1, State.CLOSE);
         initChestContents(chestContents);
         this.inventoryHud=inventoryHud;
         
@@ -83,5 +87,11 @@ public class Chest extends GameObject{
 
     public Item[] getChestContents() {
         return chestContents;
+    }
+
+    public static void fillChestItem(Item[] chestContents2) {
+        Item[] chestContents = new Item[]{new Weapon("epee pirate", "sword_1", new Effect(TypeEffects.HIT, 20)),
+                                        new Consumable("Potion de soin","potion_heal", new Effect(TypeEffects.HEAL, 20))};
+        chestContents2 =chestContents;
     }
 }

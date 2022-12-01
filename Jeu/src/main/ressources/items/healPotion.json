@@ -1,0 +1,13 @@
+[
+    {
+    "type": "Consummable",
+    "name": "Potion de soin",
+    "graphics":"potion_heal",
+    "Effects":[
+                {
+                    "TypeEffects" :"HEAL",
+                    "powerValue": 20
+                }
+            ]
+    }
+]

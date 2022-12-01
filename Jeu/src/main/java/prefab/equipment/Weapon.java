@@ -10,7 +10,8 @@ public class Weapon extends Item {
         super(name, graphicsSelector);
     }
 
-    public Weapon(String name, String graphicsSelector) {
+
+    public Weapon(String name, String graphicsSelector, Effect effect) {
         super(name, graphicsSelector);
     }
 

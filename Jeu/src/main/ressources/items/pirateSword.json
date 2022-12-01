@@ -1,0 +1,17 @@
+[
+    {
+    "type": "Weapon",
+    "name": "epee pirate",
+    "graphics":"sword_1",
+    "Effects":[
+                {
+                    "TypeEffects" :"HIT",
+                    "powerValue": 20
+                },
+                {
+                    "TypeEffects" :"POISON",
+                    "powerValue": 20
+                }
+            ]
+    }
+]

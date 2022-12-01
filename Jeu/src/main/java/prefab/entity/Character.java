@@ -48,7 +48,7 @@ public abstract class Character extends GameObject {
      * constructeur de la classe Character heritant de GameObject
      */
     public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+        super(position, graphics, horizontalHitBox, verticalHitBox);
         this.attacks = new ArrayList<Attack>();   
         this.spells = new ArrayList<Spell>();  
         this.effects=new ArrayList<>();

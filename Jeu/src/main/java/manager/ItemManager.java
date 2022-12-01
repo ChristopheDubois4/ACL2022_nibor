@@ -21,6 +21,10 @@ public class ItemManager {
         	
     }
     
+    public static void createItem(String file){
+
+    }
+
     //on delete l'item
     public static  void deleteItem(int[] posItem, Character character){
         Item[][] playerInventory = character.getInventory();
