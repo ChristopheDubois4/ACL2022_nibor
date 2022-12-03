@@ -25,7 +25,6 @@ public class GameObject implements Comparable<GameObject> {
     
     protected Position position;
     protected HashMap<State,BufferedImage> graphics;
-    protected String objectName;
     protected Pair<Integer, Integer> HitBox;
     protected State state;
     protected Visual visual;
@@ -35,8 +34,8 @@ public class GameObject implements Comparable<GameObject> {
      * constructeur de la classe GameObject
      * @param position position de l'objet
      * @param graphics composantes graphiques de l'objet
-     * @param objectName nom position de l'objet
-     * @param HitBox (largeur, hauteur) de la hitbox de l'objet
+     * @param horizontalHitBox largeur de la hitbox de l'objet
+     * @param verticalHitBox hauteur de la hitbox de l'objet
      */
     public GameObject(Position position, HashMap<State,BufferedImage> graphics, int horizontalHitBox, int verticalHitBox) {
         this.position = position;
@@ -144,10 +143,4 @@ public class GameObject implements Comparable<GameObject> {
     public int compareTo(GameObject o) {
         return this.position.compareTo(o.getPosition());        
     }
-    
-    @Override
-    public String toString() {
-        return objectName;
-    }
-
 }
