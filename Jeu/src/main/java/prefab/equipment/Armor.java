@@ -1,5 +1,7 @@
 package prefab.equipment;
 
+import java.util.List;
+
 /**
  * Statistique et description d'une armure
  */
@@ -20,7 +22,12 @@ public class Armor extends Item {
         this.armorPiece  = armorPiece;
     }
     public Armor(String name, String graphicsSelector, ArmorPieces armorPiece) {
-        this(name, graphicsSelector, 0, armorPiece);
+        super(name, graphicsSelector, 0);
+        this.armorPiece  = armorPiece;
+
+    }
+    public Armor(String name, String graphicsSelector, ArmorPieces armorPieces, List<Effect> itemEffects) {
+        super(name, graphicsSelector, 0);
     }
 	
     

@@ -90,8 +90,14 @@ public class Chest extends GameObject{
     }
 
     public static void fillChestItem(Item[] chestContents2) {
-        Item[] chestContents = new Item[]{new Weapon("epee pirate", "sword_1", new Effect(TypeEffects.HIT, 20)),
-                                        new Consumable("Potion de soin","potion_heal", new Effect(TypeEffects.HEAL, 20))};
+        List<Effect> effectPopo = new ArrayList<Effect>();
+        effectPopo.add(new Effect(TypeEffects.HEAL, 10));
+
+        List<Effect> effectSword = new ArrayList<Effect>();
+        effectSword.add(new Effect(TypeEffects.HIT, 20));
+
+        Item[] chestContents = new Item[]{new Weapon("epee pirate", "sword_1", effectSword),
+                                        new Consumable("Potion de soin","potion_heal", effectPopo)};
         chestContents2 =chestContents;
     }
 }

@@ -186,12 +186,7 @@ public class LevelCreator {
      * @param verticalHitBox hitbox verticale
      * @param typeInfos JSONObject contenent les informations spécifique d'un objet de type Ghost
      */
-    private void createGhost(List<GameObject> gameObjects, Position p, HashMap<State, BufferedImage> graphics,
-            String objectName, int horizontalHitBox, int verticalHitBox, JSONObject typeInfos) {
-        // traitement de typeInfos
-        // constructeur Ghost
-        // gameobjects.add(ghost)                
-    }
+
 
      /**
      * methode temporaire
@@ -213,7 +208,16 @@ public class LevelCreator {
         Position p4 = new Position(26, 14);
         Position p5 = new Position(0, 0);
 
-        Item[] chestContents = new Item[]{new Consumable("epee sdaacre","sword_1", new Effect(TypeEffects.HIT, 20)),new Consumable("epee sdaacre","bitcoin", new Effect(TypeEffects.HIT, 20)),new Consumable("epee sdaacre","potion_heal", new Effect(TypeEffects.HIT, 20))};
+
+        List<Effect> effectPopo = new ArrayList<Effect>();
+        effectPopo.add(new Effect(TypeEffects.HEAL, 10));
+
+        List<Effect> effectSword = new ArrayList<Effect>();
+        effectSword.add(new Effect(TypeEffects.HIT, 20));
+
+        Item[] chestContents = new Item[]{new Consumable("epee sdaacre","sword_1", effectSword),
+                                        new Consumable("epee sdaacre","bitcoin",effectPopo),
+                                        new Consumable("epee sdaacre","potion_heal", effectPopo)};
 
         Mob1 mob = new Mob1(p1, graphicsBOX, "Jean le Destructeur", 1, 1);
         GameObject o1 = new TrappedBox(p1, graphicsBOX, 1, 1,mob);

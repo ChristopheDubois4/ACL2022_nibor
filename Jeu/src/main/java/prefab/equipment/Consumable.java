@@ -1,5 +1,6 @@
 package prefab.equipment;
 
+import java.util.List;
 
 /**
  * Effets des consommables
@@ -7,20 +8,21 @@ package prefab.equipment;
 
 public class Consumable extends Item{
 
-	private Effect effect;
+	private List<Effect> effects;
 
-	public Consumable(String name, String graphicsSelector, int price, Effect effect) {
+	public Consumable(String name, String graphicsSelector, int price, List<Effect> effects) {
 		super(name, graphicsSelector, price);
-		this.effect =effect;
+		this.effects =effects;
 
 	}
 
-	public Consumable(String name, String graphicsSelector,Effect effect) {
-		this(name, graphicsSelector, 0, effect);
+	public Consumable(String name, String graphicsSelector,List<Effect> effects) {
+		this(name, graphicsSelector, 0, effects);
     }
 
-	public Effect getEffect() {
-		return this.effect;
+
+	public List<Effect> getEffects() {
+		return this.effects;
 	}
     
 }

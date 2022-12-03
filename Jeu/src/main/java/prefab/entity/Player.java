@@ -1,6 +1,8 @@
 package prefab.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import prefab.competence.Attack;
 import prefab.competence.Spell;
@@ -84,15 +86,18 @@ public class Player extends Character implements PlayerInfosFofHud{
                 this.stats.put(Stats.SPEED, 100);
                 this.stats.put(Stats.DAMAGE, 5);
 
-                Effect effectPopo = new Effect(TypeEffects.HEAL, 10);
+                List<Effect> effectPopo = new ArrayList<Effect>();
+                effectPopo.add(new Effect(TypeEffects.HEAL, 10));
 
-                inventory[0][0] = new Weapon("epeeDelaMort", "sword_1",new Effect(TypeEffects.HIT, 20));
+                List<Effect> effectSword = new ArrayList<Effect>();
+                effectSword.add(new Effect(TypeEffects.HIT, 20));
+
+                inventory[0][0] = new Weapon("epeeDelaMort", "sword_1",effectSword);
                 inventory[13][5] = new Consumable("Potion de soin", "potion_heal",effectPopo);
                 inventory[13][2] = new Consumable("Potion de soin", "potion_heal",effectPopo);
                 inventory[13][4] = new Consumable("Potion de soin", "potion_heal",effectPopo);
 
 
-                weapon=new Weapon("epeeDelaMort", "sword_1",new Effect(TypeEffects.HIT, 20));
                 HashMap<ArmorPieces,Armor> equippedArmorTemp = new HashMap<ArmorPieces,Armor>();
 
                 equippedArmorTemp.put(ArmorPieces.HELMET,new Armor("Helmet", "helmet_1", ArmorPieces.HELMET));
