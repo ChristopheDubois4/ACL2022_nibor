@@ -162,6 +162,5 @@ public class FightManager {
 	}
 	
 	private void palyerTurn() {
-		
 	}
 }
