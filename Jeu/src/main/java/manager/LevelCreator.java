@@ -19,6 +19,7 @@ import prefab.entity.Mob1;
 import prefab.equipment.Consumable;
 import prefab.equipment.Effect;
 import prefab.equipment.Item;
+import prefab.equipment.Weapon;
 import prefab.equipment.Effect.TypeEffects;
 import prefab.gui.InventoryHud;
 import prefab.information.Layer;
