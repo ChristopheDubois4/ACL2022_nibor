@@ -15,6 +15,9 @@ public class Armor extends Item {
 
     ArmorPieces armorPiece;
 
+    public ArmorPieces getArmorPiece() {
+        return armorPiece;
+    }
     public Armor(String name, String graphicsSelector, int price , ArmorPieces armorPiece) {
         super(name, graphicsSelector, price);
         this.armorPiece  = armorPiece;

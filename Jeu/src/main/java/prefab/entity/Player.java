@@ -1,6 +1,7 @@
 package prefab.entity;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import prefab.competence.Attack;
 import prefab.competence.Spell;
@@ -36,11 +37,6 @@ public class Player extends Character implements PlayerInfosFofHud{
         this.classPlayed = classPlayed;
         this.xp = 0;
         initCharacteristic();
-
-        //tempo
-        //this.inventory.set(0, new Item(0,null,"Item_1"));
-        //this.inventory.set(1, new Item(0,null,"Item_2"));
-        //this.inventory.set(2, new Item(0,null,"Item_3"));
         
     }
 
@@ -86,7 +82,11 @@ public class Player extends Character implements PlayerInfosFofHud{
 
                 Effect effectPopo = new Effect(TypeEffects.HEAL, 10);
 
-                inventory[0][0] = new Weapon("epeeDelaMort", "sword_1",new Effect(TypeEffects.HIT, 20));
+                inventory[0][0] = new Weapon("epeeDelaMort", "sword_2",new Effect(TypeEffects.HIT, 20));
+                inventory[2][1] = new Armor("test_1", "bitcoin", ArmorPieces.HELMET);
+                inventory[2][2] = new Armor("test_1", "bitcoin", ArmorPieces.CHESTPLATE);
+                inventory[2][3] = new Armor("test_1", "bitcoin", ArmorPieces.LEGGING);
+                inventory[2][4] = new Armor("test_1", "bitcoin", ArmorPieces.BOOTS);
                 inventory[13][5] = new Consumable("Potion de soin", "potion_heal",effectPopo);
                 inventory[13][2] = new Consumable("Potion de soin", "potion_heal",effectPopo);
                 inventory[13][4] = new Consumable("Potion de soin", "potion_heal",effectPopo);
@@ -121,9 +121,14 @@ public class Player extends Character implements PlayerInfosFofHud{
     }
   
     @Override
-    public HashMap<ArmorPieces, Armor> getEquipedArmor() {
+    public HashMap<ArmorPieces, Armor> getEquippedArmor() {
         // TODO Auto-generated method stub
         return equippedArmor;
+    }
+
+    @Override
+    public void setEquippedArmor( HashMap<ArmorPieces, Armor> newEquippedArmor) {
+        this.equippedArmor=newEquippedArmor;
     }
 
 	public int getHealth() {
@@ -132,8 +137,16 @@ public class Player extends Character implements PlayerInfosFofHud{
 
     @Override
     public Weapon getWeapon() {
-        // TODO Auto-generated method stub
         return weapon;
+    }
+
+    
+    @Override
+    public void setWeapon(Weapon weapon) {
+        if (weapon==null){
+            weapon=new Weapon(null, null, null);
+        }
+        this.weapon=weapon;
     }
 
 
