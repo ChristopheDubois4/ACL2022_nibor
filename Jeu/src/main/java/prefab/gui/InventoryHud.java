@@ -50,6 +50,7 @@ public class InventoryHud extends Hud{
     (Arrays.asList(new Pair<Integer,Integer>(6, 10),new Pair<Integer,Integer>(6, 8),new Pair<Integer,Integer>(6, 6), new Pair<Integer,Integer>(6, 4),new Pair<Integer,Integer>(4, 7))) ;
     //                                          posHelmet                                          posChestplate                                    posLegging                                     posBoots                                     posWeapon                    
     private static final ArrayList<ArmorPieces> listTempoArmorPieces = new ArrayList<ArmorPieces>(Arrays.asList(ArmorPieces.HELMET,ArmorPieces.CHESTPLATE,ArmorPieces.LEGGING,ArmorPieces.BOOTS));
+    private static final Object[] strucEquippedStuff = listTempoArmorPieces.toArray();
 
     private PlayerInfosFofHud player;
     private Pair<Integer, Integer> pressedClick, releasedClick;
@@ -195,34 +196,13 @@ public class InventoryHud extends Hud{
                     }
                     else if (posEquippedStuffItemPressed < 4 && (itemTemp instanceof Armor || itemTemp == null)){
                         if (itemTemp==null){
-                            Object[] a = listTempoArmorPieces.toArray();
-                            itemTemp=new Armor(null, null,(ArmorPieces) a[posEquippedStuffItemPressed]);
+                            itemTemp=new Armor(null, null,(ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed]);
                         }
+                        else if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemPressed]).getImage()==null) return;
+                        chest.getChestContents()[posChestItemReleased] = playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemPressed]);
+                        playerEquippedArmor.replace((ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed], (Armor) itemTemp);
+                        player.setEquippedArmor(playerEquippedArmor);
                         System.out.print(" STATE :"+((Armor) itemTemp).getArmorPiece());
-                        switch (((Armor) itemTemp).getArmorPiece()+" "+posEquippedStuffItemPressed) {
-                            case "HELMET 0":
-                                chest.getChestContents()[posChestItemReleased] = playerEquippedArmor.get(ArmorPieces.HELMET);
-                                playerEquippedArmor.replace(ArmorPieces.HELMET, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "CHESTPLATE 1":
-                                chest.getChestContents()[posChestItemReleased] = playerEquippedArmor.get(ArmorPieces.CHESTPLATE);
-                                playerEquippedArmor.replace(ArmorPieces.CHESTPLATE, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "LEGGING 2":
-                                chest.getChestContents()[posChestItemReleased] = playerEquippedArmor.get(ArmorPieces.LEGGING);
-                                playerEquippedArmor.replace(ArmorPieces.LEGGING, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "BOOTS 3":
-                                chest.getChestContents()[posChestItemReleased] = playerEquippedArmor.get(ArmorPieces.BOOTS);
-                                playerEquippedArmor.replace(ArmorPieces.BOOTS, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            default:
-                                break;
-                        }
                     }
                 } catch (Exception e) {
                 }    
@@ -238,31 +218,13 @@ public class InventoryHud extends Hud{
                         player.setWeapon(playerWeapon);
                     }
                     else if (posEquippedStuffItemReleased < 4 && itemTemp instanceof Armor){
-                        System.out.print(" STATE :"+((Armor) itemTemp).getArmorPiece());
-                        switch (((Armor) itemTemp).getArmorPiece()+" "+posEquippedStuffItemReleased) {
-                            case "HELMET 0":
-                                chest.getChestContents()[posChestItemPressed] = playerEquippedArmor.get(ArmorPieces.HELMET);
-                                playerEquippedArmor.replace(ArmorPieces.HELMET, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "CHESTPLATE 1":
-                                chest.getChestContents()[posChestItemPressed] = playerEquippedArmor.get(ArmorPieces.CHESTPLATE);
-                                playerEquippedArmor.replace(ArmorPieces.CHESTPLATE, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "LEGGING 2":
-                                chest.getChestContents()[posChestItemPressed] = playerEquippedArmor.get(ArmorPieces.LEGGING);
-                                playerEquippedArmor.replace(ArmorPieces.LEGGING, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "BOOTS 3":
-                                chest.getChestContents()[posChestItemPressed] = playerEquippedArmor.get(ArmorPieces.BOOTS);
-                                playerEquippedArmor.replace(ArmorPieces.BOOTS, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            default:
-                                break;
+                        if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]).getImage()==null) {
+                            chest.getChestContents()[posChestItemPressed] = null;
                         }
+                        else if (((Armor) itemTemp).getArmorPiece() != (ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased]) return;
+                        else chest.getChestContents()[posChestItemPressed] = playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]);
+                        playerEquippedArmor.replace((ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased], (Armor) itemTemp);
+                        player.setEquippedArmor(playerEquippedArmor);
                     }
                 } catch (Exception e) {
                 }    
@@ -288,36 +250,15 @@ public class InventoryHud extends Hud{
                         playerWeapon=(Weapon) itemTemp;
                         player.setWeapon(playerWeapon);
                     }
-                    else if (posEquippedStuffItemPressed < 4 && (itemTemp instanceof Armor || itemTemp == null)){
+                    else if (posEquippedStuffItemPressed < 4 && (itemTemp instanceof Armor || itemTemp == null) ){
                         if (itemTemp==null){
-                            Object[] a = listTempoArmorPieces.toArray();
-                            itemTemp=new Armor(null, null,(ArmorPieces) a[posEquippedStuffItemPressed]);
+                            itemTemp=new Armor(null, null,(ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed]);
                         }
-                        System.out.print(" STATE :"+((Armor) itemTemp).getArmorPiece());
-                        switch (((Armor) itemTemp).getArmorPiece()+" "+posEquippedStuffItemPressed) {
-                            case "HELMET 0":
-                                playerInventory[posItemReleased[0]][posItemReleased[1]] = playerEquippedArmor.get(ArmorPieces.HELMET);
-                                playerEquippedArmor.replace(ArmorPieces.HELMET, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "CHESTPLATE 1":
-                                playerInventory[posItemReleased[0]][posItemReleased[1]] = playerEquippedArmor.get(ArmorPieces.CHESTPLATE);
-                                playerEquippedArmor.replace(ArmorPieces.CHESTPLATE, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "LEGGING 2":
-                                playerInventory[posItemReleased[0]][posItemReleased[1]] = playerEquippedArmor.get(ArmorPieces.LEGGING);
-                                playerEquippedArmor.replace(ArmorPieces.LEGGING, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "BOOTS 3":
-                                playerInventory[posItemReleased[0]][posItemReleased[1]] = playerEquippedArmor.get(ArmorPieces.BOOTS);
-                                playerEquippedArmor.replace(ArmorPieces.BOOTS, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            default:
-                                break;
-                        }
+                        else if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemPressed]).getImage()==null) return;
+                        else if (((Armor) itemTemp).getArmorPiece() != (ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed]) return;
+                        playerInventory[posItemReleased[0]][posItemReleased[1]] = playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemPressed]);
+                        playerEquippedArmor.replace((ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed], (Armor) itemTemp);
+                        player.setEquippedArmor(playerEquippedArmor);
                     }
                 } catch (Exception e) {
                 }    
@@ -333,30 +274,13 @@ public class InventoryHud extends Hud{
                         player.setWeapon(playerWeapon);
                     }
                     else if (posEquippedStuffItemReleased < 4 && itemTemp instanceof Armor ){
-                        switch (((Armor) itemTemp).getArmorPiece()+" "+posEquippedStuffItemReleased) {
-                            case "HELMET 0":
-                                playerInventory[posItemPressed[0]][posItemPressed[1]] = playerEquippedArmor.get(ArmorPieces.HELMET);
-                                playerEquippedArmor.replace(ArmorPieces.HELMET, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "CHESTPLATE 1":
-                                playerInventory[posItemPressed[0]][posItemPressed[1]] = playerEquippedArmor.get(ArmorPieces.CHESTPLATE);
-                                playerEquippedArmor.replace(ArmorPieces.CHESTPLATE, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "LEGGING 2":
-                                playerInventory[posItemPressed[0]][posItemPressed[1]] = playerEquippedArmor.get(ArmorPieces.LEGGING);
-                                playerEquippedArmor.replace(ArmorPieces.LEGGING, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            case "BOOTS 3":
-                                playerInventory[posItemPressed[0]][posItemPressed[1]] = playerEquippedArmor.get(ArmorPieces.BOOTS);
-                                playerEquippedArmor.replace(ArmorPieces.BOOTS, (Armor) itemTemp);
-                                player.setEquippedArmor(playerEquippedArmor);
-                                break;
-                            default:
-                                break;
+                        if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]).getImage()==null) {
+                            playerInventory[posItemPressed[0]][posItemPressed[1]] = null;
                         }
+                        else if (((Armor) itemTemp).getArmorPiece() != (ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased]) return;
+                        else playerInventory[posItemPressed[0]][posItemPressed[1]] = playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]);
+                        playerEquippedArmor.replace((ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased], (Armor) itemTemp);
+                        player.setEquippedArmor(playerEquippedArmor);
                     }
                 } catch (Exception e) {
                 }    
