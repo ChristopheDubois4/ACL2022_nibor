@@ -35,7 +35,7 @@ public class WorldManager implements WorldPainter {
     private LevelCreator levelCreator;
 
     // combats
-    private static FightManager fightManager;
+    private static FightManager  fightManager;
     
     // niveaux
     public HashMap<String, GameLevel> gameLevels;
@@ -46,7 +46,7 @@ public class WorldManager implements WorldPainter {
     private InventoryHud inventoryHud;
     private VitalResourcesHud healthBar;
     private StatsHud statsInfo;
-    private FightHud fightHud;
+    private static FightHud fightHud;
     
     // joueur
     Player player;
@@ -79,7 +79,10 @@ public class WorldManager implements WorldPainter {
         HashMap<State,BufferedImage> graphicsBOX = Utilities.getGraphicsFromJSON("player");
         Mob1 mob = new Mob1(p1, graphicsBOX, "Jean le Destructeur", 1, 1);
         fightManager.getIsInFight();
-        fightManager.startNewFight(mob);        
+        fightHud .loadEnemy(mob);   
+
+        fightManager.startNewFight(mob);     
+
     }
     
     /**
@@ -90,7 +93,7 @@ public class WorldManager implements WorldPainter {
         HashMap<State,BufferedImage> graphicsPLAYER = Utilities.getGraphicsFromJSON("player");
         Position p1 = new Position(10, 10);
         player = new Player(p1, graphicsPLAYER, "II_ChRom3_II", 1, 1, PlayerClasses.CLERIC); 
-        player.setState(State.IDLE_DOWN);
+        player.takeDammage(50);
         System.out.println("Player : "+ player.getPosition() + "\n");
     }
 
@@ -148,19 +151,27 @@ public class WorldManager implements WorldPainter {
 
         Cmd cmd = command.getKeyCommand();      
         
-        if (isKeyLocked || cmd == Cmd.IDLE) {
+        if (isKeyLocked) {
             return;
         }
 
         if (fightManager.getIsInFight()) {
+            /*
             if (cmd == Cmd.CLOSE) {
                 fightManager.finishFight();
                 return;
-            }
+            } */
             fightManager.evolve(command);
-            keyLocker(3*KEY_TIME);
+            if (fightManager.allowKeyLocker()) {
+                keyLocker(3*KEY_TIME);
+            }
             return;            
         }
+
+        if (cmd == Cmd.IDLE) {
+            return;
+        }
+
 
         if (cmd == Cmd.INVENTORY && command.getActionType() == "released"  && !inventoryHud.isChestDisplay()) {
             inventoryHud.changeDisplayState(); 

@@ -1,6 +1,8 @@
 package prefab.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import prefab.competence.Attack;
 import prefab.competence.Spell;
@@ -26,6 +28,8 @@ import java.awt.image.BufferedImage;
 public class Player extends Character implements PlayerInfosFofHud{
     
     PlayerClasses classPlayed;
+    
+    private int xpToNextLevel = 100;
     
     /**
      * constructeur de la classe Player heritant de Character
@@ -69,12 +73,15 @@ public class Player extends Character implements PlayerInfosFofHud{
                 this.stats = new HashMap<Stats , Integer>();
                 this.currentStats = new HashMap<Stats , Integer>();
 
-                spells.add(new Spell("Boule de feux"));
-                spells.add(new Spell("Lance de glace"));
+                List<Effect> effectSpell = new ArrayList<Effect>(){{add(new Effect(TypeEffects.HEAL, 25));}};
 
-                attacks.add(new Attack("Charge"));
-                attacks.add(new Attack("Regard malaisant"));
-                attacks.add(new Attack("Lancé de Cl?ment"));
+                spells.add(new Spell("Boule de feux", 60, 40, new ArrayList<Effect>()));
+                spells.add(new Spell("Lance de glace", 45, 30, new ArrayList<Effect>()));
+                spells.add(new Spell("Soin léger", 0, 20, effectSpell));
+
+                attacks.add(new Attack("Charge", 30 ,15));
+                attacks.add(new Attack("Regard malaisant", 40, 20));
+                attacks.add(new Attack("Lancé de Cl?ment", 60 , 30, 15));
 
                 this.stats.put(Stats.HP, 100);
                 this.stats.put(Stats.MANA, 100);
@@ -82,17 +89,19 @@ public class Player extends Character implements PlayerInfosFofHud{
 
                 this.stats.put(Stats.DEFENSE, 50);
                 this.stats.put(Stats.SPEED, 100);
-                this.stats.put(Stats.DAMAGE, 5);
+                this.stats.put(Stats.DAMAGE, 50);
 
-                Effect effectPopo = new Effect(TypeEffects.HEAL, 10);
+                List<Effect> effectPopo = new ArrayList<Effect>(){{add(new Effect(TypeEffects.HEAL, 10));}};
 
-                inventory[0][0] = new Weapon("epeeDelaMort", "sword_1");
+                weapon = new Weapon("epeeDelaMort", "sword_1", 50);
+
+                inventory[0][0] = new Weapon("epeeDelaMort", "sword_1", 50);
                 inventory[13][5] = new Consumable("Potion de soin", "potion_heal",effectPopo);
                 inventory[13][2] = new Consumable("Potion de soin", "potion_heal",effectPopo);
                 inventory[13][4] = new Consumable("Potion de soin", "potion_heal",effectPopo);
 
 
-                weapon=new Weapon("epeeDelaMort", "sword_1");
+                //weapon=new Weapon("epeeDelaMort", "sword_1");
                 HashMap<ArmorPieces,Armor> equippedArmorTemp = new HashMap<ArmorPieces,Armor>();
 
                 equippedArmorTemp.put(ArmorPieces.HELMET,new Armor("Helmet", "helmet_1", ArmorPieces.HELMET));
@@ -110,9 +119,39 @@ public class Player extends Character implements PlayerInfosFofHud{
         }
     }   
     
-    @Override
-    public void die() {
-        this.state=State.DEAD;
+    public void receiveXp(int newXp) {
+    	xp += newXp;
+    	if (xp >= xpToNextLevel) {
+    		levelUp();
+    		xp -= xpToNextLevel;
+    		xpToNextLevel = (int) (1.2*xpToNextLevel);
+    	}
+    }
+    
+    private void levelUp() {
+    	level++;
+    	
+    }
+
+    /**
+     * utilise un consommable
+     * (méthode pour le joueur)
+     * @param posItem la position de l'item dans l'inventaire
+     * @return 
+     *      - vraie si le consommable peut être utilisé
+     *      - faux sinon
+     */
+    public boolean useConsumable(int[] posItem) {
+
+        try {
+            if (addEffects(((Consumable) inventory[posItem[0]][posItem[1]]).getEffects())) {
+                deleteItem(posItem);
+                return true;
+            } 
+        } catch (Exception e) {
+            System.out.println("(1) La position de l'objet est invalide\n(2) L'objet n'est pas de type 'Consumable'");
+        }
+        return false;
     }
 
     @Override
@@ -135,8 +174,5 @@ public class Player extends Character implements PlayerInfosFofHud{
         // TODO Auto-generated method stub
         return weapon;
     }
-
-
-
     
 }

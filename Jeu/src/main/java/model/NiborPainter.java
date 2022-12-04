@@ -52,7 +52,7 @@ public class NiborPainter implements GamePainter {
 		//affichages images
 		for(int i=0; i<visuals.size();i++){
 			Visual visual = visuals.get(i);
-			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY() , null);
+			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY(), visual.getWidth(), visual.getHeight(),  null);
 		}
 		
 		worldPainter.drawHuds(g);
@@ -62,12 +62,15 @@ public class NiborPainter implements GamePainter {
 		//affichages images (devant les Huds)
 		for(int i=0; i<visuals.size();i++){
 			Visual visual = visuals.get(i);
-			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY() , null);
+			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY(), visual.getWidth(), visual.getHeight(),  null);
 		}
+		/**
+		 * invertion horizontale d'une image
+		 * g.drawImage(bufferedImage, x + width, y, -width, height, null);
+		 */
 
 		g.setStroke(new BasicStroke(1));
 
-	
 		//affichage quadrillage
 		//for (int i = 60; i <900; i= i+60) {
 		//	g.drawLine(0, i, 1620, i);

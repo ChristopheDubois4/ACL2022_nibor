@@ -28,26 +28,13 @@ public class GameObject implements Comparable<GameObject> {
     protected Pair<Integer, Integer> HitBox;
     protected State state;
     protected Visual visual;
-
-
+   
     /**
-     * constructeur de la classe GameObject
+     * constructeur surchargé de la classe GameObject
      * @param position position de l'objet
      * @param graphics composantes graphiques de l'objet
      * @param objectName nom position de l'objet
      * @param HitBox (largeur, hauteur) de la hitbox de l'objet
-     */
-    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        this.position = position;
-        this.graphics = graphics;
-        this.objectName = objectName;
-        this.HitBox = new Pair<Integer, Integer>(horizontalHitBox, verticalHitBox);
-        this.state = State.DEFAULT;
-        initVisual();
-    }
-
-    /**
-     * constructeur surchargé de la classe GameObject
      * @param state l'état de l'objet
      */
     public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox, State state) {
@@ -58,14 +45,23 @@ public class GameObject implements Comparable<GameObject> {
         this.state = state;
         initVisual();
     }
+
+     /**
+     * constructeur de la classe GameObject
+     * @param position position de l'objet
+     * @param graphics composantes graphiques de l'objet
+     * @param objectName nom position de l'objet
+     * @param HitBox (largeur, hauteur) de la hitbox de l'objet
+     */
+    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+        this(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.DEFAULT);
+    }
     
     public void initVisual() {
    	 	BufferedImage image = graphics.get(state);
         int y = position.getY() + image.getHeight()/60 -1;
         int x = position.getX();
-
         visual = new Visual(x, y, image);
-
    }
 
     public void setPosition(Position position) {
@@ -144,8 +140,4 @@ public class GameObject implements Comparable<GameObject> {
         return this.position.compareTo(o.getPosition());        
     }
     
-    @Override
-    public String toString() {
-        return objectName;
-    }
 }

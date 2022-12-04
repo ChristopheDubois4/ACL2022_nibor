@@ -19,7 +19,7 @@ public class Effect {
 	
 	private TypeEffects typeEffects;
 	private int powerValue = 0;
-	private int duration = 0;
+	private int duration = 1;
 	
 	public Effect(TypeEffects typeEffects, int powerValue) {
 		this.typeEffects = typeEffects;
@@ -44,13 +44,17 @@ public class Effect {
     	HashMap<Stats, Integer> currentStats = character.getCurrentStats();
     	
     	List<Effect> effects = character.getEffects();
+
+		if (effects.size() == 0) {
+			return;
+		}
     	
     	
-    	for (Effect effect : effects) {    		
+    	for (Effect effect : effects) {    
     		switch(effect.getTypeEffects()){
      	   
             case HEAL: 
-            	character.healCharacter(effect.getPowerValue());
+				character.healCharacter(effect.getPowerValue());
                 break;        
             case HIT:
             	character.takeDammage(effect.getPowerValue());
@@ -67,10 +71,10 @@ public class Effect {
             default:
             	return;
     		}
-    		
+			effect.decreaseDuration();    		
 		}
 		//stocker les effets appliqué pour les remove tous
-		if (effects.get(0).getDuration() == 0){
+		if (effects.get(0).getDuration() <= 0){
 			effects.remove(effects.get(0));
 		}
 	}

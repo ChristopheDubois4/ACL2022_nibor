@@ -22,8 +22,27 @@ public class Attack {
      * @param staminaConsuption cout en energie
      * @param graphics representation graphique
      */
-    public Attack(String name) {
+    public Attack(String name, int damage, int staminaConsuption,int backlash) {
         this.name = name;
+        this.damage = damage;
+        this.staminaConsuption = staminaConsuption;
+        this.backlash = backlash;
+    }
+
+    public Attack(String name, int damage, int staminaConsuption) {
+       this(name, damage, staminaConsuption, 0);
+    }
+    
+    public int getDamage() {
+    	return this.damage;
+    }
+    
+    public int getStaminaConsuption() {
+    	return this.staminaConsuption;
+    }
+
+    public int getBacklash() {
+        return this.backlash;
     }
 
     @Override

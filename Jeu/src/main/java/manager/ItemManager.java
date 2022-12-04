@@ -14,13 +14,13 @@ public class ItemManager {
     	
     	Consumable c =  (Consumable) character.getInventory()[posItem[0]][posItem[1]];
     	List<Effect> effects = new ArrayList<Effect>();
-    	effects.add(c.getEffect());
+    	effects.addAll(c.getEffects());
         character.addEffects(effects);
         Effect.applyEffects(character);
 		deleteItem(posItem, character);
         	
     }
-    
+
     //on delete l'item
     public static  void deleteItem(int[] posItem, Character character){
         Item[][] playerInventory = character.getInventory();

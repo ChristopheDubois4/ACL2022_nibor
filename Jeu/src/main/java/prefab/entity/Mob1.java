@@ -1,7 +1,6 @@
 package prefab.entity;
 
 import java.util.HashMap;
-import java.util.List;
 
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
@@ -31,13 +30,15 @@ public class Mob1 extends Character implements Enemy{
         this.stats.put(Stats.DEFENSE, 50);
         this.stats.put(Stats.SPEED, 100);
         this.stats.put(Stats.DAMAGE, 5);
-        inventory[0][0] = new Weapon("epeeDelaMort", "sword_1");
-        inventory[13][5] = new Weapon("truc", "bitcoin");
+        inventory[0][0] = new Weapon("epeeDelaMort", "sword_1",30);
+        inventory[13][5] = new Weapon("truc", "bitcoin", 50);
         resetCurrentStats();
+
+
     }
 
     @Override
-    public List<Item> dropItems() {
+    public Item dropItem() {
         return null;
     }
 
@@ -55,5 +56,4 @@ public class Mob1 extends Character implements Enemy{
     public void die() {
         
     }
-
 }
