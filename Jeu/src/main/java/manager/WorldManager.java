@@ -100,7 +100,7 @@ public class WorldManager implements WorldPainter {
     public void initLevels() {
         levelCreator = new LevelCreator(inventoryHud);
         gameLevels = levelCreator.getLevels();
-        currentLevel = gameLevels.get("default");
+        currentLevel = gameLevels.get("level_1");
     }
 
     /**

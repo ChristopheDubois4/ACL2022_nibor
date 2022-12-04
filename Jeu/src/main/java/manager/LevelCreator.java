@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,14 +12,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import prefab.entity.Enemy;
 import prefab.entity.GameObject;
 import prefab.entity.Mob1;
-import prefab.equipment.Consumable;
-import prefab.equipment.Effect;
 import prefab.equipment.Item;
-import prefab.equipment.Weapon;
-import prefab.equipment.Effect.TypeEffects;
 import prefab.gui.InventoryHud;
 import prefab.information.Layer;
 import prefab.information.Position;
@@ -46,9 +40,7 @@ public class LevelCreator {
     public LevelCreator(InventoryHud inventoryHud) {
         this.inventoryHud=inventoryHud;
         gameLevels = new HashMap<String, GameLevel>();
-        // Quand les tests seront fini dé-commenter : 
-        // initGameLevels(); 
-        testSrpint1();
+        initGameLevels(); 
     }
 
     public HashMap<String, GameLevel> getLevels() {
@@ -56,16 +48,7 @@ public class LevelCreator {
     }
 
     
-    /**
-     * methode temporaire
-     * 
-     * Méthode pour tester des fonctionnalitées liées au sprint 1
-     */
-    private void testSrpint1() {       
-
-        //testTriage();
-        testMovement();  
-    }
+  
 
     /**
      * créer les niveaux du jeux
@@ -124,7 +107,9 @@ public class LevelCreator {
                     try {
                         horizontalHitBox = (int) ((long) gameObject.get("horizontalHitBox"));
                         verticalHitBox = (int) ((long) gameObject.get("verticalHitBox"));
-                    } finally{}
+                    } catch (Exception e) {
+                        System.out.println("DANS LE TRY HITBOX");
+                    }{}
 
 
                     // traitement différent selon le type de l'objet
@@ -134,8 +119,8 @@ public class LevelCreator {
                             gameObjects.add(props);
                             break;
                         case "Chest" :
-                            Item[] chestContents=null;
-                            Chest.fillChestItem(chestContents);
+                            Item[] chestContents;
+                            chestContents = Chest.fillChestItem();
                             Chest chest = new  Chest(p,graphics,chestContents,inventoryHud);//recup les parametres pour le constructeur
                             gameObjects.add(chest);
                             break;          
@@ -145,14 +130,18 @@ public class LevelCreator {
                             break;      
                         case "Trap" :
                             int dammage = (int) ((long) gameObject.get("dammage"));
-                            Trap trap = new Trap(p, graphics, horizontalHitBox, verticalHitBox,dammage);
+                            Trap trap = new Trap(p, graphics, horizontalHitBox, verticalHitBox, dammage);
                             gameObjects.add(trap);
                             break;  
                         case "TrappedBox" :
-                            Enemy mob =null;
+                            Mob1 mob = new Mob1(p, graphics, "Jean le Destructeur",1 , 1);
                             TrappedBox trappedBox = new  TrappedBox(p,graphics,horizontalHitBox,verticalHitBox,mob);//recup les parametres pour le constructeur
                             gameObjects.add(trappedBox);
-                            break;                
+                            break;
+                        case "Door" :
+                            Door door = new Door(p,graphics,verticalHitBox,horizontalHitBox);//recup les parametres pour le constructeur
+                            gameObjects.add(door);
+                            break;                      
                         default:
                             break;
                     }
@@ -194,47 +183,6 @@ public class LevelCreator {
      * 
      * niveau pour tester le déplacement d'un objet
      */
-    private void testMovement() {     
 
-        HashMap<State,BufferedImage> graphicsBOX = Utilities.getGraphicsFromJSON("box");
-        HashMap<State,BufferedImage> graphicsDOOR = Utilities.getGraphicsFromJSON("door");        
-        HashMap<State,BufferedImage> graphicsLADDER = Utilities.getGraphicsFromJSON("ladder");
-        HashMap<State,BufferedImage> graphicsTRAP = Utilities.getGraphicsFromJSON("trap");
-        HashMap<State,BufferedImage> graphicsCHEST = Utilities.getGraphicsFromJSON("chest");
-
-        GameLevel level1 = new GameLevel();
-        Position p1 = new Position(20, 5);
-        Position p2 = new Position(5, 5);
-        Position p3 = new Position(8, 5);
-        Position p4 = new Position(26, 14);
-        Position p5 = new Position(0, 0);
-
-
-        List<Effect> effectPopo = new ArrayList<Effect>();
-        effectPopo.add(new Effect(TypeEffects.HEAL, 10));
-
-        List<Effect> effectSword = new ArrayList<Effect>();
-        effectSword.add(new Effect(TypeEffects.HIT, 20));
-
-        Item[] chestContents = new Item[]{new Consumable("epee sdaacre","sword_1", effectSword),
-                                        new Consumable("epee sdaacre","bitcoin",effectPopo),
-                                        new Consumable("epee sdaacre","potion_heal", effectPopo)};
-
-        Mob1 mob = new Mob1(p1, graphicsBOX, "Jean le Destructeur", 1, 1);
-        GameObject o1 = new TrappedBox(p1, graphicsBOX, 1, 1,mob);
-
-        GameObject o2 = new GameObject(p2, graphicsDOOR, 1, 1);
-
-        GameObject o3 = new Ladder(p3, graphicsLADDER, 3);
-
-        GameObject o4 = new Trap(p4, graphicsTRAP, 1,1,30);
-
-        GameObject o5 = new Chest(p5, graphicsCHEST,  chestContents, inventoryHud);
-
-
-        level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2, o3, o4 ,o5)));
-
-        gameLevels.put("default",level1);
-    }
 
 }

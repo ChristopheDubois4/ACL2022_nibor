@@ -89,7 +89,7 @@ public class Chest extends GameObject{
         return chestContents;
     }
 
-    public static void fillChestItem(Item[] chestContents2) {
+    public static Item[] fillChestItem() {
         List<Effect> effectPopo = new ArrayList<Effect>();
         effectPopo.add(new Effect(TypeEffects.HEAL, 10));
 
@@ -98,6 +98,6 @@ public class Chest extends GameObject{
 
         Item[] chestContents = new Item[]{new Weapon("epee pirate", "sword_1", effectSword),
                                         new Consumable("Potion de soin","potion_heal", effectPopo)};
-        chestContents2 =chestContents;
+        return chestContents;
     }
 }

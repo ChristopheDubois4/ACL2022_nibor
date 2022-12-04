@@ -3,50 +3,61 @@
         "name" : "level_1",    
         "gameObjects" : [ 
             {   
-                "type" : "GameObject",
-                "graphics" : "box", 
-                        "position" : {
-                            "x" : 20,
-                            "y" : 5,
-                            "layer" : "BACKGROUND"
-                        },
-        
-                "horizontalHitBox" : 1,
-                "verticalHitBox" : 1
+            "type" : "Door",
+            "graphics" : "door", 
+            "position" : {
+                        "x" : 5,
+                        "y" : 5,
+                        "layer" : "BACKGROUND"
+                    },
+
+            "horizontalHitBox" : 1,
+            "verticalHitBox" : 1
             },
             {   
-                "type" : "Chest",
-                        "position" : {
-                            "x" : 8,
-                            "y" : 11,
-                            "layer" : "BACKGROUND"
-                }
+            "type" : "Chest",
+            "graphics" : "chest", 
+            "position" : {
+                        "x" : 0,
+                        "y" : 0,
+                        "layer" : "BACKGROUND"
+                    },
+            "horizontalHitBox" : 1,
+            "verticalHitBox" : 1
+            },  
+            {   
+            "type" : "Ladder",
+            "graphics" : "ladder", 
+            "position" : {
+                        "x" : 8,
+                        "y" : 5,
+                        "layer" : "BACKGROUND"
+                    },
+            "horizontalHitBox" : 1,
+            "verticalHitBox" : 3
             },
             {   
-                "type" : "Ladder",
-                        "position" : {
-                            "x" : 7,
-                            "y" : 13,
-                            "layer" : "BACKGROUND"
-                        },
-                "verticalHitBox" : 3 
-            },    
-	        {   
-                "type" : "Trap",
-                        "position" : {
-                            "x" : 6,
-                            "y" : 6,
-                            "layer" : "BACKGROUND"
-                        },
-                "dammage" : 10
+            "type" : "Trap",
+            "graphics" : "stupidTrap", 
+            "position" : {
+                        "x" : 26,
+                        "y" : 14,
+                        "layer" : "BACKGROUND"
+                    },
+            "horizontalHitBox" : 1,
+            "verticalHitBox" : 1,
+            "dammage" : 15
             },
-	        {   
-                "type" : "TrappedBox",
-                        "position" : {
-                            "x" : 20,
-                            "y" : 6,
-                            "layer" : "BACKGROUND"
-                        }
+            {   
+            "type" : "TrappedBox",
+            "graphics" : "box",
+            "position" : {
+                        "x" : 20,
+                        "y" : 5,
+                        "layer" : "BACKGROUND"
+                    },
+            "horizontalHitBox" : 1,
+            "verticalHitBox" : 1
             }                  
         ]
 	}
