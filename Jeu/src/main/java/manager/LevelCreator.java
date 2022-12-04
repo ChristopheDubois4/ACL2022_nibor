@@ -139,7 +139,8 @@ public class LevelCreator {
                             gameObjects.add(trappedBox);
                             break;
                         case "Door" :
-                            Door door = new Door(p,graphics,verticalHitBox,horizontalHitBox);//recup les parametres pour le constructeur
+                            String nextLevel = (String) gameObject.get("nextLevel");
+                            Door door = new Door(p,graphics,verticalHitBox,horizontalHitBox,nextLevel);//recup les parametres pour le constructeur
                             gameObjects.add(door);
                             break;                      
                         default:
@@ -156,6 +157,7 @@ public class LevelCreator {
         } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
+        System.out.println(gameLevels);
 
         // TESTS
         /*
@@ -183,6 +185,4 @@ public class LevelCreator {
      * 
      * niveau pour tester le déplacement d'un objet
      */
-
-
 }

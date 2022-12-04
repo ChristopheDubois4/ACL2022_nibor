@@ -12,7 +12,8 @@
                     },
 
             "horizontalHitBox" : 1,
-            "verticalHitBox" : 1
+            "verticalHitBox" : 1,
+            "nextLevel" : "level_2"
             },
             {   
             "type" : "Chest",
@@ -53,6 +54,59 @@
             "graphics" : "box",
             "position" : {
                         "x" : 20,
+                        "y" : 5,
+                        "layer" : "BACKGROUND"
+                    },
+            "horizontalHitBox" : 1,
+            "verticalHitBox" : 1
+            }                  
+        ]
+	},
+    {
+        "name" : "level_2",    
+        "gameObjects" : [ 
+            {   
+            "type" : "Door",
+            "graphics" : "door", 
+            "position" : {
+                        "x" : 10,
+                        "y" : 8,
+                        "layer" : "BACKGROUND"
+                    },
+
+            "horizontalHitBox" : 1,
+            "verticalHitBox" : 1,
+            "nextLevel" : "level_1"
+            },
+            {   
+            "type" : "Chest",
+            "graphics" : "chest", 
+            "position" : {
+                        "x" : 10,
+                        "y" : 3,
+                        "layer" : "BACKGROUND"
+                    },
+            "horizontalHitBox" : 1,
+            "verticalHitBox" : 1
+            },  
+
+            {   
+            "type" : "Trap",
+            "graphics" : "stupidTrap", 
+            "position" : {
+                        "x" : 26,
+                        "y" : 4,
+                        "layer" : "BACKGROUND"
+                    },
+            "horizontalHitBox" : 1,
+            "verticalHitBox" : 1,
+            "dammage" : 15
+            },
+            {   
+            "type" : "TrappedBox",
+            "graphics" : "box",
+            "position" : {
+                        "x" : 0,
                         "y" : 5,
                         "layer" : "BACKGROUND"
                     },
