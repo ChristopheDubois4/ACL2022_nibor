@@ -31,9 +31,21 @@ public class Door extends GameObject{
     //manque la direction unique d'utlisation
     //manque la réapparition devant la porte de sortie
     public void objectUse(Player user,Cmd cmd) {
-        //le joueur utilise la porte pour se rendre au niveau suivant
-        WorldManager.currentLevel = WorldManager.gameLevels.get(this.nextLevel);
-        user.setPosition(nextPosition);
+        
+        //on prend la porte lorsqu'on est en dessous
+        if (user.getPosition().getY()<this.position.getY()){
+            //le joueur utilise la porte pour se rendre au niveau suivant
+            WorldManager.currentLevel = WorldManager.gameLevels.get(this.nextLevel);
+            //on se deplace devan la porte de sortie
+            user.setPosition(nextPosition);
+            //on se dirige vers bas en sortant de la porte
+            user.setState(State.IDLE_DOWN);
+        }
+        else {
+            System.out.println("On ne peut pas prendre la porte sur côté\n");
+            return;
+        }
+
         return;
     }
 }
