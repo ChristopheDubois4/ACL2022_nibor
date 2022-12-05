@@ -13,7 +13,11 @@
 
             "horizontalHitBox" : 1,
             "verticalHitBox" : 1,
-            "nextLevel" : "level_2"
+            "nextLevel" : "level_2",
+            "nextPosition" : {
+                "newX" : 10,
+                "newY" : 8
+            }
             },
             {   
             "type" : "Chest",
@@ -76,7 +80,11 @@
 
             "horizontalHitBox" : 1,
             "verticalHitBox" : 1,
-            "nextLevel" : "level_1"
+            "nextLevel" : "level_1",
+            "nextPosition" : {
+                "newX" : 5,
+                "newY" : 5
+            }
             },
             {   
             "type" : "Chest",
@@ -112,7 +120,7 @@
                     },
             "horizontalHitBox" : 1,
             "verticalHitBox" : 1
-            }                  
+            }    
         ]
 	}
 ]

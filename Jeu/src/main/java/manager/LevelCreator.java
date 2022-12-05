@@ -140,7 +140,11 @@ public class LevelCreator {
                             break;
                         case "Door" :
                             String nextLevel = (String) gameObject.get("nextLevel");
-                            Door door = new Door(p,graphics,verticalHitBox,horizontalHitBox,nextLevel);//recup les parametres pour le constructeur
+                            JSONObject nextPos = (JSONObject) gameObject.get("nextPosition");
+                            int newX = (int) ((long) nextPos.get("newX"));
+                            int newY = (int) ((long) nextPos.get("newY"));
+                            Position nextPosition = new Position(newX, newY-1);
+                            Door door = new Door(p,graphics,verticalHitBox,horizontalHitBox,nextLevel,nextPosition);//recup les parametres pour le constructeur
                             gameObjects.add(door);
                             break;                      
                         default:
