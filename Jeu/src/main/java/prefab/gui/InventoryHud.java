@@ -216,10 +216,10 @@ public class InventoryHud extends Hud{
                         player.setWeapon(playerWeapon);
                     }
                     else if (posEquippedStuffItemReleased < 4 && itemTemp instanceof Armor){
-                        if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]).getImage()==null) {
+                        if (((Armor) itemTemp).getArmorPiece() != (ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased]) return;
+                        else if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]).getImage()==null) {
                             chest.getChestContents()[posChestItemPressed] = null;
                         }
-                        else if (((Armor) itemTemp).getArmorPiece() != (ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased]) return;
                         else chest.getChestContents()[posChestItemPressed] = playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]);
                         playerEquippedArmor.replace((ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased], (Armor) itemTemp);
                         player.setEquippedArmor(playerEquippedArmor);
@@ -272,10 +272,11 @@ public class InventoryHud extends Hud{
                         player.setWeapon(playerWeapon);
                     }
                     else if (posEquippedStuffItemReleased < 4 && itemTemp instanceof Armor ){
-                        if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]).getImage()==null) {
+                        System.out.println(((Armor) itemTemp).getArmorPiece()+" "+(ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased]);
+                        if (((Armor) itemTemp).getArmorPiece() != (ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased]) return;
+                        else if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]).getImage()==null){
                             playerInventory[posItemPressed[0]][posItemPressed[1]] = null;
-                        }
-                        else if (((Armor) itemTemp).getArmorPiece() != (ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased]) return;
+                        } 
                         else playerInventory[posItemPressed[0]][posItemPressed[1]] = playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemReleased]);
                         playerEquippedArmor.replace((ArmorPieces) strucEquippedStuff[posEquippedStuffItemReleased], (Armor) itemTemp);
                         player.setEquippedArmor(playerEquippedArmor);

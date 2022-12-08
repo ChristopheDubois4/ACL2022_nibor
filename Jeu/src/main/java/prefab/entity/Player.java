@@ -87,6 +87,7 @@ public class Player extends Character implements PlayerInfosFofHud{
                 effectSword.add(new Effect(TypeEffects.HIT, 20));
 
                 inventory[0][0] = new Weapon("epeeDelaMort", "sword_2",effectSword);
+                inventory[2][1] = new Armor("test_1", "bitcoin", ArmorPieces.HELMET);
                 inventory[2][2] = new Armor("test_1", "bitcoin", ArmorPieces.CHESTPLATE);
                 inventory[2][3] = new Armor("test_1", "bitcoin", ArmorPieces.LEGGING);
                 inventory[2][4] = new Armor("test_1", "bitcoin", ArmorPieces.BOOTS);
