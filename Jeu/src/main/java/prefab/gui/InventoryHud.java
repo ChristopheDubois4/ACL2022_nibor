@@ -153,20 +153,14 @@ public class InventoryHud extends Hud{
                 swapItemChest();
                 break;
             case "ChestHUD and InventoryHUD":
-                swapItemChestInventory();
-                break;
             case "InventoryHUD and ChestHUD":
                 swapItemChestInventory();
                 break;
             case "EquippedStuffHUD and InventoryHUD":
-                swapItemEquippedStufInventory();
-                break;
             case "InventoryHUD and EquippedStuffHUD":
                 swapItemEquippedStufInventory();
                 break;
             case "EquippedStuffHUD and ChestHUD":
-                swapItemEquippedStufChest();
-                break;
             case "ChestHUD and EquippedStuffHUD":
                 swapItemEquippedStufChest();
                 break;
@@ -194,7 +188,7 @@ public class InventoryHud extends Hud{
                     }
                     else if (posEquippedStuffItemPressed < 4 && (itemTemp instanceof Armor || itemTemp == null)){
                         if (itemTemp==null){
-                            itemTemp=new Armor(null, null,(ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed]);
+                            itemTemp=new Armor(null, "",(ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed]);
                         }
                         else if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemPressed]).getImage()==null) return;
                         chest.getChestContents()[posChestItemReleased] = playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemPressed]);
@@ -250,7 +244,7 @@ public class InventoryHud extends Hud{
                     }
                     else if (posEquippedStuffItemPressed < 4 && (itemTemp instanceof Armor || itemTemp == null) ){
                         if (itemTemp==null){
-                            itemTemp=new Armor(null, null,(ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed]);
+                            itemTemp=new Armor(null, "",(ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed]);
                         }
                         else if (playerEquippedArmor.get(strucEquippedStuff[posEquippedStuffItemPressed]).getImage()==null) return;
                         else if (((Armor) itemTemp).getArmorPiece() != (ArmorPieces) strucEquippedStuff[posEquippedStuffItemPressed]) return;
@@ -399,6 +393,9 @@ public class InventoryHud extends Hud{
         } 
 
         for (Map.Entry<ArmorPieces,Armor> armor : player.getEquippedArmor().entrySet()){
+        	
+        	
+        	
             switch(armor.getKey()){
                 case HELMET:
                     visuals.add(new Visual(posEquippedStuff.get(0).getValue0(), posEquippedStuff.get(0).getValue1(), armor.getValue().getImage()));
@@ -413,6 +410,7 @@ public class InventoryHud extends Hud{
                     visuals.add(new Visual(posEquippedStuff.get(3).getValue0(), posEquippedStuff.get(3).getValue1(), armor.getValue().getImage()));
                     break;
             }
+        
         }
         
         visuals.add(new Visual(posEquippedStuff.get(4).getValue0(), posEquippedStuff.get(4).getValue1(), player.getWeapon().getImage()));
