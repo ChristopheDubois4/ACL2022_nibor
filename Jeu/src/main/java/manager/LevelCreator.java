@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,23 +67,21 @@ public class LevelCreator {
         // récupération du fichier JSON a partir d'un chemin
         File directory = new File(file);
         JSONParser jsonParser = new JSONParser();
-        System.out.println("AVANT TRY");
         // lecture du fichier JSON
         try (FileReader reader = new FileReader(directory))
         {
-            System.out.println("DANS LE TRY");
-            
             //Read JSON file
             Object obj = jsonParser.parse(reader);
             // tableau de niveau sous format JSON
             JSONArray levels = (JSONArray) obj;
-            System.out.println(levels);
             // parcours des niveaux
             for (int i = 0; i < levels.size() ; i++) {
 
                 JSONObject level = (JSONObject) levels.get(i);
-                String levelName = (String) level.get("name");
 
+                String levelName = (String) level.get("name");
+                JSONArray levelInitMap = ((JSONArray) level.get("initMap"));
+                int[][] levelInitMapArray = jsonArrayTo2DInt(levelInitMap);
                 JSONArray levelObjects = (JSONArray) level.get("gameObjects");
 
                 List<GameObject> gameObjects = new ArrayList<GameObject>();
@@ -151,7 +150,7 @@ public class LevelCreator {
                             break;
                     }
                 }
-                GameLevel gameLevel = new GameLevel(gameObjects);
+                GameLevel gameLevel = new GameLevel(gameObjects,levelInitMapArray);
                 this.gameLevels.put(levelName, gameLevel);
             }           
         } catch (FileNotFoundException e) {
@@ -161,15 +160,22 @@ public class LevelCreator {
         } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
-        System.out.println(gameLevels);
-
-        // TESTS
-        /*
-        System.out.println("DANS LE WHILE");
-        while (true);
-        */
     }
 
+    public int[][] jsonArrayTo2DInt(JSONArray jsonArray){
+        int[][] int2DConvert = new int[15][27];
+        Object[] js = (Object[]) jsonArray.toArray();
+        for (int i = 0 ; i < 15; i++){
+            JSONArray jsonRowI = (JSONArray) js[i];
+            Object[] jsonListRowI = (Object[]) jsonRowI.toArray();
+            for (int j = 0; j < 27; j++) {
+                Long jsonLongRowIColumnJ = (Long) jsonListRowI[j];
+                int jsonIntRowIColumnJ = jsonLongRowIColumnJ.intValue();
+                int2DConvert[14-i][j] = jsonIntRowIColumnJ;
+            }
+        }
+        return int2DConvert;
+    }
     /**
      * ( W I P )
      * (les noms des mobs ne sont pas encore définis, "Ghost" est prit a titre d'exemple )
