@@ -1,0 +1,18 @@
+[
+	{
+		"state" : "IDLE_RIGHT",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/mob/mob_1_IdleRight.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	},
+	{
+		"state" : "IDLE_LEFT",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/mob/mob_1.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	}
+]

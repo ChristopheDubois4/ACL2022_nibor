@@ -1,0 +1,34 @@
+[
+	{
+		"state" : "IDLE_DOWN",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/Pnj/idleDown.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	},
+	{
+		"state" : "IDLE_RIGHT",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/Pnj/idleRight.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	},
+	{
+		"state" : "IDLE_UP",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/Pnj/idleUp.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	},
+	{
+		"state" : "IDLE_LEFT",
+		"visual" : {
+			"image" : "src/main/ressources/images/characters/Pnj/idleLeft.png",
+			"lenghtX" : 1,
+			"lenghtY" : 1
+		}     
+	}
+]
