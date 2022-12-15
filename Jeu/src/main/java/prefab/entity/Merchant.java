@@ -5,6 +5,6 @@ package prefab.entity;
  */
 public interface Merchant {
 
-    public String getDialogue();
+	public int getDialogue(int i);
 
 }
