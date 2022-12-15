@@ -18,12 +18,9 @@ public class Ladder extends GameObject{
     /**
      * constructeur de la classe Ladder heritant de GameObject
      */
-    public Ladder(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
-    }
 
     public Ladder(Position position, HashMap<State, BufferedImage> graphics, int verticalHitBox) {
-        this(position, graphics, "Ladder",1, verticalHitBox);
+        super(position, graphics, 1, verticalHitBox);
     }
 
 

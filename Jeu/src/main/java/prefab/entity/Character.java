@@ -22,6 +22,8 @@ import manager.WorldManager;
  */
 public abstract class Character extends GameObject {
     
+	private String name;
+	
     protected HashMap<Stats, Integer> stats;
     protected HashMap<Stats, Integer> currentStats;  
 
@@ -47,8 +49,9 @@ public abstract class Character extends GameObject {
     /**
      * constructeur de la classe Character heritant de GameObject
      */
-    public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+    public Character(Position position, HashMap<State, BufferedImage> graphics, String name, int horizontalHitBox, int verticalHitBox) {
+        super(position, graphics, horizontalHitBox, verticalHitBox);
+		this.name = name;
         this.attacks = new ArrayList<Attack>();   
         this.spells = new ArrayList<Spell>();  
         this.effects=new ArrayList<>();
@@ -211,5 +214,9 @@ public abstract class Character extends GameObject {
 
     public void addEffects(List<Effect> effects2) {
         this.effects.addAll(effects2);
+    }
+	
+    public String toString() {
+        return name;
     }
 }

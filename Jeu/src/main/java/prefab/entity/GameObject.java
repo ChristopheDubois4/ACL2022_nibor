@@ -7,6 +7,7 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import engine.Cmd;
+
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Visual;
@@ -24,7 +25,6 @@ public class GameObject implements Comparable<GameObject> {
     
     protected Position position;
     protected HashMap<State,BufferedImage> graphics;
-    protected String objectName;
     protected Pair<Integer, Integer> HitBox;
     protected State state;
     protected Visual visual;
@@ -34,13 +34,12 @@ public class GameObject implements Comparable<GameObject> {
      * constructeur de la classe GameObject
      * @param position position de l'objet
      * @param graphics composantes graphiques de l'objet
-     * @param objectName nom position de l'objet
-     * @param HitBox (largeur, hauteur) de la hitbox de l'objet
+     * @param horizontalHitBox largeur de la hitbox de l'objet
+     * @param verticalHitBox hauteur de la hitbox de l'objet
      */
-    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
+    public GameObject(Position position, HashMap<State,BufferedImage> graphics, int horizontalHitBox, int verticalHitBox) {
         this.position = position;
         this.graphics = graphics;
-        this.objectName = objectName;
         this.HitBox = new Pair<Integer, Integer>(horizontalHitBox, verticalHitBox);
         this.state = State.DEFAULT;
         initVisual();
@@ -50,15 +49,16 @@ public class GameObject implements Comparable<GameObject> {
      * constructeur surchargé de la classe GameObject
      * @param state l'état de l'objet
      */
-    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox, State state) {
+    public GameObject(Position position, HashMap<State,BufferedImage> graphics, int horizontalHitBox, int verticalHitBox, State state) {
         this.position = position;
         this.graphics = graphics;
-        this.objectName = objectName;
         this.HitBox = new Pair<Integer, Integer>(horizontalHitBox, verticalHitBox);
         this.state = state;
         initVisual();
     }
     
+    
+
     public void initVisual() {
    	 	BufferedImage image = graphics.get(state);
         int y = position.getY() + image.getHeight()/60 -1;
@@ -142,10 +142,5 @@ public class GameObject implements Comparable<GameObject> {
     @Override
     public int compareTo(GameObject o) {
         return this.position.compareTo(o.getPosition());        
-    }
-    
-    @Override
-    public String toString() {
-        return objectName;
     }
 }

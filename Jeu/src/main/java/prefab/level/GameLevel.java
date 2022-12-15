@@ -19,12 +19,16 @@ import prefab.information.Visual;
 public class GameLevel {
     
     private List<GameObject> gameObjects;
+    private int[][] forbiddenPosition;
 
     /**
      * constructeur de la classe GameObject
+     * @param levelInitMap
+     * @param gameObjects2
      */
-    public GameLevel() {
-        this.gameObjects = new ArrayList<GameObject>();
+    public GameLevel(List<GameObject> gameObjects, int[][] levelInitMap) {
+        this.gameObjects = gameObjects;
+        this.forbiddenPosition = levelInitMap;
     }
 
     /**
@@ -81,6 +85,9 @@ public class GameLevel {
     public Pair<Boolean, GameObject> checkMove(Character character, int deltaX, int deltaY) {
         // On test si le personnage se retrouve en dehors de la map
         if (!character.getPosition().authorizedPosition(deltaX, deltaY)) {
+            return new Pair<Boolean, GameObject>(false, null);
+        }
+        if (forbiddenPosition[character.getPosition().getY()+deltaY][character.getPosition().getX()+deltaX] == -1){
             return new Pair<Boolean, GameObject>(false, null);
         }
         // Récupérations de toutes le coordonées de l'objet à tester

@@ -32,14 +32,14 @@ public class WorldManager implements WorldPainter {
     public static final int IMAGES_PER_MOVE = 10;
 
     // createurs
-    private LevelCreator levelCreator;
+    private static LevelCreator levelCreator;
 
     // combats
     private static FightManager fightManager;
     
     // niveaux
-    public HashMap<String, GameLevel> gameLevels;
-    public GameLevel currentLevel;
+    public static HashMap<String, GameLevel> gameLevels;
+    public static GameLevel currentLevel;
 
     // huds
     private List<Hud> huds;
@@ -100,7 +100,7 @@ public class WorldManager implements WorldPainter {
     public void initLevels() {
         levelCreator = new LevelCreator(inventoryHud);
         gameLevels = levelCreator.getLevels();
-        currentLevel = gameLevels.get("default");
+        currentLevel = gameLevels.get("level_1");
     }
 
     /**
