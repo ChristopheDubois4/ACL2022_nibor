@@ -2,7 +2,7 @@
 	{
 		"state" : "IDLE_DOWN",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/idleDown.png",
+			"image" : "src/main/ressources/images/characters/mob/idleDown.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -10,7 +10,7 @@
 	{
 		"state" : "IDLE_RIGHT",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/idleRight.png",
+			"image" : "src/main/ressources/images/characters/mob/idleRight.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -18,7 +18,7 @@
 	{
 		"state" : "IDLE_UP",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/idleUp.png",
+			"image" : "src/main/ressources/images/characters/mob/idleUp.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -26,7 +26,7 @@
 	{
 		"state" : "IDLE_LEFT",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/idleLeft.png",
+			"image" : "src/main/ressources/images/characters/mob/idleLeft.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -34,7 +34,7 @@
 	{
 		"state" : "WALK_DOWN",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/walkDown.png",
+			"image" : "src/main/ressources/images/characters/mob/walkDown.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -42,7 +42,7 @@
 	{
 		"state" : "WALK_RIGHT",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/walk_horizontal.png",
+			"image" : "src/main/ressources/images/characters/mob/walk_horizontal.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -50,7 +50,7 @@
 	{
 		"state" : "WALK_UP",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/walkUp.png",
+			"image" : "src/main/ressources/images/characters/mob/walkUp.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -58,7 +58,7 @@
 	{
 		"state" : "WALK_LEFT",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/walkLeft.png",
+			"image" : "src/main/ressources/images/characters/mob/walkLeft.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -66,7 +66,7 @@
 	{
 		"state" : "DEAD",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/dead.png",
+			"image" : "src/main/ressources/images/characters/mob/dead.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -74,7 +74,7 @@
 	{
 		"state" : "DEFAULT",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/idleDown.png",
+			"image" : "src/main/ressources/images/characters/mob/idleDown.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
@@ -82,7 +82,7 @@
 	{
 		"state" : "FIGHT",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/player_1.png",
+			"image" : "src/main/ressources/images/characters/mob/mob_1.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}

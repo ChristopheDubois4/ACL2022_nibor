@@ -4,16 +4,16 @@ import org.javatuples.Pair;
 
 /**
  * WORK IN PROGRESS
- * 
+ *
  * sert a stocker les commandes de l'utilisateur
  */
 public class Command implements Cloneable{
-    
+
     private Cmd keyCmd;
     private String actionType;
     int clickX;
     int clickY;
-    
+
     /**
      * constructeur de la classe command
      */

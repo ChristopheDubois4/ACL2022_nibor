@@ -8,7 +8,8 @@ import java.util.List;
 
 import manager.Utilities;
 import prefab.information.Stats;
-import prefab.information.Visual;
+import prefab.rendering.Visual;
+
 import java.awt.image.BufferedImage;
 
 public class VitalResourcesHud extends Hud{
@@ -20,12 +21,11 @@ public class VitalResourcesHud extends Hud{
 
 	private static final int firstPosX = 9, firstPosY = 0; 
 	
-	public VitalResourcesHud(PlayerInfosFofHud player) {
+	public VitalResourcesHud(PlayerInfosFofHud player) throws Exception {
 		this.isDisplayed=true;
 		this.player = player;
 		this.backgroundImage = Utilities.getImage(inventoryPath);
-		this.visual = new Visual(firstPosX, firstPosY, this.backgroundImage);
-		visual.setDeltaPos(40,20);
+		this.visual = Visual.createWithGameCoord(firstPosX, firstPosY, 40, 20, backgroundImage);
 	}
 	
 	public void draw(Graphics2D g) {

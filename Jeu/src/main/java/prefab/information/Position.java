@@ -11,9 +11,7 @@ import org.javatuples.Pair;
  * implemente l'interface Comparable<> pour comparer les position en
  * fonction de leurs 
  */
-public class Position implements Comparable<Position> {
-    private int x,y;    
-    private Layer layer;
+public final class Position implements Comparable<Position>, Cloneable{
 
     /**
      * La taille choisie de la fenêtre graphique implique que :
@@ -23,26 +21,28 @@ public class Position implements Comparable<Position> {
     private static final int xMin = 0, xMax = 26;
     private static final int yMin = 0, yMax = 14;
 
-     /**
-     * constructeur de la classe Position
-     * @param x la postion horizontale
-     * @param y la position verticale 
-     */
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.layer = Layer.DEFAULT;
-    }
+    private final int x,y;    
+    private final Layer layer;
 
     /**
      * constructeur surchargé de la classe Position
+     * @param x la postion horizontale
+     * @param y la position verticale 
      * @param layer niveau de profondeur pour le rendu graphique
      */
-    public Position(int x, int y, Layer layer) {
+    private Position(int x, int y, Layer layer) {
         this.x = x;
         this.y = y;
         this.layer = layer;
     }
+
+    public static Position createPosition(int x, int y, Layer layer) {
+        return new Position(x, y, layer);
+    }
+
+    public static Position create(int x, int y) {
+        return createPosition(x, y, Layer.DEFAULT);
+            }
 
     /**
      * retourne un tuple de taille 2 qui contient les coordonnées
@@ -52,12 +52,12 @@ public class Position implements Comparable<Position> {
         return new Pair<Integer, Integer>(this.x, this.y);
     }
 
-    public void setX(int x) {
-        this.x=x;
+    public Position setX(int newX) {
+        return new Position(newX, y, layer);
     }
 
-    public void setY(int y) {
-        this.y=y;
+    public Position setY(int newYy) {
+        return new Position(x, newYy, layer);
     }
 
     public int getX() {
@@ -72,17 +72,15 @@ public class Position implements Comparable<Position> {
         return layer;
     }
 
-   /**
-    * permet d'effectuer un déplacement en modifiant les coordonnées
-    * @param x déplacement horizontale à ajouter
-    * @param y déplacement verticale à ajouter
-    * @return un boolean qui vaut :
-    *   -> false si le déplacement dépasse les limites de la fenêtre
-    *   -> true sinon
-    */
-    public void addToXY(int deltaX, int deltaY) {             
-        this.x = this.x + deltaX;
-        this.y = this.y + deltaY;
+
+    /**
+     * permet d'effectuer un déplacement sur la position actuelle
+     * @param deltaX déplacement horizontale à ajouter
+     * @param deltaY déplacement verticale à ajouter
+     * @return la nouvelle position
+     */
+    public Position addToXY(int deltaX, int deltaY) {     
+        return new Position(x + deltaX, y + deltaY, layer);
     }
 
     public boolean authorizedPosition(int deltaX, int deltaY) {
@@ -110,7 +108,12 @@ public class Position implements Comparable<Position> {
         if (this.layer == Layer.FOREGROUND || p.getLayer() == Layer.BACKGROUND) {
             return 1;
         }
-        return this.y - p.getY();
+        return p.getY() - this.y;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     @Override

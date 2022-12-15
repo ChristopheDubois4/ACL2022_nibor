@@ -2,13 +2,13 @@ package manager;
 
 import java.util.List;
 
-import java.awt.Graphics2D;
+import prefab.rendering.Visual;
 
-import prefab.information.Visual;
+import java.awt.Graphics2D;
 
 public interface WorldPainter {
 
-    public List<Visual> getVisuals();
+    public List<Visual> getVisuals() throws CloneNotSupportedException, Exception;
     public List<Visual> getFrontVisuals();
     public void drawHuds(Graphics2D g);
 }

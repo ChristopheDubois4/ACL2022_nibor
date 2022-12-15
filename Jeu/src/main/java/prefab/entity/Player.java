@@ -13,12 +13,9 @@ import prefab.equipment.Effect;
 import prefab.equipment.Weapon;
 import prefab.equipment.Effect.TypeEffects;
 import prefab.gui.PlayerInfosFofHud;
-import prefab.information.PlayerClasses;
 import prefab.information.Position;
-import prefab.information.State;
 import prefab.information.Stats;
-import java.awt.image.BufferedImage;
-
+import prefab.rendering.Animation;
 
 
 /**
@@ -26,6 +23,16 @@ import java.awt.image.BufferedImage;
  */
 
 public class Player extends Character implements PlayerInfosFofHud{
+
+    /**
+     * les classes de joueur sélectionables en début de jeu
+     */
+    public enum PlayerClasses {
+        MAGE,
+        WARRIOR,
+        ASSASSIN,
+        CLERIC
+    }
     
     PlayerClasses classPlayed;
     
@@ -34,12 +41,14 @@ public class Player extends Character implements PlayerInfosFofHud{
     /**
      * constructeur de la classe Player heritant de Character
      * @param classPlayed la classe de combattant du joueur
+     * @throws CloneNotSupportedException
      */
-    public Player(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox, PlayerClasses classPlayed) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+    public Player(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name, PlayerClasses classPlayed) throws CloneNotSupportedException {
+        super(position, animation, horizontalHitBox, verticalHitBox, name);
         this.classPlayed = classPlayed;
         this.xp = 0;
         initCharacteristic();
+        startAnimation();
 
         //tempo
         //this.inventory.set(0, new Item(0,null,"Item_1"));

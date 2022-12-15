@@ -1,16 +1,13 @@
 package prefab.entity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.javatuples.Pair;
 
-import engine.Cmd;
 import prefab.information.Position;
 import prefab.information.State;
-import prefab.information.Visual;
-import java.awt.image.BufferedImage;
+import prefab.rendering.Animation;
 
 
 /**
@@ -20,70 +17,109 @@ import java.awt.image.BufferedImage;
  * les portes, les obstacles ou les échelles
  */
 
-public class GameObject implements Comparable<GameObject> {
+ public class GameObject {
     
-    protected Position position;
-    protected HashMap<State,BufferedImage> graphics;
-    protected String objectName;
-    protected Pair<Integer, Integer> HitBox;
-    protected State state;
-    protected Visual visual;
+    Position position;
+    State state;
+    Animation animation;
+    Pair<Integer, Integer> HitBox;
    
     /**
-     * constructeur surchargé de la classe GameObject
+     * constructeur de la classe GameObject
      * @param position position de l'objet
-     * @param graphics composantes graphiques de l'objet
-     * @param objectName nom position de l'objet
-     * @param HitBox (largeur, hauteur) de la hitbox de l'objet
+     * @param animation animation de l'objet
+     * @param horizontalHitBox largeur de la hitbox de l'objet
+     * @param verticalHitBox hauteur de la hitbox de l'objet
      * @param state l'état de l'objet
+     * @throws CloneNotSupportedException
      */
-    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox, State state) {
+    public GameObject(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, State state) throws CloneNotSupportedException {
         this.position = position;
-        this.graphics = graphics;
-        this.objectName = objectName;
+        this.animation = animation;
         this.HitBox = new Pair<Integer, Integer>(horizontalHitBox, verticalHitBox);
         this.state = state;
-        initVisual();
+        animation.setPosition(position);
+        animation.setState(state);
+    }
+
+    /**
+     * creér un GameObject
+     * @param position position de l'objet
+     * @param animation animation de l'objet
+     * @param horizontalHitBox largeur de la hitbox de l'objet
+     * @param verticalHitBox hauteur de la hitbox de l'objet
+     * @param state l'état de l'objet
+     * @return le GameObject créé
+     * @throws Exception
+     */
+    public static GameObject create(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, State state) throws Exception {
+        // on empêche de construire des objets imcomplets
+        if (position == null) {
+            throw new NullPointerException("la position est nulle");
+        }
+        if (animation == null) {
+            throw new NullPointerException("l'animation est nulle");
+        }
+        if (state == null) {
+            throw new NullPointerException("le state est nul");
+        }
+        return new GameObject(position, animation, horizontalHitBox, verticalHitBox, state);
     }
 
      /**
-     * constructeur de la classe GameObject
+     * creér un GameObject avec <code>state = DEFAULT</code>
      * @param position position de l'objet
-     * @param graphics composantes graphiques de l'objet
-     * @param objectName nom position de l'objet
-     * @param HitBox (largeur, hauteur) de la hitbox de l'objet
+     * @param animation animation de l'objet
+     * @param horizontalHitBox largeur de la hitbox de l'objet
+     * @param verticalHitBox hauteur de la hitbox de l'objet
+     * @return le GameObject créé
+     * @throws Exception
      */
-    public GameObject(Position position, HashMap<State,BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        this(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.DEFAULT);
-    }
-    
-    public void initVisual() {
-   	 	BufferedImage image = graphics.get(state);
-        int y = position.getY() + image.getHeight()/60 -1;
-        int x = position.getX();
-        visual = new Visual(x, y, image);
-   }
-
-    public void setPosition(Position position) {
-        this.position=position;
+    public static GameObject createWithDefaultState(Position position, Animation animation, int horizontalHitBox, int verticalHitBox) throws Exception {
+        return GameObject.create(position, animation, horizontalHitBox, verticalHitBox, State.DEFAULT);
     }
 
-    public Position getPosition() {
-        return this.position;
+    /**
+     * @return une copie de la position de l'objet
+     * @throws CloneNotSupportedException
+     */
+    public Position getPosition() throws CloneNotSupportedException {
+        return (Position) position.clone();
     }
 
-    public void setState(State state){
-        this.state=state;
+    public void setPosition(Position position) throws CloneNotSupportedException {
+        animation.setPosition(position);
+        this.position = (Position) position.clone();
     }
 
+    /**
+     * met à jour l'état de l'objet
+     * @param newState le nouvel état
+     */
+    public void setState(State newState){
+        state = newState;
+        animation.setState(newState);
+    }
+
+    /**
+     * @return l'état actuel de l'objet
+     */
     public State getState(){
-        return this.state;
+        return state;
     }
+
+    /**
+     * @return l'état actuel de l'objet
+     */
+    public Pair<Integer, Integer> getHitBox(){
+        return new Pair<Integer,Integer>(HitBox.getValue0(), HitBox.getValue1());
+    }
+
 
     /**
      * recupère toutes les coordonées que l'objet occupe en prenant
      * compte des hitBox des objets
-     * Ex : si x = 0, y = 0, HitBox = (1, 2) => Liste = [(0,0), (0,1)]
+     * <p>Ex : si x = 0, y = 0, HitBox = (1, 2) => Liste = [(0,0), (0,1)]
      * @return liste des coordonées
      */
     public List<Pair<Integer, Integer>> getOccupiedCoordinates(int deltaX, int deltaY) {
@@ -101,43 +137,24 @@ public class GameObject implements Comparable<GameObject> {
         return occupiedCoordinates;
     }
 
-
     /**
-    * permet de donner un usage à un objet
-     * @param cmd
-    * @return un boolean qui vaut :
-    *   -> false l'objet n'est pas utilisable
-    *   -> true sinon
+     * récupère une copie de l'animation de l'objet
+     * @return
+     *      <code>Animation</code> si l'animation n'est pas déjà en train
+     *      d'être jouée dans l'Animator
+     *      <li><code>null</code> sinon
+     * @throws CloneNotSupportedException
      */
-    public void objectUse(Player user, Cmd cmd) {
+    public Animation getAnimation() throws CloneNotSupportedException {      
+        // si l'animation n'est pas en train d'être jouée dans l'Animator
+        if (!animation.getIsPlaying()) {
+            return (Animation) animation.clone();
+        }  
+        return null;
     }
 
-
-    /**
-     * récupère les visuels que l'on souhaite afficher
-     * @return les visuels à afficher
-     */
-    public Visual getVisual() {        
-    	BufferedImage image = graphics.get(state);
-    	visual.setBufferedImage(image);
-        visual.setY(position.getY() + image.getHeight()/60 -1);
-        visual.setX(position.getX());
-        return visual;
+    public void stopAnimation() {
+        animation.stopAnimation();
     }
-    
-    public void move(int deltaX, int deltaY) {   
-        position.addToXY(deltaX, deltaY);
-        visual.setDirection(deltaX, deltaY);
-    }
-
-    /**
-     * compare 2 gameObject
-     * @param o le gmaeObject à comparer
-     * @return le resultat de la comparaison
-     */
-    @Override
-    public int compareTo(GameObject o) {
-        return this.position.compareTo(o.getPosition());        
-    }
-    
+        
 }

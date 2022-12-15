@@ -49,7 +49,7 @@ public class NiborController implements GameController {
 		}
 
 		// si on relache une touche, on envoie la commande par défaut (pour ne rien faire)
-		if (commandeEnCours.getActionType() == "released" )	{	
+		if (commandeEnCours.getActionType() == "released")	{	
 				commandeEnCours.setKeyCommand(Cmd.IDLE);
 		}
 		return c;

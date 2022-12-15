@@ -8,6 +8,7 @@ import engine.Command;
 import prefab.competence.Attack;
 import prefab.competence.Spell;
 import prefab.entity.Character;
+import prefab.entity.Enemy;
 import prefab.entity.Mob1;
 import prefab.entity.Player;
 import prefab.equipment.Consumable;
@@ -19,6 +20,8 @@ import prefab.gui.FightHud;
  * gère les combats
  */
 public class FightManager {
+
+    private static final FightManager INSTANCE = new FightManager();
 
     private FightHud fightHud;
 
@@ -41,7 +44,7 @@ public class FightManager {
 	private int turn = 0;
 
 	// informations de l'ennemi
-	private Mob1 enemy;
+	private Character enemy;
     public List<int[]> enemyConsumables;
 
     //informations du joueur
@@ -54,20 +57,26 @@ public class FightManager {
      * @param player le joueur
      * @param fightHud le hud de combat
      */
-	public FightManager(Player player, FightHud fightHud) {
+	private FightManager() {}
+
+    public void initFightManager(Player player, FightHud fightHud) {
         submenusNames = new ArrayList[3];
         for (int i = 0; i < 3; i++) {
             submenusNames[i] = new ArrayList<String>();
         }
         this.player = player;
 		this.fightHud = fightHud;
-	}
+    }
+
+    public static FightManager getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * lance un combat avec un ennemi
      * @param enemy l'ennemi
      */
-	public void startNewFight(Mob1 enemy) {
+	public void startNewFight(Character enemy) {
 
         this.playerConsumables = getConsumables(player.getInventory(), true);
 		for (Attack atk : player.getAttacks()) {
@@ -80,6 +89,8 @@ public class FightManager {
 		this.enemyConsumables = getConsumables(enemy.getInventory(), false);
 
         isInFight = true;
+        this.player.setIsInFight(true);
+        this.enemy.setIsInFight(true);
 
 		fightHud.changeDisplayState(0);
 	}
@@ -104,7 +115,6 @@ public class FightManager {
         }
         return consommables;
     }
-
 
     /**
      * utilise un consomable
@@ -144,16 +154,7 @@ public class FightManager {
         return true;
     }
 
-     /**
-     * utilise un consomable
-     * @param characConsumables la liste des positions des consommables du lanceur
-     * @param pos la position du consommable en question
-     * @param launcher le lanceur
-     * @param target la cible
-     * @return
-     *      -> true si l'objet a pu être utilisé
-     *      -> false sinon
-     */
+
     /**
      * utilise une attaque
      * @param pos la position de l'attque dans la liste
@@ -207,6 +208,10 @@ public class FightManager {
                 break;
             case 1:
                 succes = useSpell(cursorSubMenu, launcher, target);
+                if (!succes) {
+                    selectingTarget = false;
+                    selectedTarget = 1;
+                }
             	// Animation, ect...
                 break;
             case 2:
@@ -239,7 +244,7 @@ public class FightManager {
     }
 
     private void victory() {
-    	Item itemDrop = enemy.dropItem();
+    	Item itemDrop = ((Enemy) enemy).dropItem();
     	if (itemDrop != null) {
     		fightHud.setMessageBox("Vous récupérez '" + itemDrop.toString() + "'");
     		player.addItem(itemDrop);
@@ -319,6 +324,7 @@ public class FightManager {
                 break;
             case CLOSE:
                 selectingTarget = false;
+                selectedTarget = 1;
                 fightHud.setMessageBox("");
                 break;
             default:
@@ -347,7 +353,6 @@ public class FightManager {
                 cursorMenu = cursorMenu%3;
             }
         }
-
 
         // si le menu est vide, on informe le houeur avec un message
         if (submenusNames[cursorMenu].size() == 0 && isMenuOpen) {
@@ -382,6 +387,8 @@ public class FightManager {
 
 	public void finishFight() {
 		isInFight = false;
+        this.player.setIsInFight(true);
+        this.enemy.setIsInFight(true);
 		fightHud.changeDisplayState();
 
 	}

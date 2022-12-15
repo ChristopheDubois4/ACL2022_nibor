@@ -1,32 +1,31 @@
 package prefab.props;
 
-import java.util.HashMap;
-
 import engine.Cmd;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
+import prefab.rendering.Animation;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
-import java.awt.image.BufferedImage;
 
 
 /**
  * représente un piege s'actionnant par le passage du joueur
  */
-public class Trap extends GameObject{
+public class Trap extends GameObject implements UsableObject{
     
     private int dammage;
 
     /**
      * constructeur de la classe Character heritant de GameObject
+     * @throws CloneNotSupportedException
      */
-    public Trap(Position position, HashMap<State,BufferedImage > graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+    public Trap(Position position, Animation animation, int horizontalHitBox, int verticalHitBox) throws CloneNotSupportedException {
+        super(position, animation, horizontalHitBox, verticalHitBox, State.DEFAULT);
     }
 
-    public Trap(Position position, HashMap<State, BufferedImage> graphics,  int horizontalHitBox, int verticalHitBox, int dammage) {
-        super(position, graphics, "Trap", horizontalHitBox, verticalHitBox);
+    public Trap(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, int dammage) throws CloneNotSupportedException {
+        this(position, animation, horizontalHitBox, verticalHitBox);
         this.dammage=dammage;
     }
 

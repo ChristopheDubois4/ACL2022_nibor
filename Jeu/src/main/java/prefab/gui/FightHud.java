@@ -13,7 +13,7 @@ import java.util.List;
 import model.NiborPainter;
 import prefab.entity.Character;
 import prefab.information.Stats;
-import prefab.information.Visual;
+import prefab.rendering.Visual;
 import manager.Utilities;
 
 /**
@@ -64,8 +64,9 @@ public class FightHud extends Hud{
     /**
      * constructeur de la classe FightHud
      * @param player le joueur
+     * @throws Exception
      */
-	public FightHud(Character player) {
+	public FightHud(Character player) throws Exception {
         
 		this.player = player;
 
@@ -74,27 +75,23 @@ public class FightHud extends Hud{
         initVisuals();
 	}
 
-    private void initVisuals() {
+    private void initVisuals() throws Exception {
         this.backgroundImage = Utilities.getImage(fightPath+decors[0] + ".png");
         BufferedImage healthIcon = Utilities.getImage(fightPath + "health_icon.png");
         BufferedImage manaIcon = Utilities.getImage(fightPath + "mana_icon.png");
         BufferedImage staminaIcon = Utilities.getImage(fightPath + "stamina_icon.png");
 
-        BufferedImage enemyIm = Utilities.getImage("src/main/ressources/images/characters/mob/mob_1.png");
-        BufferedImage playerIm = Utilities.getImage("src/main/ressources/images/characters/player/player_1.png");
-
         this.frontVisuals = new ArrayList<Visual>();
+
         // côté joueur
-        this.frontVisuals.add(new Visual(1, 2, -16,15, healthIcon));
-        this.frontVisuals.add(new Visual(1, 1, -10, 11, manaIcon));
-        this.frontVisuals.add(new Visual(1, 0, -6, 23, staminaIcon));
-        this.frontVisuals.add(new Visual(0, 10, 30, 0, playerIm ));
+        this.frontVisuals.add(Visual.createWithGameCoord(1, 2, -16, 15, healthIcon));
+        this.frontVisuals.add(Visual.createWithGameCoord(1, 1, -10, 11, manaIcon));
+        this.frontVisuals.add(Visual.createWithGameCoord(1, 0, -6, 23, staminaIcon));
 
         // côté ennemi
-        this.frontVisuals.add(new Visual(26 - 1, 2, 19, 15, healthIcon, true, false));
-        this.frontVisuals.add(new Visual(26 - 1, 1, 25, 11, manaIcon, true, false));
-        this.frontVisuals.add(new Visual(26 - 1, 0, 25, 23, staminaIcon, true, false));
-        this.frontVisuals.add(new Visual( 21, 10, 0, 0, enemyIm));
+        this.frontVisuals.add(Visual.createWithGameCoord(25, 2, 19, 15, healthIcon, true, false));
+        this.frontVisuals.add(Visual.createWithGameCoord(25, 1, 25, 11, manaIcon, true, false));
+        this.frontVisuals.add(Visual.createWithGameCoord(25, 0, 25, 23, staminaIcon, true, false));
     }
 
     public void changeDisplayState(int numDecor) {
@@ -181,7 +178,7 @@ public class FightHud extends Hud{
 	public void draw(Graphics2D g) {       
 
         // Affichage temporaire de l'emplacement du joueur et de l'ennemi
-        //drawTemp(g);
+        drawTemp(g);
         
         g.setStroke(new BasicStroke(3));
 
@@ -440,13 +437,18 @@ public class FightHud extends Hud{
     }
 
     @Override
-	public List<Visual> getVisuals() {
+	public List<Visual> getVisuals() throws Exception {
         List<Visual> visuals = new ArrayList<Visual>();
-        visuals.add(new Visual(0, 14, backgroundImage));	
+        if (isDisplayed) {
+            visuals.add(Visual.createWithGameCoord(0, 14, backgroundImage));	
+        }
         return visuals;
 	}
 
     public List<Visual> getFrontVisuals() {
-        return this.frontVisuals;
+        if (isDisplayed) {
+            return this.frontVisuals;
+        }
+        return new ArrayList<Visual>();        
 	}
 }

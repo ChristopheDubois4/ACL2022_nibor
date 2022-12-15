@@ -44,7 +44,15 @@ public class GraphicalInterface  {
 	 * mise a jour du dessin
 	 */
 	public void paint() {
-		this.panel.drawGame();	
+		try {
+			this.panel.drawGame();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 	
 }

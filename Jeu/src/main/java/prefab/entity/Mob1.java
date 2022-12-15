@@ -5,10 +5,8 @@ import java.util.HashMap;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
 import prefab.information.Position;
-import prefab.information.State;
 import prefab.information.Stats;
-
-import java.awt.image.BufferedImage;
+import prefab.rendering.Animation;
 
 
 /**
@@ -17,8 +15,8 @@ import java.awt.image.BufferedImage;
  */
 public class Mob1 extends Character implements Enemy{
 
-    public Mob1(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+    public Mob1(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws CloneNotSupportedException {
+        super(position, animation, horizontalHitBox, verticalHitBox, name);
 
         this.stats = new HashMap<Stats , Integer>();
         this.currentStats = new HashMap<Stats , Integer>();

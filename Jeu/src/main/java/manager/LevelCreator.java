@@ -13,7 +13,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import prefab.entity.Enemy;
 import prefab.entity.GameObject;
 import prefab.entity.Mob1;
 import prefab.equipment.Consumable;
@@ -26,9 +25,10 @@ import prefab.information.Position;
 import prefab.information.State;
 import prefab.level.GameLevel;
 import prefab.props.Chest;
-import prefab.props.Ladder;
-import prefab.props.Trap;
 import prefab.props.TrappedBox;
+import prefab.rendering.Animation;
+import prefab.rendering.CharacterAnimation;
+import prefab.rendering.Sprite;
 
 import java.awt.image.BufferedImage;
 
@@ -44,8 +44,9 @@ public class LevelCreator {
     
     /**
      * constructeur de la classe LevelManager
+     * @throws Exception
      */
-    public LevelCreator(InventoryHud inventoryHud) {
+    public LevelCreator(InventoryHud inventoryHud) throws Exception {
         this.inventoryHud=inventoryHud;
         gameLevels = new HashMap<String, GameLevel>();
         // Quand les tests seront fini dé-commenter : 
@@ -62,17 +63,69 @@ public class LevelCreator {
      * methode temporaire
      * 
      * Méthode pour tester des fonctionnalitées liées au sprint 1
+     * @throws Exception
      */
-    private void testSrpint1() {       
+    private void testSrpint1() throws Exception {       
 
         //testTriage();
-        testMovement();  
+        //testMovement(); 
+        testReforge();
+    }
+
+    private void testReforge() throws Exception {
+         
+        GameLevel level1 = new GameLevel();
+        /*
+        HashMap<State,Sprite> s =  Utilities.getSpritesFromJSON("trap");
+
+        Animation a = CharacterAnimation.createForPNJ(s);
+
+        Position p1 = Position.create(20, 5);
+
+        GameObject o1 = new TrappedBox(p1, a, 1, 1, null);
+        System.out.println("TRAPPEDBOX");
+
+        level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1)));
+        */
+
+        Position p5 = Position.create(5, 5);
+
+        List<Effect> hit20 = new ArrayList<Effect>(){{add(new Effect(TypeEffects.HIT, 20));}};
+
+        Item[] chestContents = new Item[]{
+            new Consumable("epee sdaacre","sword_1",hit20),
+            new Consumable("epee sdaacre","bitcoin", hit20),
+            new Consumable("epee sdaacre","potion_heal",hit20)
+        };
+
+        HashMap<State,Sprite> s =  Utilities.getSpritesFromJSON("chest");
+
+        Animation a = Animation.create(s);
+
+        GameObject o5 = new Chest(p5, a, 1, 1, chestContents, inventoryHud);
+        System.out.println("CHEST");
+
+
+        Position p1 = Position.create(15, 5);
+
+        HashMap<State, Sprite> graphicsCHEST = Utilities.getSpritesFromJSON("box");
+        Animation aTrappedBox = Animation.create(graphicsCHEST);
+
+
+        GameObject o1 = new TrappedBox(p1, aTrappedBox, 1,1, null);
+        System.out.println("TRAPPEDBOX");
+
+        
+        level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o5)));
+        gameLevels.put("default",level1);
+
     }
 
     /**
      * créer les niveaux du jeux
+     * @throws Exception
      */
-    private void initGameLevels() {
+    private void initGameLevels() throws Exception {
         createLevelsFromJSON(defaultfile);
     }  
     
@@ -80,8 +133,9 @@ public class LevelCreator {
      * ( W I P )
      * créer un niveau à partir d'un fichier JSON
      * @param file chemin du fichier JSON
+     * @throws Exception
      */
-    private void createLevelsFromJSON(String file) {
+    private void createLevelsFromJSON(String file) throws Exception {
         // récupération du fichier JSON a partir d'un chemin
         File directory = new File(file);
         JSONParser jsonParser = new JSONParser();
@@ -116,7 +170,7 @@ public class LevelCreator {
                     int x = (int) ((long) position.get("x"));
                     int y = (int) ((long) position.get("y"));
                     Layer layer =  Layer.valueOf((String) position.get("layer"));
-                    Position p = new Position(x, y, layer);
+                    Position p = Position.createPosition(x, y, layer);
                     // graphics
                     HashMap<State,BufferedImage> graphics = Utilities.getGraphicsFromJSON((String) gameObject.get("graphics"));
                     // hitbox
@@ -129,7 +183,7 @@ public class LevelCreator {
                     // traitement différent selon le type de l'objet
                     switch (type) {
                         case "GameObject" :
-                            gameObjects.add(new GameObject(p, graphics, objectName, horizontalHitBox, verticalHitBox));
+                            gameObjects.add(GameObject.createWithDefaultState(p, null, horizontalHitBox, verticalHitBox)); //manque l'animation
                             break;
                         case "Ghost" :
                             createGhost(gameObjects, p, graphics, objectName, horizontalHitBox, verticalHitBox, typeInfos);
@@ -179,9 +233,10 @@ public class LevelCreator {
      * methode temporaire
      * 
      * niveau pour tester le déplacement d'un objet
+     * @throws Exception
      */
-    private void testMovement() {     
-
+    private void testMovement() throws Exception {     
+        /*
         HashMap<State,BufferedImage> graphicsBOX = Utilities.getGraphicsFromJSON("box");
         HashMap<State,BufferedImage> graphicsDOOR = Utilities.getGraphicsFromJSON("door");        
         HashMap<State,BufferedImage> graphicsLADDER = Utilities.getGraphicsFromJSON("ladder");
@@ -189,11 +244,11 @@ public class LevelCreator {
         HashMap<State,BufferedImage> graphicsCHEST = Utilities.getGraphicsFromJSON("chest");
 
         GameLevel level1 = new GameLevel();
-        Position p1 = new Position(20, 5);
-        Position p2 = new Position(5, 5);
-        Position p3 = new Position(8, 5);
-        Position p4 = new Position(26, 14);
-        Position p5 = new Position(0, 0);
+        Position p1 = Position.create(20, 5);
+        Position p2 = Position.create(5, 5);; 
+        Position p3 = Position.create(8, 5);
+        Position p4 = Position.create(26, 14);
+        Position p5 = Position.create(0, 0);
 
         List<Effect> hit20 = new ArrayList<Effect>(){{add(new Effect(TypeEffects.HIT, 20));}};
 
@@ -204,11 +259,11 @@ public class LevelCreator {
         };
 
         HashMap<State,BufferedImage> graphicsPLAYER = Utilities.getGraphicsFromJSON("player");
-        Mob1 mob = new Mob1(p1, graphicsPLAYER, "Jean le Destructeur", 1, 1);
+        Mob1 mob = new Mob1(p1, null, 1, 1, "Jean le Destructeur"); //new Mob1(p1, graphicsPLAYER, 1, 1, "Jean le Destructeur");
         GameObject o1 = new TrappedBox(p1, graphicsBOX, 1, 1,mob);
         System.out.println("TRAPPEDBOX");
 
-        GameObject o2 = new GameObject(p2, graphicsDOOR, "DOOR", 1, 1);
+        GameObject o2 = GameObject.createWithDefaultState(p5, null, 1, 1);// new GameObject(p2, graphicsDOOR, "DOOR", 1, 1);
         System.out.println("DOOR");
 
         GameObject o3 = new Ladder(p3, graphicsLADDER, 3);
@@ -225,6 +280,8 @@ public class LevelCreator {
         level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o2, o3, o4 ,o5)));
 
         gameLevels.put("default",level1);
+        */
+
     }
 
 }

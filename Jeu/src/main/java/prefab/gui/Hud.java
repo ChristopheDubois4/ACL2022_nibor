@@ -2,7 +2,8 @@ package prefab.gui;
 
 import java.awt.Graphics2D;
 import java.util.List;
-import prefab.information.Visual;
+
+import prefab.rendering.Visual;
 
 public abstract class Hud {
 
@@ -22,6 +23,6 @@ public abstract class Hud {
 
     public abstract void draw(Graphics2D g);
 
-    public abstract List<Visual> getVisuals();
+    public abstract List<Visual> getVisuals() throws Exception;
     
 }

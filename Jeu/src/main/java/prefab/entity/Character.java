@@ -1,6 +1,5 @@
 package prefab.entity;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,68 +16,91 @@ import prefab.equipment.Effect.TypeEffects;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.information.Stats;
-import manager.WorldManager;
+import prefab.rendering.Animation;
+import prefab.rendering.CharacterAnimation;
 
 /**
  * représente les personnages du jeu de manière générale
  */
 public abstract class Character extends GameObject {
 
-    protected HashMap<Stats, Integer> stats;
-    protected HashMap<Stats, Integer> currentStats;
+    String name;
 
-    protected int money;
-    protected int level;
-    protected int xp;
+    HashMap<Stats, Integer> stats;
+    HashMap<Stats, Integer> currentStats;
+
+    int money;
+    int level;
+    int xp;
 
     public static final int inventoryLengthX = 15;
     public static final int inventoryLengthY = 6;
-    protected Item[][] inventory = new Item[inventoryLengthX][inventoryLengthY];
+    Item[][] inventory = new Item[inventoryLengthX][inventoryLengthY];
 
-    protected HashMap<ArmorPieces,Armor> equippedArmor;
+    HashMap<ArmorPieces,Armor> equippedArmor;
 
-    protected Weapon weapon;
+    Weapon weapon;
 
-    protected List<Attack> attacks;
-    protected List<Spell> spells;
+    List<Attack> attacks;
+    List<Spell> spells;
 
-    protected List<Effect> effects;
+    List<Effect> effects;
 
-    private boolean isInMouvement = false;
     private boolean isAlvie = true;
+    private boolean isInMouvement = false;
+
 
     // ___________________________________
     // __________ CONSTRUCTEURS __________
 
-    /**
-     * constructeur de la classe Character heritant de GameObject
-     */
-    public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);
+
+     /**
+      * constructeur de la classe Character heritant de GameObject
+      * @param position position de l'objet
+      * @param animation animation de l'objet
+      * @param horizontalHitBox largeur de la hitbox de l'objet
+      * @param verticalHitBox hauteur de la hitbox de l'objet
+      * @param name nom du personnage
+     * @throws CloneNotSupportedException
+      */
+    Character(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws CloneNotSupportedException {
+        super(position, animation, horizontalHitBox, verticalHitBox, State.DEFAULT);
+        this.name = name;
         this.attacks = new ArrayList<Attack>();
         this.spells = new ArrayList<Spell>();
         this.effects = new ArrayList<>();
+        this.stats  =  new HashMap<Stats , Integer>();
+        this.currentStats = new HashMap<Stats , Integer>();
         initDefaultEquipment();
     }
 
-    /**
-     * constructeur surchargé de la classe Character heritant de GameObject
-     * @param stats les stats par defaut du personnage
-     * @param money l'argent par defaut du personnage
-     * @param level le niveau par defaut du personnage
-     * @param xp l'experience par defaut du personnage
-     * @param attacks les attaques par defaut du personnage
-     * @param spells les sorts par defaut du personnage
-     */
-    public Character(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox,
-            HashMap<Stats, Integer> stats, int money, int level, int xp, List<Attack> attacks,List<Spell> spells) {
-        this(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+     /**
+      * constructeur de la classe Character heritant de GameObject
+      * @param position position de l'objet
+      * @param animation animation de l'objet
+      * @param horizontalHitBox largeur de la hitbox de l'objet
+      * @param verticalHitBox hauteur de la hitbox de l'objet
+      * @param name nom du personnage
+      * @param stats les stats par defaut du personnage
+      * @param money l'argent par defaut du personnage
+      * @param level le niveau par defaut du personnage
+      * @param xp l'experience par defaut du personnage
+      * @param attacks les attaques par defaut du personnage
+      * @param spells les sorts par defaut du personnage
+     * @throws CloneNotSupportedException
+      */
+    Character(Position position, Animation animation, int horizontalHitBox, int verticalHitBox,  String name,
+            HashMap<Stats, Integer> stats, int money, int level, int xp, List<Attack> attacks,List<Spell> spells) throws CloneNotSupportedException {
+        this(position, animation, horizontalHitBox, verticalHitBox, name);
         this.stats = stats;
+        this.money = money;
+        this.level = level;
+        this.xp = xp;
         this.attacks = attacks;
         this.spells = spells;
-        this.currentStats = new HashMap<Stats , Integer>();
         resetCurrentStats();
     }
+
 
     // ____________________________________
     // __________ INITIALISATION __________
@@ -123,10 +145,6 @@ public abstract class Character extends GameObject {
         return spells;
     }
 
-    public boolean getIsInMouvement( ) {
-    	return isInMouvement;
-    }
-
     public List<Effect> getEffects() {
         return  this.effects;
     }
@@ -146,6 +164,13 @@ public abstract class Character extends GameObject {
         this.weapon = newWeapon;
     }
 
+
+    public void setIsInFight(boolean isInFight) {
+        isInFight = true;
+        ((CharacterAnimation) animation).setIsInFight(true);
+        setState(State.FIGHT);
+    }
+
     // ___________________________________
     // __________ VIE DU JOUEUR __________
 
@@ -156,7 +181,9 @@ public abstract class Character extends GameObject {
     public void takeDammage(int value){
 
         int damage = Math.max( (int) (value*(120-currentStats.get(Stats.DEFENSE))/100f), 0);
+
         System.out.println("damage "+damage);
+
         int newHp =  Math.max(currentStats.get(Stats.HP) - damage, 0);
         currentStats.replace(Stats.HP, newHp);
         if (currentStats.get(Stats.HP) == 0)
@@ -182,8 +209,8 @@ public abstract class Character extends GameObject {
      * @param pos la position de l'attaque dans la liste
      * @param attackName sert à récupèrer le nom de l'attaque
      * @return
-     *      - true si l'attaque peut être lancée
-     *      - false sinon
+     *      <code>true</code> si l'attaque peut être lancée
+     *      <li><code>false</code> sinon
      */
     public boolean attack(Character target, int pos, String[] attackName) {
 
@@ -211,11 +238,11 @@ public abstract class Character extends GameObject {
      * @param pos la position du sort dans la liste
      * @param attackName sert à récupèrer le nom du sort
      * @return
-     *      - true si le sort peut être lancé
-     *      - false sinon
+     *      <code>true</code> si le sort peut être lancé
+     *      <li><code>false</code> sinon
      */
     public boolean lauchSpell(Character target, int pos, String[] attackName) {
-        
+
     	Spell spell = this.spells.get(pos);
         attackName[0] = spell.toString();
         int staminaConsuption = spell.getManaConsuption();
@@ -238,8 +265,8 @@ public abstract class Character extends GameObject {
      * @param value niveau d'énergie
      * @param stat mana ou stamina
      * @return
-     *      - true si le niveau d'énergie requis tes suffisant
-     *      - false sinon
+     *      <code>true</code> si le niveau d'énergie requis tes suffisant
+     *      <li><code>false</code> sinon
      */
     private boolean consumeEnergy(int value, Stats stat){
         int newEnergy = currentStats.get(stat) - value;
@@ -254,8 +281,8 @@ public abstract class Character extends GameObject {
      * utilise un consommable
      * @param consumable
      * @return
-     *      - true si le consommable peut être utilisé
-     *      - false sinon
+     *      <code>true</code> si le consommable peut être utilisé
+     *      <li><code>false</code> sinon
      */
     public boolean useConsumable(Consumable consumable) {
 
@@ -291,12 +318,13 @@ public abstract class Character extends GameObject {
     /**
      * remplace un item par un autre dans l'inventaire
      * @param item objet que l'on souhaite ajouté
-     * @param position position à laquelle on veut ranger l'objet
+     * @param positionX position X à laquelle on veut ranger l'objet
+     * @param positionY position Y à laquelle on veut ranger l'objet
      * @return
-     *      - null si l'emplacement est vide
-     *      - l'objet à l'emplacement "position"
+     *      <code>null</code> si l'emplacement est vide
+     *      <li><code>Item</code> l'objet à l'emplacement [x][y]
      */
-    public Item switchItem(Item item, int positionX,int positionY) {
+    public Item switchItem(Item item, int positionX, int positionY) {
         Item itemExchanged = inventory[positionX][positionY];
         inventory[positionX][positionY] = item;
         return itemExchanged;
@@ -309,28 +337,35 @@ public abstract class Character extends GameObject {
      * déplace le personnage
      */
     public void move(int deltaX, int deltaY) {
-        super.move(deltaX, deltaY);
-        animateMovement();
+        position = position.addToXY(deltaX, deltaY);
+        // position est immubale donc pas de (Position) position.clone()
+        isInMouvement = true;
+        ((CharacterAnimation) animation).playMovement(deltaX, deltaY, position);
     }
 
-    /**
-     * permet de mettre a jour la position et l'état du personnage lors d'un déplacement
+     /**
+     * 2 fonctionnalités :
+     * <ul>
+     * <li> informme si l'animlation de déplacement est en train d'âtre jouée
+     * <li> si le personnage s'arrête et que l'animation de déplacement est finie
+     * on remet l'état de l'animation en "IDLE"
+     * </ul>
+     * @return
+     *      <code>true</code> si l'animation de mouvement est en train d'être jouée
+     *      <li><code>false</code> sinon
      */
-    private void animateMovement() {
-    	isInMouvement = true;
-    	visual.resetShift();
-    	new Thread(() -> {
-    		for (int i = 0; i<WorldManager.IMAGES_PER_MOVE; i++) {
-    			try {
-					visual.updateMoveShift();
-    				Thread.sleep((long) (WorldManager.MOVE_TIME/WorldManager.IMAGES_PER_MOVE));
-    			} catch (InterruptedException e) {
-    				e.printStackTrace();
-    			}
-        	} isInMouvement = false;
-    	}).start();
+    public boolean AnimationPlayMoving( ) {
+        boolean playMvt = ((CharacterAnimation) animation).getPlayMoving();
+        if (!playMvt && isInMouvement) {
+            isInMouvement = false;
+            animation.setState(state);
+        }
+    	return playMvt;
     }
 
+    public void startAnimation() {
+        animation.playingAnimation();
+    }
 
     // ____________________________
     // __________ EFFETS __________
@@ -340,8 +375,8 @@ public abstract class Character extends GameObject {
      * si au moins un effet de la liste peut être ajouté, on retourne vraie
      * @param newEffects la liste en question
      * @return
-     *      -> true si au moins un effet a pu être ajouté
-     *      -> false sinon
+     *       <code>true</code> si au moins un effet a pu être ajouté
+     *       <li><code>false</code> sinon
      */
     public boolean addEffects(List<Effect> newEffects) {
         boolean isEffectAdded = false;
@@ -358,8 +393,8 @@ public abstract class Character extends GameObject {
      * par exemple si le personnage a toute sa vie, l'effet heal n'est pas ajouté
      * @param newEffect l'effet à ajouter
      * @return
-     *      -> true si l'effet a pu être ajouté
-     *      -> false sinon
+     *      <code>true</code> si l'effet a pu être ajouté
+     *      <li><code>false</code> sinon
      */
     public boolean addEffect(Effect newEffect) {
 
@@ -380,12 +415,11 @@ public abstract class Character extends GameObject {
      * gère la mort du personnage
      */
     public void die() {
-        this.state=State.DEAD;
+        setState(State.DEAD);
         this.isAlvie = false;
     }
 
     public String toString() {
-        return objectName;
+        return name;
     }
-
 }

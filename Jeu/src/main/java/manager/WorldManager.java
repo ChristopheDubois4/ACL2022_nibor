@@ -2,6 +2,7 @@ package manager;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,17 +10,22 @@ import org.javatuples.Pair;
 
 import engine.Cmd;
 import engine.Command;
+import prefab.entity.Character;
+import prefab.entity.Enemy;
 import prefab.entity.GameObject;
 import prefab.entity.Mob1;
 import prefab.entity.Player;
+import prefab.entity.Player.PlayerClasses;
 import prefab.gui.*;
-import prefab.information.PlayerClasses;
 import prefab.information.Position;
 import prefab.level.GameLevel;
+import prefab.props.UsableObject;
+import prefab.rendering.Animation;
+import prefab.rendering.Animator;
+import prefab.rendering.CharacterAnimation;
+import prefab.rendering.Sprite;
+import prefab.rendering.Visual;
 import prefab.information.State;
-import prefab.information.Visual;
-import java.awt.image.BufferedImage;
-
 
 /**
  * gère le monde dans lequel le joueur évolue
@@ -56,60 +62,76 @@ public class WorldManager implements WorldPainter {
 
     /**
      * constructeur de la classe WorldManager
+     * @throws Exception
      */
-    public WorldManager() {    
+    public WorldManager() throws Exception {    
         // Initialisation du joueur
         initPlayer();        
         // Initialisation des Huds
         initHuds();
         // Initialisation des niveaux
         initLevels();
+
         // Initialisation du gestionnaire de combats
         fightHud = new FightHud(player);
-        fightManager = new FightManager(player, fightHud);     
+        fightManager = FightManager.getInstance();
+        fightManager.initFightManager(player, fightHud);
         //testCombats();
     }
 
     /**
      * methode temporaire
+     * @throws Exception
      */
-    public static void testCombats() {
-
-        Position p1 = new Position(20, 5);
-        HashMap<State,BufferedImage> graphicsBOX = Utilities.getGraphicsFromJSON("player");
-        Mob1 mob = new Mob1(p1, graphicsBOX, "Jean le Destructeur", 1, 1);
-        fightManager.getIsInFight();
-        fightHud .loadEnemy(mob);   
-
-        fightManager.startNewFight(mob);     
+    public static void testCombats() throws Exception {               
+       
+            
 
     }
     
     /**
      * initialise le joueur
+     * @throws Exception
      */
-    public void initPlayer() {
-        //TEST
-        HashMap<State,BufferedImage> graphicsPLAYER = Utilities.getGraphicsFromJSON("player");
-        Position p1 = new Position(10, 10);
-        player = new Player(p1, graphicsPLAYER, "II_ChRom3_II", 1, 1, PlayerClasses.CLERIC); 
-        player.takeDammage(50);
+    public void initPlayer() throws Exception {
+      
+        HashMap<State,Sprite> s =  Utilities.getSpritesFromJSON("player");
+
+        Animation a = CharacterAnimation.createForPlayer(s);
+
+        Position p1 = Position.create(10, 10);
+
+        player = new Player(p1, a, 1, 1, "II_ChRom3_II", PlayerClasses.CLERIC); 
+        player.takeDammage(95);
         System.out.println("Player : "+ player.getPosition() + "\n");
     }
 
     /**
      * initialise les niveaux
+     * @throws Exception
      */
-    public void initLevels() {
+    public void initLevels() throws Exception {
         levelCreator = new LevelCreator(inventoryHud);
         gameLevels = levelCreator.getLevels();
         currentLevel = gameLevels.get("default");
+
+        HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
+
+        Animation aM = CharacterAnimation.createForPNJ(sM);
+
+        Position p1M = Position.create(10, 2);
+
+        Mob1 mob = new Mob1(p1M, aM, 1, 1, "Jean le Destructeur");
+        mob.startAnimation();
+
+        currentLevel.addGameObject(mob);
     }
 
     /**
      * initialise les huds
+     * @throws Exception
      */
-    public void initHuds() {
+    public void initHuds() throws Exception {
         huds = new ArrayList<Hud>();       
 
         inventoryHud = new InventoryHud(player);
@@ -145,15 +167,17 @@ public class WorldManager implements WorldPainter {
     /**
      * met à jour les données du monde
      * @param cmd commande du joueur
+     * @throws Exception
      * @throws InterruptedException
      */
-    public void updateWorld(Command command) {
+    public void updateWorld(Command command) throws Exception {
 
         Cmd cmd = command.getKeyCommand();      
         
         if (isKeyLocked) {
             return;
         }
+
 
         if (fightManager.getIsInFight()) {
             /*
@@ -168,9 +192,6 @@ public class WorldManager implements WorldPainter {
             return;            
         }
 
-        if (cmd == Cmd.IDLE) {
-            return;
-        }
 
 
         if (cmd == Cmd.INVENTORY && command.getActionType() == "released"  && !inventoryHud.isChestDisplay()) {
@@ -211,21 +232,21 @@ public class WorldManager implements WorldPainter {
         }
 
 
-
         // Faire des trucs 
 
         // Si LEFT, DOWN, RIGHT ou UP (implicite à cause des "return")       
-       
-       
-        if (!player.getIsInMouvement())
-        	movePlayer(cmd);  
+        if (!player.AnimationPlayMoving()) {
+            movePlayer(cmd);  
+       }
     }
 
     /**
      * deplace le joueur
      * @param cmd commande du joueur
+     * @throws CloneNotSupportedException
      */
-    private void movePlayer(Cmd cmd) {    
+    private void movePlayer(Cmd cmd) throws CloneNotSupportedException {    
+
         //Si le joueur est mort il ne peut pas bouger
         if (player.getState()==State.DEAD) return;
 
@@ -261,8 +282,18 @@ public class WorldManager implements WorldPainter {
          * s'il n'y a pas d'obstacle, déplace le joueur
          */
         if (check.getValue0()) {             
-            player.move(deltaX, deltaY);              
+            player.move(deltaX, deltaY);  
+            keyLocker(MOVE_TIME);
+            System.out.println("Player : "+ player.getPosition() + "\n");
+            
             return;
+        }
+
+        if (check.getValue1() instanceof Enemy) {
+            
+            fightManager.getIsInFight();
+            fightHud.loadEnemy((Character) check.getValue1()); 
+            fightManager.startNewFight((Character) check.getValue1()); 
         }
 
         System.out.println("MOVEMENT IMPOSSIBLE \nObjet de la collision : "+ check.getValue1() + "\n");
@@ -274,8 +305,9 @@ public class WorldManager implements WorldPainter {
     /**
      * utilise l'objet en face du joueur
      * @param cmd commande du joueur
+     * @throws Exception
      */
-    private void usePlayer(Cmd cmd) {
+    private void usePlayer(Cmd cmd) throws Exception {
         int deltaX = 0, deltaY = 0;
         switch (player.getState()) {            
             case IDLE_LEFT:
@@ -302,6 +334,10 @@ public class WorldManager implements WorldPainter {
         /**
          * s'il n'y a pas d'objet utilisable rien ne se passe, on sort de la fonction
          */
+        System.out.println("player.getState() "+ player.getState());
+
+        System.out.println("Cas d'SLTTT\n");
+
         if (check.getValue1() == null) {                        
             return;
         } 
@@ -309,7 +345,11 @@ public class WorldManager implements WorldPainter {
         System.out.println("Player utilise : "+ check.getValue1() + "\n");
         //si l'objet est utilisable, on l'utilise
         //si un HUD est nécessaire return true
-        check.getValue1().objectUse(player,cmd);
+        if (check.getValue1() instanceof UsableObject) {
+         
+            ((UsableObject) check.getValue1()).objectUse(player,cmd);
+          
+        }
     }
 
     @Override
@@ -317,13 +357,26 @@ public class WorldManager implements WorldPainter {
      * récupère les visuels que l'on souhaite afficher
      * @return les visuels à afficher
      */
-    public List<Visual> getVisuals() {
+    public List<Visual> getVisuals() throws Exception {
+
+        List<Animation> animations = Animator.getInstance().getAnimations();
+        List<Visual> visuals = new ArrayList<Visual>();
+
+        if (!fightHud.hudIsDisplayed()) {
+            animations.addAll(currentLevel.getAnimations());
+        } else {
+            visuals.addAll(fightHud.getVisuals());
+        }
+
+        Collections.sort(animations);
+        for (Animation animation : animations) {
+            visuals.add(animation.getVisual());
+        }
 
         if (fightManager.getIsInFight()) {
-            return fightHud.getVisuals();
+            return visuals;
         }
-        List<Visual> visuals = currentLevel.getVisuals();        
-        visuals.add(player.getVisual());
+         
         for (Hud hud : huds) {
             if (hud.hudIsDisplayed()) {
                 visuals.addAll(hud.getVisuals());

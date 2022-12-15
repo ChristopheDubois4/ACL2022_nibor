@@ -60,7 +60,7 @@ public class Effect {
             	character.takeDammage(effect.getPowerValue());
                 break;        
             case DEFENSEDOWN:
-            	stats.replace(Stats.DEFENSE , effect.getPowerValue()); 
+				currentStats.replace(Stats.DEFENSE , effect.getPowerValue()); 
                 break;
             case POISON:
                 //System.out.println("Buenos dias");
