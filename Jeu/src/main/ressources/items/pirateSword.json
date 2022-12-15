@@ -1,0 +1,8 @@
+[
+    {
+    "type": "Weapon",
+    "name": "epee pirate",
+    "graphics":"sword_1",
+    "powerValue": 20
+    }
+]

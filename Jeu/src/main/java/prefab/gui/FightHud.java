@@ -178,7 +178,7 @@ public class FightHud extends Hud{
 	public void draw(Graphics2D g) {       
 
         // Affichage temporaire de l'emplacement du joueur et de l'ennemi
-        drawTemp(g);
+        //drawTemp(g);
         
         g.setStroke(new BasicStroke(3));
 

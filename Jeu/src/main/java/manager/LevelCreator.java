@@ -24,6 +24,7 @@ import prefab.information.Layer;
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.level.GameLevel;
+import prefab.props.*;
 import prefab.props.Chest;
 import prefab.props.TrappedBox;
 import prefab.rendering.Animation;
@@ -49,9 +50,7 @@ public class LevelCreator {
     public LevelCreator(InventoryHud inventoryHud) throws Exception {
         this.inventoryHud=inventoryHud;
         gameLevels = new HashMap<String, GameLevel>();
-        // Quand les tests seront fini dé-commenter : 
-        // initGameLevels(); 
-        testSrpint1();
+        initGameLevels(); 
     }
 
     public HashMap<String, GameLevel> getLevels() {
@@ -74,7 +73,6 @@ public class LevelCreator {
 
     private void testReforge() throws Exception {
          
-        GameLevel level1 = new GameLevel();
         /*
         HashMap<State,Sprite> s =  Utilities.getSpritesFromJSON("trap");
 
@@ -114,9 +112,9 @@ public class LevelCreator {
 
         GameObject o1 = new TrappedBox(p1, aTrappedBox, 1,1, null);
         System.out.println("TRAPPEDBOX");
+       
+        GameLevel level1 = new GameLevel(new ArrayList<GameObject>(Arrays.asList(o1, o5)));
 
-        
-        level1.addGameObjects(new ArrayList<GameObject>(Arrays.asList(o1, o5)));
         gameLevels.put("default",level1);
 
     }
@@ -139,32 +137,30 @@ public class LevelCreator {
         // récupération du fichier JSON a partir d'un chemin
         File directory = new File(file);
         JSONParser jsonParser = new JSONParser();
-        System.out.println("AVANT TRY");
         // lecture du fichier JSON
         try (FileReader reader = new FileReader(directory))
         {
-            System.out.println("DANS LE TRY");
-            
             //Read JSON file
             Object obj = jsonParser.parse(reader);
             // tableau de niveau sous format JSON
             JSONArray levels = (JSONArray) obj;
-            System.out.println(levels);
             // parcours des niveaux
             for (int i = 0; i < levels.size() ; i++) {
 
                 JSONObject level = (JSONObject) levels.get(i);
-                String levelName = (String) level.get("name");
 
+                String levelName = (String) level.get("name");
+                JSONArray levelInitMap = ((JSONArray) level.get("initMap"));
+                int[][] levelInitMapArray = jsonArrayTo2DInt(levelInitMap);
                 JSONArray levelObjects = (JSONArray) level.get("gameObjects");
 
                 List<GameObject> gameObjects = new ArrayList<GameObject>();
+                
                 // parcours des objets du niveau
                 for (int k = 0; k < levelObjects.size() ; k++) {
                     // Kième objet du ième niveau 
                     JSONObject gameObject = (JSONObject) levelObjects.get(k);
-                    // nom de l'objet
-                    String objectName = (String) gameObject.get("objectName");
+                    String type = (String) gameObject.get("type");
                     // position
                     JSONObject position = (JSONObject) gameObject.get("position");
                     int x = (int) ((long) position.get("x"));
@@ -172,27 +168,64 @@ public class LevelCreator {
                     Layer layer =  Layer.valueOf((String) position.get("layer"));
                     Position p = Position.createPosition(x, y, layer);
                     // graphics
-                    HashMap<State,BufferedImage> graphics = Utilities.getGraphicsFromJSON((String) gameObject.get("graphics"));
-                    // hitbox
-                    int horizontalHitBox = (int) ((long) gameObject.get("horizontalHitBox"));
-                    int verticalHitBox = (int) ((long) gameObject.get("verticalHitBox"));
-                    // type
-                    String type = (String) gameObject.get("type");
-                    // informations qui dépendent du type de l'objet
-                    JSONObject typeInfos = (JSONObject) gameObject.get("typeInfos");
+                    HashMap<State, Sprite> graphics = Utilities.getSpritesFromJSON((String) gameObject.get("graphics"));
+                    Animation animation = Animation.create(graphics);            
+                   
+                    int horizontalHitBox = 0;
+                    int verticalHitBox = 0;
+
+                    try {
+                        horizontalHitBox = (int) ((long) gameObject.get("horizontalHitBox"));
+                        verticalHitBox = (int) ((long) gameObject.get("verticalHitBox"));
+                    } catch (Exception e) {
+                        System.out.println("DANS LE TRY HITBOX");
+                    }
+
+
                     // traitement différent selon le type de l'objet
                     switch (type) {
                         case "GameObject" :
-                            gameObjects.add(GameObject.createWithDefaultState(p, null, horizontalHitBox, verticalHitBox)); //manque l'animation
+                            GameObject props = GameObject.createWithDefaultState(p, animation, horizontalHitBox, verticalHitBox);
+                            gameObjects.add(props);
                             break;
-                        case "Ghost" :
-                            createGhost(gameObjects, p, graphics, objectName, horizontalHitBox, verticalHitBox, typeInfos);
-                        break;                    
+                        case "Chest" :
+                            Item[] chestContents;
+                            chestContents = Chest.fillChestItem();
+                            Chest chest = new Chest(p, animation, horizontalHitBox, verticalHitBox, chestContents, inventoryHud); //recup les parametres pour le constructeur
+                            gameObjects.add(chest);
+                            break;          
+                        case "Ladder" :
+                            Ladder ladder = new Ladder(p,animation,verticalHitBox);//recup les parametres pour le constructeur
+                            gameObjects.add(ladder);
+                            break;      
+                        case "Trap" :
+                            int dammage = (int) ((long) gameObject.get("dammage"));
+                            Trap trap = new Trap(p, animation, horizontalHitBox, verticalHitBox, dammage);
+                            gameObjects.add(trap);
+                            break;  
+                        case "TrappedBox" :
+                            // TEMPORAIRE
+                            HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
+                            Animation aM = CharacterAnimation.createForPNJ(sM);
+                            // FIN
+                            Mob1 mob = new Mob1(p, aM, 1, 1, "Je suis méchant");
+                            TrappedBox trappedBox = new  TrappedBox(p,animation,horizontalHitBox,verticalHitBox,mob);//recup les parametres pour le constructeur
+                            gameObjects.add(trappedBox);
+                            break;
+                        case "Door" :
+                            String nextLevel = (String) gameObject.get("nextLevel");
+                            JSONObject nextPos = (JSONObject) gameObject.get("nextPosition");
+                            int newX = (int) ((long) nextPos.get("newX"));
+                            int newY = (int) ((long) nextPos.get("newY"));
+                            Position nextPosition = Position.create(newX, newY-1);
+                            Door door = new Door(p, animation, verticalHitBox, horizontalHitBox, nextLevel, nextPosition);//recup les parametres pour le constructeur
+                            gameObjects.add(door);
+                            break;                      
                         default:
                             break;
                     }
                 }
-                GameLevel gameLevel = new GameLevel(gameObjects);
+                GameLevel gameLevel = new GameLevel(gameObjects,levelInitMapArray);
                 this.gameLevels.put(levelName, gameLevel);
             }           
         } catch (FileNotFoundException e) {
@@ -202,14 +235,22 @@ public class LevelCreator {
         } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
-
-        // TESTS
-        /*
-        System.out.println("DANS LE WHILE");
-        while (true);
-        */
     }
 
+    public int[][] jsonArrayTo2DInt(JSONArray jsonArray){
+        int[][] int2DConvert = new int[15][27];
+        Object[] js = (Object[]) jsonArray.toArray();
+        for (int i = 0 ; i < 15; i++){
+            JSONArray jsonRowI = (JSONArray) js[i];
+            Object[] jsonListRowI = (Object[]) jsonRowI.toArray();
+            for (int j = 0; j < 27; j++) {
+                Long jsonLongRowIColumnJ = (Long) jsonListRowI[j];
+                int jsonIntRowIColumnJ = jsonLongRowIColumnJ.intValue();
+                int2DConvert[14-i][j] = jsonIntRowIColumnJ;
+            }
+        }
+        return int2DConvert;
+    }
     /**
      * ( W I P )
      * (les noms des mobs ne sont pas encore définis, "Ghost" est prit a titre d'exemple )
@@ -222,12 +263,7 @@ public class LevelCreator {
      * @param verticalHitBox hitbox verticale
      * @param typeInfos JSONObject contenent les informations spécifique d'un objet de type Ghost
      */
-    private void createGhost(List<GameObject> gameObjects, Position p, HashMap<State, BufferedImage> graphics,
-            String objectName, int horizontalHitBox, int verticalHitBox, JSONObject typeInfos) {
-        // traitement de typeInfos
-        // constructeur Ghost
-        // gameobjects.add(ghost)                
-    }
+
 
      /**
      * methode temporaire

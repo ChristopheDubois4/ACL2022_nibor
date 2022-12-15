@@ -24,7 +24,10 @@ public abstract class Item {
     
     public Item(String name, String graphicsSelector, int price) {
         this.price=price;
+        if (graphicsSelector.length()>0) {
         graphics = Utilities.getImage(path+graphicsSelector+".png");
+        }
+        else graphics = null;
         System.out.println((graphics == null));
         this.setName(name);
     } 

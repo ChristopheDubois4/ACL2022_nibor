@@ -15,6 +15,7 @@ import prefab.equipment.Consumable;
 import prefab.equipment.Effect;
 import prefab.equipment.Item;
 import prefab.gui.FightHud;
+import prefab.information.State;
 
 /**
  * gère les combats
@@ -92,6 +93,7 @@ public class FightManager {
         this.player.setIsInFight(true);
         this.enemy.setIsInFight(true);
 
+        fightHud.loadEnemy(enemy);
 		fightHud.changeDisplayState(0);
 	}
 
@@ -392,5 +394,15 @@ public class FightManager {
 		fightHud.changeDisplayState();
 
 	}
-
+	
+	private void menuController(Command command) {
+		
+	}
+	
+	private void ennemyTurn() {
+		
+	}
+	
+	private void palyerTurn() {
+	}
 }

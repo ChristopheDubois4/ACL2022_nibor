@@ -38,14 +38,14 @@ public class WorldManager implements WorldPainter {
     public static final int IMAGES_PER_MOVE = 10;
 
     // createurs
-    private LevelCreator levelCreator;
+    private static LevelCreator levelCreator;
 
     // combats
     private static FightManager  fightManager;
     
     // niveaux
-    public HashMap<String, GameLevel> gameLevels;
-    public GameLevel currentLevel;
+    public static HashMap<String, GameLevel> gameLevels;
+    public static GameLevel currentLevel;
 
     // huds
     private List<Hud> huds;
@@ -78,17 +78,7 @@ public class WorldManager implements WorldPainter {
         fightManager.initFightManager(player, fightHud);
         //testCombats();
     }
-
-    /**
-     * methode temporaire
-     * @throws Exception
-     */
-    public static void testCombats() throws Exception {               
-       
-            
-
-    }
-    
+      
     /**
      * initialise le joueur
      * @throws Exception
@@ -113,17 +103,16 @@ public class WorldManager implements WorldPainter {
     public void initLevels() throws Exception {
         levelCreator = new LevelCreator(inventoryHud);
         gameLevels = levelCreator.getLevels();
-        currentLevel = gameLevels.get("default");
+        currentLevel = gameLevels.get("level_1");
 
         HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
 
         Animation aM = CharacterAnimation.createForPNJ(sM);
 
-        Position p1M = Position.create(10, 2);
+        Position p1M = Position.create(10, 12);
 
         Mob1 mob = new Mob1(p1M, aM, 1, 1, "Jean le Destructeur");
         mob.startAnimation();
-
         currentLevel.addGameObject(mob);
     }
 
@@ -289,10 +278,7 @@ public class WorldManager implements WorldPainter {
             return;
         }
 
-        if (check.getValue1() instanceof Enemy) {
-            
-            fightManager.getIsInFight();
-            fightHud.loadEnemy((Character) check.getValue1()); 
+        if (check.getValue1() instanceof Enemy) {                 
             fightManager.startNewFight((Character) check.getValue1()); 
         }
 
@@ -370,7 +356,13 @@ public class WorldManager implements WorldPainter {
 
         Collections.sort(animations);
         for (Animation animation : animations) {
-            visuals.add(animation.getVisual());
+            if (animation instanceof CharacterAnimation && fightManager.getIsInFight()) {
+                if ( ((CharacterAnimation) animation).getIsInFight() ) {
+                    visuals.add(animation.getVisual());
+                }
+            } 
+            else
+                visuals.add(animation.getVisual());
         }
 
         if (fightManager.getIsInFight()) {

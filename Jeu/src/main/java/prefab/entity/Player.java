@@ -49,11 +49,6 @@ public class Player extends Character implements PlayerInfosFofHud{
         this.xp = 0;
         initCharacteristic();
         startAnimation();
-
-        //tempo
-        //this.inventory.set(0, new Item(0,null,"Item_1"));
-        //this.inventory.set(1, new Item(0,null,"Item_2"));
-        //this.inventory.set(2, new Item(0,null,"Item_3"));
         
     }
 
@@ -100,17 +95,22 @@ public class Player extends Character implements PlayerInfosFofHud{
                 this.stats.put(Stats.SPEED, 100);
                 this.stats.put(Stats.DAMAGE, 50);
 
-                List<Effect> effectPopo = new ArrayList<Effect>(){{add(new Effect(TypeEffects.HEAL, 10));}};
+                List<Effect> effectPopo = new ArrayList<Effect>();
+                effectPopo.add(new Effect(TypeEffects.HEAL, 10));
 
-                weapon = new Weapon("epeeDelaMort", "sword_1", 50);
+                inventory[2][1] = new Armor("test_1", "bitcoin", ArmorPieces.HELMET);
+                inventory[2][2] = new Armor("test_1", "bitcoin", ArmorPieces.CHESTPLATE);
+                inventory[2][3] = new Armor("test_1", "bitcoin", ArmorPieces.LEGGING);
+                inventory[2][4] = new Armor("test_1", "bitcoin", ArmorPieces.BOOTS);
+
 
                 inventory[0][0] = new Weapon("epeeDelaMort", "sword_1", 50);
+                weapon = new Weapon("epeeDelaMort", "sword_1", 50);
                 inventory[13][5] = new Consumable("Potion de soin", "potion_heal",effectPopo);
                 inventory[13][2] = new Consumable("Potion de soin", "potion_heal",effectPopo);
                 inventory[13][4] = new Consumable("Potion de soin", "potion_heal",effectPopo);
 
 
-                //weapon=new Weapon("epeeDelaMort", "sword_1");
                 HashMap<ArmorPieces,Armor> equippedArmorTemp = new HashMap<ArmorPieces,Armor>();
 
                 equippedArmorTemp.put(ArmorPieces.HELMET,new Armor("Helmet", "helmet_1", ArmorPieces.HELMET));
@@ -167,10 +167,9 @@ public class Player extends Character implements PlayerInfosFofHud{
     public int getMoney() {       
         return this.money;
     }
-  
+    
     @Override
     public HashMap<ArmorPieces, Armor> getEquipedArmor() {
-        // TODO Auto-generated method stub
         return equippedArmor;
     }
 
@@ -178,10 +177,16 @@ public class Player extends Character implements PlayerInfosFofHud{
 		return currentStats.get(Stats.HP);
 	}
 
-    @Override
     public Weapon getWeapon() {
-        // TODO Auto-generated method stub
         return weapon;
+    }
+    
+    @Override
+    public void setWeapon(Weapon weapon) {
+        if (weapon==null){
+            weapon = new Weapon(null, null, 0);
+        }
+        this.weapon=weapon;
     }
     
 }

@@ -11,7 +11,11 @@ import prefab.rendering.Animation;
 import prefab.rendering.Visual;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
+import prefab.equipment.Consumable;
+import prefab.equipment.Effect;
 import prefab.equipment.Item;
+import prefab.equipment.Weapon;
+import prefab.equipment.Effect.TypeEffects;
 import prefab.gui.InventoryHud;
 
 
@@ -34,6 +38,7 @@ public class Chest extends GameObject implements UsableObject{
      */
     public Chest(Position position, Animation animation, int horizontalHitBox, int verticalHitBox,InventoryHud inventoryHud) throws CloneNotSupportedException {
         super(position, animation, horizontalHitBox, verticalHitBox, State.CLOSE);
+        this.inventoryHud=inventoryHud;
     }
     
     
@@ -81,6 +86,15 @@ public class Chest extends GameObject implements UsableObject{
     }
 
     public Item[] getChestContents() {
+        return chestContents;
+    }
+
+    public static Item[] fillChestItem() {
+        List<Effect> effectPopo = new ArrayList<Effect>();
+        effectPopo.add(new Effect(TypeEffects.HEAL, 10));
+
+        Item[] chestContents = new Item[]{new Weapon("epee pirate", "sword_1", 42),
+                                        new Consumable("Potion de soin","potion_heal", effectPopo)};
         return chestContents;
     }
 }

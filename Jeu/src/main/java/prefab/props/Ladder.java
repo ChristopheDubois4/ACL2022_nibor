@@ -22,7 +22,7 @@ public class Ladder extends GameObject implements UsableObject{
     }
 
     public Ladder(Position position, Animation animation, int verticalHitBox) throws CloneNotSupportedException {
-        this(position, animation, 1, verticalHitBox);
+        this(position, animation, verticalHitBox, 1);
     }
 
 
@@ -42,7 +42,7 @@ public class Ladder extends GameObject implements UsableObject{
             user.setPosition(Position.createPosition(userP.getX(), thisP.getY()-1, userP.getLayer()));
         }
         else if (userP.getY()<thisP.getY()){
-            userP.setY(thisP.getY()+getHitBox().getValue1());
+            user.setPosition( Position.create(userP.getX(), thisP.getY() + (int) getHitBox().getValue1()) );
         }
         else {
             System.out.println("On ne peut pas prendre l'échelle sur côté\n");

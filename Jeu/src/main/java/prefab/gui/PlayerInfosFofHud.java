@@ -16,4 +16,6 @@ public interface PlayerInfosFofHud {
     public Weapon getWeapon();
     public HashMap<Stats, Integer> getCurrentStats();
     public HashMap<Stats, Integer> getStats();
+    public void setWeapon(Weapon weapon);
+    public void setEquippedArmor(HashMap<ArmorPieces, Armor> equippedArmor);
 }

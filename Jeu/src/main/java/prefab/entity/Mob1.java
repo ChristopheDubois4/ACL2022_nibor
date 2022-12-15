@@ -1,9 +1,14 @@
 package prefab.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import prefab.equipment.Consumable;
+import prefab.equipment.Effect;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
+import prefab.equipment.Effect.TypeEffects;
 import prefab.information.Position;
 import prefab.information.Stats;
 import prefab.rendering.Animation;
@@ -30,6 +35,9 @@ public class Mob1 extends Character implements Enemy{
         this.stats.put(Stats.DAMAGE, 5);
         inventory[0][0] = new Weapon("epeeDelaMort", "sword_1",30);
         inventory[13][5] = new Weapon("truc", "bitcoin", 50);
+        List<Effect> effectPopo = new ArrayList<Effect>();
+        effectPopo.add(new Effect(TypeEffects.HEAL, 10));
+        inventory[13][5] = new Consumable("Potion de soin", "potion_heal",effectPopo);
         resetCurrentStats();
 
 

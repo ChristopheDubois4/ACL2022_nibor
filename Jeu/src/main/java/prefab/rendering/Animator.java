@@ -42,13 +42,13 @@ public final class Animator implements Runnable{
     }
 
     public void removeAnimation(Animation animation) {
-        animations.add(animation);
+        animations.remove(animation);
     }
 
     public List<Animation> getAnimations() throws CloneNotSupportedException {
 
         List<Animation> newAnimations = new ArrayList<Animation>();
-        for (Animation animation : animations) {
+        for (Animation animation : animations) {    
             newAnimations.add( (Animation) animation.clone());
         }
         return newAnimations;

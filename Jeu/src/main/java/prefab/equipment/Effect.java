@@ -14,7 +14,8 @@ public class Effect {
 	    HIT,
 	    DEFENSEDOWN,
 	    POISON,
-	    SLOWNESS,	    
+	    SLOWNESS,
+		BLEEDING;	    
 	}
 	
 	private TypeEffects typeEffects;

@@ -19,12 +19,16 @@ import prefab.entity.Character;
 public class GameLevel {
     
     private List<GameObject> gameObjects;
+    private int[][] forbiddenPosition;
 
     /**
      * constructeur de la classe GameObject
+     * @param levelInitMap
+     * @param gameObjects2
      */
-    public GameLevel() {
-        this.gameObjects = new ArrayList<GameObject>();
+    public GameLevel(List<GameObject> gameObjects, int[][] levelInitMap) {
+        this.gameObjects = gameObjects;
+        this.forbiddenPosition = levelInitMap;
     }
 
     /**
@@ -67,6 +71,22 @@ public class GameLevel {
         this.gameObjects.removeAll(gameObjects);
     }
 
+    public void unload() {
+        for (GameObject gameObject : gameObjects) {
+            gameObject.stopAnimation();
+        }
+    }
+
+    public void load() {
+        for (GameObject gameObject : gameObjects) {
+            if (gameObject instanceof Character) {
+                ((Character) gameObject).startAnimation();
+            }            
+        }
+    }
+
+
+
     /**
      * test si le déplacement d'un objet est possible dans le niveau en
      * regardant toutes les coordonées déjà occupées par les autres objets
@@ -82,6 +102,9 @@ public class GameLevel {
     public Pair<Boolean, GameObject> checkMove(Character character, int deltaX, int deltaY) throws CloneNotSupportedException {
         // On test si le personnage se retrouve en dehors de la map
         if (!character.getPosition().authorizedPosition(deltaX, deltaY)) {
+            return new Pair<Boolean, GameObject>(false, null);
+        }
+        if (forbiddenPosition[character.getPosition().getY()+deltaY][character.getPosition().getX()+deltaX] == -1){
             return new Pair<Boolean, GameObject>(false, null);
         }
         // Récupérations de toutes le coordonées de l'objet à tester
@@ -111,9 +134,8 @@ public class GameLevel {
             } else
             animations.add(gameObject.getAnimation());
         }
-        return animations;    }
-
-
+        return animations;    
+    }
   
     @Override
     public String toString() {

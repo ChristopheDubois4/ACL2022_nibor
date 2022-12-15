@@ -75,7 +75,7 @@ public class Animation implements Cloneable, Comparable<Animation>{
     }
 
     public Visual getVisual() throws Exception {
-        return Visual.createWithGameCoord(position.getX(), position.getY(), currentSprite.getImage(spriteIndex));
+        return Visual.createWithGameCoord(position.getX(), position.getY()-1, 0,  currentSprite.getImage(spriteIndex).getHeight(), currentSprite.getImage(spriteIndex));
     }
 
     @Override
