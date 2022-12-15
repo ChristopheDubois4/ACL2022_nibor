@@ -8,7 +8,8 @@ import java.util.List;
 
 import manager.Utilities;
 import prefab.information.Stats;
-import prefab.information.Visual;
+import prefab.rendering.Visual;
+
 import java.awt.image.BufferedImage;
 
 public class StatsHud extends Hud{
@@ -21,12 +22,11 @@ public class StatsHud extends Hud{
 
 	private static final int firstPosX = 8, firstPosY = 0; 
 	
-	public StatsHud(PlayerInfosFofHud player) {
+	public StatsHud(PlayerInfosFofHud player) throws Exception {
 		this.isDisplayed=true;
 		this.player = player;
 		this.backgroundImage = Utilities.getImage(inventoryPath);
-		this.visual = new Visual(firstPosX, firstPosY, backgroundImage);
-		visual.setDeltaPos(0,20);
+		this.visual = Visual.createWithGameCoord(firstPosX, firstPosY, 0, 20, backgroundImage);
 	}
 	
 	public void draw(Graphics2D g) {

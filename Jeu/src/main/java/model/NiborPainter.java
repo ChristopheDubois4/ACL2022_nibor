@@ -3,12 +3,12 @@ package model;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.BasicStroke;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import engine.GamePainter;
 import manager.WorldPainter;
-import prefab.information.Visual;
+import prefab.rendering.Visual;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -36,23 +36,34 @@ public class NiborPainter implements GamePainter {
 
 	/**
 	 * methode  redefinie de Afficheur retourne une image du jeu
+	 * @throws Exception
 	 */
 	@Override
 	public void draw(BufferedImage im) {
 
-		
 
 		Graphics2D g = (Graphics2D) im.getGraphics();
 				
 		
 		
 		//liste d'images avec leurs coordonnees
-		List<Visual> visuals = worldPainter.getVisuals();
+		List<Visual> visuals;
 
+		visuals = new ArrayList<Visual>();
+		try {
+			visuals = worldPainter.getVisuals();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println(visuals.size());
 		//affichages images
 		for(int i=0; i<visuals.size();i++){
 			Visual visual = visuals.get(i);
-			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY() , null);
+			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY(), visual.getWidth(), visual.getHeight(),  null);
 		}
 		
 		worldPainter.drawHuds(g);
@@ -62,12 +73,15 @@ public class NiborPainter implements GamePainter {
 		//affichages images (devant les Huds)
 		for(int i=0; i<visuals.size();i++){
 			Visual visual = visuals.get(i);
-			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY() , null);
+			g.drawImage(visual.getBufferedImage(), visual.getX(), visual.getY(), visual.getWidth(), visual.getHeight(),  null);
 		}
+		/**
+		 * invertion horizontale d'une image
+		 * g.drawImage(bufferedImage, x + width, y, -width, height, null);
+		 */
 
 		g.setStroke(new BasicStroke(1));
 
-	
 		//affichage quadrillage
 		//for (int i = 60; i <900; i= i+60) {
 		//	g.drawLine(0, i, 1620, i);

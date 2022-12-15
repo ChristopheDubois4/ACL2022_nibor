@@ -16,7 +16,9 @@ public interface GamePainter {
 	 * 
 	 * @param image
 	 *            image sur laquelle dessiner
+	 * @throws Exception
+	 * @throws CloneNotSupportedException
 	 */
-	public abstract void draw(BufferedImage image);
+	public abstract void draw(BufferedImage image) throws CloneNotSupportedException, Exception;
 	
 }

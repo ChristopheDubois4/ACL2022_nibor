@@ -3,7 +3,7 @@ package prefab.gui;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import prefab.information.Visual;
+import prefab.rendering.Visual;
 
 public class HotbarHud extends Hud{
 

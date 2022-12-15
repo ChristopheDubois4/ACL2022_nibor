@@ -8,8 +8,8 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import prefab.entity.GameObject;
+import prefab.rendering.Animation;
 import prefab.entity.Character;
-import prefab.information.Visual;
 
 /**
  * représente un niveau 
@@ -77,8 +77,9 @@ public class GameLevel {
      *      -> true si le personngae peut se déplacer
      *      -> false sinon
      *  - un GameObject : l'objet qui bloc le passage (null sinon)
+     * @throws CloneNotSupportedException
      */
-    public Pair<Boolean, GameObject> checkMove(Character character, int deltaX, int deltaY) {
+    public Pair<Boolean, GameObject> checkMove(Character character, int deltaX, int deltaY) throws CloneNotSupportedException {
         // On test si le personnage se retrouve en dehors de la map
         if (!character.getPosition().authorizedPosition(deltaX, deltaY)) {
             return new Pair<Boolean, GameObject>(false, null);
@@ -99,24 +100,21 @@ public class GameLevel {
 
     /**
      * dessine les gameObjects du niveau
+     * @throws CloneNotSupportedException
      */
-    public List<Visual> getVisuals() {
+    public List<Animation> getAnimations() throws CloneNotSupportedException {
 
-        sortGameObjects();
-        List<Visual> visuals = new ArrayList<Visual>();
+        List<Animation> animations = new ArrayList<Animation>();
         for (GameObject gameObject : gameObjects) {
-            visuals.add(gameObject.getVisual());
+            if (gameObject instanceof Character) {
+                
+            } else
+            animations.add(gameObject.getAnimation());
         }
-        return visuals;
-    }
+        return animations;    }
 
-    /**
-     * trie les gameObject selon leurs ordre d'affichage
-     */
-    private void sortGameObjects() {
-        Collections.sort(this.gameObjects);
-    }
 
+  
     @Override
     public String toString() {
         return Arrays.toString(this.gameObjects.toArray());

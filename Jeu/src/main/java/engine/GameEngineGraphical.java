@@ -58,14 +58,15 @@ public class GameEngineGraphical implements Runnable{
 		while (!this.game.isFinished()) {
 			// demande controle utilisateur
 			Command c = this.gameController.getCommand();
-			// fait evoluer le game
-			this.game.evolve(c);
-			// affiche le game
-			this.gui.paint();
-			// met en attente
+			
 			try {
+				// fait evoluer le game
+				this.game.evolve(c);
+				// affiche le game
+				this.gui.paint();
+				// met en attente
 				Thread.sleep(10);
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 

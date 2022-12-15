@@ -13,8 +13,10 @@ public interface Game {
 	 * 
 	 * @param userCmd
 	 *            commande utilisateur
+	 * @throws CloneNotSupportedException
+	 * @throws Exception
 	 */
-	public void evolve(Command userCmd);
+	public void evolve(Command userCmd) throws CloneNotSupportedException, Exception;
 
 	/**
 	 * @return true si et seulement si le jeu est fini

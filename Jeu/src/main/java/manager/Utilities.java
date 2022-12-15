@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import prefab.information.State;
+import prefab.rendering.Sprite;
 
 
 /**
@@ -78,6 +79,51 @@ public class Utilities {
             e.printStackTrace();
         }
         return image;
+    }
+
+
+
+    public static HashMap<State,Sprite> getSpritesFromJSON(String model) throws Exception {
+
+        HashMap<State,Sprite> sprites = new HashMap<State,Sprite>();
+        model = "src/main/ressources/levels/graphics/"+model+".json";
+
+        File directory = new File(model);
+        JSONParser jsonParser = new JSONParser();
+        try (FileReader reader = new FileReader(directory))
+        {            
+            //Read JSON file
+            Object obj = jsonParser.parse(reader); 
+            JSONArray graphicObjects = (JSONArray) obj;
+            // parcours de toutes les images
+            for (int i = 0; i < graphicObjects.size() ; i++) {
+                JSONObject graphicObject = (JSONObject) graphicObjects.get(i);
+
+                State state =  State.valueOf((String) graphicObject.get("state"));
+
+                JSONObject visual = (JSONObject) graphicObject.get("visual");
+
+                String pathStr = (String) visual.get("image");
+
+                Sprite s;
+
+                if (state == State.FIGHT) {
+                    s = Sprite.createBigSprite(pathStr, 4, 6);
+                } else {
+                    s = Sprite.createSprite(pathStr, 4);
+                }
+
+
+                sprites.put(state, s);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
+        return sprites;
     }
 
 }

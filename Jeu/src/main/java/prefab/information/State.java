@@ -16,6 +16,7 @@ public enum State {
     WALK_LEFT,
     WALK_RIGHT,
     DEFAULT,
+    FIGHT,
     DEAD,
     CLIMBING,
     OPEN,

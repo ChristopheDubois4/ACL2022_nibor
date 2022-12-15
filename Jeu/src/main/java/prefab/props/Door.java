@@ -1,12 +1,9 @@
 package prefab.props;
 
-import java.util.HashMap;
-
 import prefab.information.Position;
 import prefab.information.State;
+import prefab.rendering.Animation;
 import prefab.entity.GameObject;
-import java.awt.image.BufferedImage;
-
 
 /**
  * représente une porte ouvrable par le joueur
@@ -15,9 +12,10 @@ public class Door extends GameObject{
 
     /**
      * constructeur de la classe Character heritant de GameObject
+     * @throws CloneNotSupportedException
      */
-    public Door(Position position, HashMap<State, BufferedImage> graphics, String objectName, int verticalHitBox, int horizontalHitBox) {
-        super(position, graphics, objectName, verticalHitBox, horizontalHitBox);
+    public Door(Position position, Animation animation, int verticalHitBox, int horizontalHitBox) throws CloneNotSupportedException {
+        super(position, animation, verticalHitBox, horizontalHitBox, State.DEFAULT);
     }
 
 

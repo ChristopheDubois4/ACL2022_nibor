@@ -9,6 +9,7 @@ import org.javatuples.Pair;
 import engine.Cmd;
 import engine.Command;
 import manager.Utilities;
+import model.NiborPainter;
 import manager.ItemManager;
 import prefab.entity.Character;
 import prefab.equipment.Armor;
@@ -16,8 +17,8 @@ import prefab.equipment.Consumable;
 import prefab.equipment.Item;
 import prefab.equipment.Weapon;
 import prefab.equipment.Armor.ArmorPieces;
-import prefab.information.Visual;
 import prefab.props.Chest;
+import prefab.rendering.Visual;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -34,7 +35,7 @@ public class InventoryHud extends Hud{
 
     private String chestPath = "src/main/ressources/images/huds/inventory/chest.png";
     private static final int chestFirstPosX = 10, chestFirstPosY = 11;
-    private Visual chestVisual = new Visual(chestFirstPosX, chestFirstPosY, Utilities.getImage(chestPath));
+    private Visual chestVisual;
     private boolean chestDisplay = false;
 
     private Chest chest;
@@ -59,21 +60,20 @@ public class InventoryHud extends Hud{
     /**
      * constructeur de la classe InventoryHud heritant de Hud 
      * @param player joueur
+     * @throws Exception
      */
-    public InventoryHud(PlayerInfosFofHud player) {
+    public InventoryHud(PlayerInfosFofHud player) throws Exception {
         super();
         this.player = player;
 
+        chestVisual = Visual.createWithGameCoord(chestFirstPosX, chestFirstPosY, Utilities.getImage(chestPath));
+
         this.backgroundImage = Utilities.getImage(inventoryPath);
-        this.visual = new Visual(inventoryFirstPosX, inventoryFirstPosY, backgroundImage);
-        visual.setDeltaPos(1,29);
+        this.visual = Visual.createWithGameCoord(inventoryFirstPosX, inventoryFirstPosY, 1, 29, backgroundImage);
 
         this.backgroundImage = Utilities.getImage(equippedStuffPath);
-        this.visual1 = new Visual(equippedStuffFirstPosX, equippedStuffFirstPosY, backgroundImage);
-        visual1.setDeltaPos(0,0);
+        this.visual1 = Visual.createWithGameCoord(equippedStuffFirstPosX, equippedStuffFirstPosY, backgroundImage);
 
-
-        
     }
 
     /**
@@ -194,9 +194,11 @@ public class InventoryHud extends Hud{
     /**
      * retourne la liste des visuels à afficher de l'inventaire
      * @return la liste des visuels
+     * @throws Exception
      */
     @Override
-    public List<Visual> getVisuals()  {      
+    public List<Visual> getVisuals() throws Exception  {   
+        
         List<Visual> visuals = new ArrayList<Visual>();
         visuals.add(visual);
         visuals.add(visual1);
@@ -206,37 +208,36 @@ public class InventoryHud extends Hud{
             int x = inventoryFirstPosX + line;
             for ( int column=0; column<inventory[line].length; column++ ) {
                 int  y = inventoryFirstPosY - column;
-                if(inventory[line][column] != null)  visuals.add(new Visual(x, y, inventory[line][column].getImage()));
+                if(inventory[line][column] != null)  visuals.add(Visual.createWithGameCoord(x, y, inventory[line][column].getImage()));
             }
         } 
+
 
         for (Map.Entry<ArmorPieces,Armor> armor : player.getEquipedArmor().entrySet()){
             switch(armor.getKey()){
                 case HELMET:
-                    visuals.add(new Visual(posHelmet.getValue0(), posHelmet.getValue1(), armor.getValue().getImage()));
+                    visuals.add(Visual.createWithGameCoord(posHelmet.getValue0(), posHelmet.getValue1(), armor.getValue().getImage()));
                     break;
                 case CHESTPLATE:
-                    visuals.add(new Visual(posChestplate.getValue0(), posChestplate.getValue1(), armor.getValue().getImage()));
+                    visuals.add(Visual.createWithGameCoord(posChestplate.getValue0(), posChestplate.getValue1(), armor.getValue().getImage()));
                     break;
                 case LEGGING:
-                    visuals.add(new Visual(posLegging.getValue0(), posLegging.getValue1(), armor.getValue().getImage()));
+                    visuals.add(Visual.createWithGameCoord(posLegging.getValue0(), posLegging.getValue1(), armor.getValue().getImage()));
                     break;
                 case BOOTS:
-                    visuals.add(new Visual(posBoots.getValue0(), posBoots.getValue1(), armor.getValue().getImage()));
+                    visuals.add(Visual.createWithGameCoord(posBoots.getValue0(), posBoots.getValue1(), armor.getValue().getImage()));
                     break;
             }
         }
         
-        visuals.add(new Visual(posWeapon.getValue0(), posWeapon.getValue1(), player.getWeapon().getImage()));
-
-        if (chestDisplay) {
-            chestVisual.setDeltaPos(1,29);
-            visuals.add(chestVisual);
+        visuals.add(Visual.createWithGameCoord(posWeapon.getValue0(), posWeapon.getValue1(), player.getWeapon().getImage()));
+ 
+        if (chestDisplay) {    
+            Visual chestVisualToDisplay = Visual.createWithExactCoord(chestVisual.getX() , chestVisual.getY() - 29,chestVisual.getBufferedImage());
+            visuals.add(chestVisualToDisplay);
             visuals.addAll(chest.getVisuals()); 
             return visuals;
-        }
-        
-        
+        }        
         return visuals;
     }
 

@@ -11,11 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.NiborPainter;
-import prefab.entity.Enemy;
-import prefab.entity.Player;
-import prefab.information.State;
+import prefab.entity.Character;
 import prefab.information.Stats;
-import prefab.information.Visual;
+import prefab.rendering.Visual;
 import manager.Utilities;
 
 /**
@@ -29,8 +27,8 @@ public class FightHud extends Hud{
 
     private List<Visual> frontVisuals;
 	
-	private Player player;
-	private Enemy enemy;
+	private Character player;
+	private Character enemy;
     private int tile = NiborPainter.TILE_LENGTH;
     private int screenH = NiborPainter.SCREEN_HEIGHT;
 
@@ -40,7 +38,8 @@ public class FightHud extends Hud{
     private boolean isMenuOpen = false;
     private int cursorMenu = 0;
     private int cursorSubMenu = 0;
-    List<String> submenuNames;
+    private int selectedTarget = -1;
+    private List<String> submenuNames;
 
     // message affiché dans le panneau d'affichage
     public String message = "";
@@ -65,36 +64,34 @@ public class FightHud extends Hud{
     /**
      * constructeur de la classe FightHud
      * @param player le joueur
+     * @throws Exception
      */
-	public FightHud(Player player) {
-		super();
+	public FightHud(Character player) throws Exception {
+        
 		this.player = player;
+
         submenuNames = new ArrayList<String>();
 
         initVisuals();
 	}
 
-    private void initVisuals() {
+    private void initVisuals() throws Exception {
         this.backgroundImage = Utilities.getImage(fightPath+decors[0] + ".png");
         BufferedImage healthIcon = Utilities.getImage(fightPath + "health_icon.png");
         BufferedImage manaIcon = Utilities.getImage(fightPath + "mana_icon.png");
         BufferedImage staminaIcon = Utilities.getImage(fightPath + "stamina_icon.png");
 
-        BufferedImage enemyIm = Utilities.getImage("src/main/ressources/images/characters/mob/mob_1.png");
-        BufferedImage playerIm = Utilities.getImage("src/main/ressources/images/characters/player/player_1.png");
-
         this.frontVisuals = new ArrayList<Visual>();
+
         // côté joueur
-        this.frontVisuals.add(new Visual(1, 2, -16,15, healthIcon));
-        this.frontVisuals.add(new Visual(1, 1, -10, 11, manaIcon));
-        this.frontVisuals.add(new Visual(1, 0, -6, 23, staminaIcon));
-        this.frontVisuals.add(new Visual(0, 10, 30, 0, playerIm ));
+        this.frontVisuals.add(Visual.createWithGameCoord(1, 2, -16, 15, healthIcon));
+        this.frontVisuals.add(Visual.createWithGameCoord(1, 1, -10, 11, manaIcon));
+        this.frontVisuals.add(Visual.createWithGameCoord(1, 0, -6, 23, staminaIcon));
 
         // côté ennemi
-        this.frontVisuals.add(new Visual(26 - 1, 2, 20,15, healthIcon));
-        this.frontVisuals.add(new Visual(26 - 1, 1, 25, 11, manaIcon));
-        this.frontVisuals.add(new Visual(26 - 1, 0, 25, 23, staminaIcon));
-        this.frontVisuals.add(new Visual( 21, 10, 0, 0, enemyIm ));
+        this.frontVisuals.add(Visual.createWithGameCoord(25, 2, 19, 15, healthIcon, true, false));
+        this.frontVisuals.add(Visual.createWithGameCoord(25, 1, 25, 11, manaIcon, true, false));
+        this.frontVisuals.add(Visual.createWithGameCoord(25, 0, 25, 23, staminaIcon, true, false));
     }
 
     public void changeDisplayState(int numDecor) {
@@ -108,30 +105,31 @@ public class FightHud extends Hud{
      * charge un ennemi dans le hud
      * @param enemy l'ennemi
      */
-	public void loadEnemy(Enemy enemy) {
+	public void loadEnemy(Character enemy) {
 		this.enemy = enemy;
 	}
 	
-    
     /**
      * met à jour les informations de l'Hud
      * @param cursorMenu emplacement du curseur du menu
      * @param isMenuOpen vrai si un menu est ouvert, faux sinon
      * @param cursorSubMenu emplacement du curseur du sous-menu
      * @param submenuNames liste des noms à afficher dans le sous-menu
+     * @param selectedTarget la cible selectionnée
      */
-    public void updateHud(int cursorMenu, boolean isMenuOpen, int cursorSubMenu, List<String> submenuNames ) {
+    public void updateHud(int cursorMenu, boolean isMenuOpen, int cursorSubMenu, List<String> submenuNames, int selectedTarget) {
         
 		this.cursorMenu = cursorMenu;
         this.submenuNames = submenuNames;
+        this.selectedTarget = selectedTarget;
         this.cursorSubMenu = cursorSubMenu; 
         this.isMenuOpen = isMenuOpen;
         if (isMenuOpen) {         
             System.out.println("objet : " + submenuNames.get(cursorSubMenu));   
             updateSubmenuLimits();
         }
-	}
-
+	}    
+    
     /**
      * met à jour le message du panneau d'affichage
      * @param message le nouveau message
@@ -180,7 +178,7 @@ public class FightHud extends Hud{
 	public void draw(Graphics2D g) {       
 
         // Affichage temporaire de l'emplacement du joueur et de l'ennemi
-        //drawTemp(g);
+        drawTemp(g);
         
         g.setStroke(new BasicStroke(3));
 
@@ -193,8 +191,18 @@ public class FightHud extends Hud{
         for (int i = 0; i < names.length; i++) {
             FontMetrics nameMetrics = g.getFontMetrics(g.getFont());
             int textWidth = nameMetrics.stringWidth(names[i]);
-            int textHeight = nameMetrics.getHeight();           
-            g.drawString(names[i], (int) (3*tile + 30 - textWidth/2 + i*20*tile), (int) (tile + 30 + textHeight/3));
+            int textHeight = nameMetrics.getHeight();          
+            int x =  (int) (3*tile + 30 - textWidth/2 + i*20*tile);
+            int y = (int) (tile + 30 + textHeight/3);
+            if (selectedTarget == i) {
+                g.setColor(Color.RED);            
+                g.drawLine(x - 20, y + 10, x + textWidth + 5, y + 10);
+                g.drawString("> ", x - 20, y);
+                g.setColor(Color.WHITE);            
+
+            }
+            g.drawString(names[i], x, y);
+
         }       
 
         //  ___________________ PANNEAU D'AFFICHAGE ___________________ 
@@ -252,7 +260,7 @@ public class FightHud extends Hud{
         g.fillRect(enemyBarX, healthBarY, widthBar, heightHealthBar);
         // niveau de vie
         g.setColor(colorHealth);
-        g.fillRect(enemyBarX, healthBarY, (int) (widthBar*enemyHealth), heightHealthBar);
+        g.fillRect(enemyBarX + widthBar - (int) (widthBar*enemyHealth), healthBarY, (int) (widthBar*enemyHealth), heightHealthBar);
         // contour
         g.setColor(Color.black);
         g.drawRect(enemyBarX, healthBarY, widthBar, heightHealthBar);
@@ -287,7 +295,7 @@ public class FightHud extends Hud{
         g.fillRect(enemyBarX, manaBarY, widthBar, heightManaBars);
         // niveau de mana
         g.setColor(colorMana);
-        g.fillRect(enemyBarX, manaBarY, (int) (widthBar*enemyMana), heightManaBars);
+        g.fillRect(enemyBarX + widthBar - (int) (widthBar*enemyMana), manaBarY, (int) (widthBar*enemyMana), heightManaBars);
         // contour
         g.setColor(Color.black);
         g.drawRect(enemyBarX, manaBarY, widthBar, heightManaBars);
@@ -322,10 +330,14 @@ public class FightHud extends Hud{
         g.fillRect(enemyBarX, staminaBarY, widthBar, heightStaminaBars);
         // niveau de stamina
         g.setColor(colorStamina);
-        g.fillRect(enemyBarX, staminaBarY, (int) (widthBar*enemyStamina), heightStaminaBars);
+        g.fillRect(enemyBarX + widthBar - (int) (widthBar*enemyStamina), staminaBarY, (int) (widthBar*enemyStamina), heightStaminaBars);
         // contour
         g.setColor(Color.black);
         g.drawRect(enemyBarX, staminaBarY, widthBar, heightStaminaBars);
+
+        if (cursorMenu == -1) {
+            return;
+        }
         
         //  ___________________ MENU ___________________ 
         
@@ -425,14 +437,18 @@ public class FightHud extends Hud{
     }
 
     @Override
-	public List<Visual> getVisuals() {
+	public List<Visual> getVisuals() throws Exception {
         List<Visual> visuals = new ArrayList<Visual>();
-        visuals.add(new Visual(0, 14, backgroundImage));	
+        if (isDisplayed) {
+            visuals.add(Visual.createWithGameCoord(0, 14, backgroundImage));	
+        }
         return visuals;
 	}
 
     public List<Visual> getFrontVisuals() {
-        return this.frontVisuals;
+        if (isDisplayed) {
+            return this.frontVisuals;
+        }
+        return new ArrayList<Visual>();        
 	}
-
 }

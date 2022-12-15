@@ -1,10 +1,8 @@
 package prefab.entity;
 
-import java.util.HashMap;
-
 import prefab.information.Position;
-import prefab.information.State;
-import java.awt.image.BufferedImage;
+import prefab.rendering.Animation;
+
 
 /**
  * présente un personnage particulié qui est marchant
@@ -12,8 +10,8 @@ import java.awt.image.BufferedImage;
  */
 public class Commercant1 extends Character implements Merchant{
 
-    public Commercant1(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+    public Commercant1(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws CloneNotSupportedException {
+        super(position, animation, horizontalHitBox, verticalHitBox, name);
     }
 
     @Override

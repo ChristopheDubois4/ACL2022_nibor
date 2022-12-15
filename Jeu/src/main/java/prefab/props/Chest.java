@@ -1,6 +1,5 @@
 package prefab.props;
 
-import java.util.HashMap;
 import java.util.List;
 
 import engine.Cmd;
@@ -8,19 +7,18 @@ import engine.Cmd;
 import java.util.ArrayList;
 import prefab.information.Position;
 import prefab.information.State;
-import prefab.information.Visual;
+import prefab.rendering.Animation;
+import prefab.rendering.Visual;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
 import prefab.equipment.Item;
 import prefab.gui.InventoryHud;
 
-import java.awt.image.BufferedImage;
-
 
 /**
  * représente un coffre ouvrable par le joueur
  */
-public class Chest extends GameObject{
+public class Chest extends GameObject implements UsableObject{
     
 
     private static final int chestFirstPosX = 10, chestFirstPosY = 11;
@@ -32,14 +30,15 @@ public class Chest extends GameObject{
 
     /**
      * constructeur de la classe Chest heritant de GameObject
+     * @throws CloneNotSupportedException
      */
-    public Chest(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox,InventoryHud inventoryHud) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox, State.CLOSE);
+    public Chest(Position position, Animation animation, int horizontalHitBox, int verticalHitBox,InventoryHud inventoryHud) throws CloneNotSupportedException {
+        super(position, animation, horizontalHitBox, verticalHitBox, State.CLOSE);
     }
     
     
-    public Chest(Position position, HashMap<State, BufferedImage> graphics, int horizontalHitBox, int verticalHitBox, Item[] chestContents, InventoryHud inventoryHud) {
-        super(position, graphics, "Chest", horizontalHitBox, verticalHitBox, State.CLOSE);
+    public Chest(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, Item[] chestContents, InventoryHud inventoryHud) throws CloneNotSupportedException {
+        this(position, animation, horizontalHitBox, verticalHitBox, inventoryHud);
         initChestContents(chestContents);
         this.inventoryHud=inventoryHud;
         
@@ -64,21 +63,21 @@ public class Chest extends GameObject{
     public void objectUse(Player user,Cmd cmd) {
         // il faut afficher inventaire
         // et le contenu du coffre puis échanger objet avec la souris
-        if (state == State.OPEN ){
-            state = State.CLOSE;
+        if (getState() == State.OPEN ){
+            setState(State.CLOSE);
             return;
         }
         inventoryHud.openWith(this);
-        state = State.OPEN;
+        setState(State.OPEN);
     }
 
-    public List<Visual> getVisuals(){
+    public List<Visual> getVisuals() throws Exception{
         ArrayList<Visual> visuals = new ArrayList<Visual>();
         for ( int line=0; line<chestContents.length; line++ ) {
             int x = chestFirstPosX + line ;
-            if(chestContents[line] != null)  visuals.add(new Visual(x,chestFirstPosY, chestContents[line].getImage()));
+            if(chestContents[line] != null)  visuals.add(Visual.createWithGameCoord(x, chestFirstPosY, chestContents[line].getImage()));
         }    
-    return visuals;
+        return visuals;
     }
 
     public Item[] getChestContents() {

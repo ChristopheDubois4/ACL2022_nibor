@@ -1,29 +1,28 @@
 package prefab.props;
 
-import java.util.HashMap;
-
 import engine.Cmd;
 import prefab.information.Position;
 import prefab.information.State;
+import prefab.rendering.Animation;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
-import java.awt.image.BufferedImage;
 
 
 /**
  * représente une échelle utilisable par le joueur
  */
-public class Ladder extends GameObject{
+public class Ladder extends GameObject implements UsableObject{
 
     /**
      * constructeur de la classe Ladder heritant de GameObject
+     * @throws CloneNotSupportedException
      */
-    public Ladder(Position position, HashMap<State, BufferedImage> graphics, String objectName, int horizontalHitBox, int verticalHitBox) {
-        super(position, graphics, objectName, horizontalHitBox, verticalHitBox);
+    public Ladder(Position position, Animation animation, int verticalHitBox, int horizontalHitBox) throws CloneNotSupportedException {
+        super(position, animation, horizontalHitBox, verticalHitBox, State.DEFAULT);
     }
 
-    public Ladder(Position position, HashMap<State, BufferedImage> graphics, int verticalHitBox) {
-        this(position, graphics, "Ladder",1, verticalHitBox);
+    public Ladder(Position position, Animation animation, int verticalHitBox) throws CloneNotSupportedException {
+        this(position, animation, 1, verticalHitBox);
     }
 
 
@@ -33,20 +32,23 @@ public class Ladder extends GameObject{
     * @return un boolean qui vaut :
     *   -> false si le joueur n'est pas placé au bord de l'échelle
     *   -> true sinon
+     * @throws CloneNotSupportedException
     */
     @Override
-    public void objectUse(Player user, Cmd cmd) {
-        if (user.getPosition().getY()>this.position.getY()+this.HitBox.getValue1()-1){
-            user.getPosition().setY(this.position.getY()-1);
+    public void objectUse(Player user, Cmd cmd) throws CloneNotSupportedException {
+        Position userP = user.getPosition();
+        Position thisP = getPosition();
+        if (userP.getY()> thisP.getY() + getHitBox().getValue1()-1){
+            user.setPosition(Position.createPosition(userP.getX(), thisP.getY()-1, userP.getLayer()));
         }
-        else if (user.getPosition().getY()<this.position.getY()){
-            user.getPosition().setY(this.position.getY()+this.HitBox.getValue1());
+        else if (userP.getY()<thisP.getY()){
+            userP.setY(thisP.getY()+getHitBox().getValue1());
         }
         else {
             System.out.println("On ne peut pas prendre l'échelle sur côté\n");
             return;
         }
-        user.getPosition().setX(this.position.getX());
-        System.out.println("Player : "+ user.getPosition() + "\n");
+        userP.setX(thisP.getX());
+        System.out.println("Player : "+ userP + "\n");
     }
 }

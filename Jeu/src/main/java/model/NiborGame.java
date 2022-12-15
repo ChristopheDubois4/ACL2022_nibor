@@ -27,13 +27,19 @@ public class NiborGame implements Game {
 	 * faire evoluer le jeu suite a une commande
 	 * 
 	 * @param commande
+	 * @throws Exception
+	 * @throws CloneNotSupportedException
 	 */
 	@Override
-	public void evolve(Command commande) {
+	public void evolve(Command commande) throws Exception {
 		if (commande.getKeyCommand() != Cmd.IDLE) {
 			//System.out.println("Execute "+commande.getKeyCommand());
 		}
-		worldManager.updateWorld(commande);
+		try {
+			worldManager.updateWorld(commande);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

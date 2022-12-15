@@ -68,8 +68,10 @@ public class DrawingPanel extends JPanel {
 	/**
 	 * demande de mettre a jour le rendu de l'image sur le Panel. Creer une
 	 * nouvelle image vide sur laquelle dessiner
+	 * @throws Exception
+	 * @throws CloneNotSupportedException
 	 */
-	public void drawGame() {
+	public void drawGame() throws CloneNotSupportedException, Exception {
 		// generer la nouvelle image
 		this.painter.draw(this.nextImage);
 		
