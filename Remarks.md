@@ -7,4 +7,6 @@
 - Très bien !
 
 # Sprint 3
+- Pas à jour le diagramme de séquence avec plus de détails ?
+- Sprint 4 : détailer les tests, qui va tester quoi ?
 
