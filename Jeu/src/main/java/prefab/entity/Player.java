@@ -182,11 +182,8 @@ public class Player extends Character implements PlayerInfosFofHud{
     }
     
     @Override
-    public void setWeapon(Weapon weapon) {
-        if (weapon==null){
-            weapon = new Weapon(null, null, 0);
-        }
-        this.weapon=weapon;
+    public void setWeapon(Weapon newWeapon) {
+        this.weapon=newWeapon;
     }
     
 }
