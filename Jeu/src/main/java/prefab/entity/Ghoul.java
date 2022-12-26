@@ -18,9 +18,9 @@ import prefab.rendering.Animation;
  * représente un personnage particulié qui est un ennemi du joueur
  * (Nom à changer)
  */
-public class Mob1 extends Character implements Enemy{
+public class Ghoul extends Character implements Enemy{
 
-    public Mob1(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws CloneNotSupportedException {
+    public Ghoul(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws CloneNotSupportedException {
         super(position, animation, horizontalHitBox, verticalHitBox, name);
 
         this.stats = new HashMap<Stats , Integer>();

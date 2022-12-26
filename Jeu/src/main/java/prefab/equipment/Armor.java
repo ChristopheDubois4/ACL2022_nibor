@@ -1,7 +1,5 @@
 package prefab.equipment;
 
-import java.util.List;
-
 /**
  * Statistique et description d'une armure
  */

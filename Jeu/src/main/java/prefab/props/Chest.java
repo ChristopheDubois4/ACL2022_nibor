@@ -36,16 +36,16 @@ public class Chest extends GameObject implements UsableObject{
      * constructeur de la classe Chest heritant de GameObject
      * @throws CloneNotSupportedException
      */
-    public Chest(Position position, Animation animation, int horizontalHitBox, int verticalHitBox,InventoryHud inventoryHud) throws CloneNotSupportedException {
+    public Chest(Position position, Animation animation, int horizontalHitBox, int verticalHitBox) throws CloneNotSupportedException {
         super(position, animation, horizontalHitBox, verticalHitBox, State.CLOSE);
-        this.inventoryHud=inventoryHud;
+        this.inventoryHud = InventoryHud.getInstance();
     }
     
     
-    public Chest(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, Item[] chestContents, InventoryHud inventoryHud) throws CloneNotSupportedException {
-        this(position, animation, horizontalHitBox, verticalHitBox, inventoryHud);
+    public Chest(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, Item[] chestContents) throws CloneNotSupportedException {
+        this(position, animation, horizontalHitBox, verticalHitBox);
         initChestContents(chestContents);
-        this.inventoryHud=inventoryHud;
+        this.inventoryHud = InventoryHud.getInstance();
         
     }
 

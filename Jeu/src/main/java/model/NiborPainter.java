@@ -68,7 +68,13 @@ public class NiborPainter implements GamePainter {
 		
 		worldPainter.drawHuds(g);
 
-		visuals = worldPainter.getFrontVisuals();
+		try {
+			visuals = worldPainter.getFrontVisuals();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		//affichages images (devant les Huds)
 		for(int i=0; i<visuals.size();i++){

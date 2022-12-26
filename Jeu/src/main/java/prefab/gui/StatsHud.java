@@ -7,12 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import manager.Utilities;
+import prefab.entity.Player;
+import prefab.information.Layer;
 import prefab.information.Stats;
 import prefab.rendering.Visual;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * <b>[SINGLETON]</b>
+ * <p>gère l'HUD lié aux statistiques du joueur
+ */
 public class StatsHud extends Hud{
+
+	private static final StatsHud INSTANCE = new StatsHud();
 
 	private String inventoryPath = "src/main/ressources/images/huds/playerInfo/stats.png";
     private PlayerInfosFofHud player;
@@ -22,12 +30,28 @@ public class StatsHud extends Hud{
 
 	private static final int firstPosX = 8, firstPosY = 0; 
 	
-	public StatsHud(PlayerInfosFofHud player) throws Exception {
-		this.isDisplayed=true;
-		this.player = player;
-		this.backgroundImage = Utilities.getImage(inventoryPath);
-		this.visual = Visual.createWithGameCoord(firstPosX, firstPosY, 0, 20, backgroundImage);
+	/**
+	 * constructeur de la classe StatsHud heritant de Hud 
+	 */
+	public StatsHud() {
+		super();
 	}
+
+	/**
+     * initialise l'HUD de l'inventaire
+     * @throws Exception
+     */
+    @Override
+    public void initHud() throws Exception {
+        this.player = Player.getInstance();
+        this.isDisplayed=true;
+		this.backgroundImage = Utilities.getImage(inventoryPath);
+		this.visual = Visual.createWithGameCoord(firstPosX, firstPosY, 0, 20, backgroundImage, Layer.FOREGROUND);
+    }
+
+    public static StatsHud getInstance() {
+        return INSTANCE;
+    }
 	
 	public void draw(Graphics2D g) {
 

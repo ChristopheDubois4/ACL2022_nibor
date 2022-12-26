@@ -1,7 +1,5 @@
 package prefab.props;
 
-import java.util.HashMap;
-
 import engine.Cmd;
 import manager.WorldManager;
 import prefab.information.Position;
@@ -9,8 +7,6 @@ import prefab.information.State;
 import prefab.rendering.Animation;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
-
-import java.awt.image.BufferedImage;
 
 /**
  * représente une porte ouvrable par le joueur

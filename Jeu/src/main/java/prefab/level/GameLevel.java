@@ -9,6 +9,7 @@ import org.javatuples.Pair;
 
 import prefab.entity.GameObject;
 import prefab.rendering.Animation;
+import prefab.rendering.Visual;
 import prefab.entity.Character;
 
 /**
@@ -19,6 +20,7 @@ import prefab.entity.Character;
 public class GameLevel {
     
     private List<GameObject> gameObjects;
+    private List<Animation> backgroundAnimations;
     private int[][] forbiddenPosition;
 
     /**
@@ -121,20 +123,16 @@ public class GameLevel {
         return new Pair<Boolean, GameObject>(true, null);
     }
 
-    /**
-     * dessine les gameObjects du niveau
-     * @throws CloneNotSupportedException
-     */
-    public List<Animation> getAnimations() throws CloneNotSupportedException {
+    public List<Visual> getVisuals() throws Exception {
 
-        List<Animation> animations = new ArrayList<Animation>();
+        List<Visual> visuals = new ArrayList<Visual>();
         for (GameObject gameObject : gameObjects) {
-            if (gameObject instanceof Character) {
-                
-            } else
-            animations.add(gameObject.getAnimation());
+            Animation a = gameObject.getAnimation();
+            if (a != null) {
+                visuals.add(a.getVisual());
+            }
         }
-        return animations;    
+        return visuals;    
     }
   
     @Override

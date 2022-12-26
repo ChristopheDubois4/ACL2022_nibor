@@ -7,12 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import manager.Utilities;
+import prefab.entity.Player;
+import prefab.information.Layer;
 import prefab.information.Stats;
 import prefab.rendering.Visual;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * <b>[SINGLETON]</b>
+ * <p>gère l'HUD lié à la vie du joueur
+ */
 public class VitalResourcesHud extends Hud{
+
+	private static final VitalResourcesHud INSTANCE = new VitalResourcesHud();
 
 	private String inventoryPath = "src/main/ressources/images/huds/playerInfo/vitalresources.png";
 	private BufferedImage backgroundImage;
@@ -21,12 +29,29 @@ public class VitalResourcesHud extends Hud{
 
 	private static final int firstPosX = 9, firstPosY = 0; 
 	
-	public VitalResourcesHud(PlayerInfosFofHud player) throws Exception {
-		this.isDisplayed=true;
-		this.player = player;
-		this.backgroundImage = Utilities.getImage(inventoryPath);
-		this.visual = Visual.createWithGameCoord(firstPosX, firstPosY, 40, 20, backgroundImage);
+	/**
+	 * constructeur de la classe VitalResourcesHud heritant de Hud 
+	 */
+	public VitalResourcesHud() {
+		super();
 	}
+
+	/**
+     * initialise l'HUD de l'inventaire
+     * @throws Exception
+     */
+    @Override
+    public void initHud() throws Exception {
+        this.player = Player.getInstance();
+        this.isDisplayed=true;
+		this.backgroundImage = Utilities.getImage(inventoryPath);
+		this.visual = Visual.createWithGameCoord(firstPosX, firstPosY, 40, 20, backgroundImage, Layer.FOREGROUND);
+	}
+
+
+    public static VitalResourcesHud getInstance() {
+        return INSTANCE;
+    }
 	
 	public void draw(Graphics2D g) {
 

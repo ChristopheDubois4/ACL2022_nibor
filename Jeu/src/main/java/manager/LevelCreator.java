@@ -14,12 +14,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import prefab.entity.GameObject;
-import prefab.entity.Mob1;
+import prefab.entity.Ghoul;
 import prefab.equipment.Consumable;
 import prefab.equipment.Effect;
 import prefab.equipment.Item;
 import prefab.equipment.Effect.TypeEffects;
-import prefab.gui.InventoryHud;
 import prefab.information.Layer;
 import prefab.information.Position;
 import prefab.information.State;
@@ -31,8 +30,6 @@ import prefab.rendering.Animation;
 import prefab.rendering.CharacterAnimation;
 import prefab.rendering.Sprite;
 
-import java.awt.image.BufferedImage;
-
 /**
  * créer les différents niveux du jeux
  */
@@ -40,15 +37,13 @@ public class LevelCreator {
 
     public HashMap<String, GameLevel> gameLevels;
     String defaultfile = "src/main/ressources/levels/default.json";
-    private InventoryHud inventoryHud;
 
     
     /**
      * constructeur de la classe LevelManager
      * @throws Exception
      */
-    public LevelCreator(InventoryHud inventoryHud) throws Exception {
-        this.inventoryHud=inventoryHud;
+    public LevelCreator() throws Exception {
         gameLevels = new HashMap<String, GameLevel>();
         initGameLevels(); 
     }
@@ -100,7 +95,7 @@ public class LevelCreator {
 
         Animation a = Animation.create(s);
 
-        GameObject o5 = new Chest(p5, a, 1, 1, chestContents, inventoryHud);
+        GameObject o5 = new Chest(p5, a, 1, 1, chestContents);
         System.out.println("CHEST");
 
 
@@ -191,7 +186,7 @@ public class LevelCreator {
                         case "Chest" :
                             Item[] chestContents;
                             chestContents = Chest.fillChestItem();
-                            Chest chest = new Chest(p, animation, horizontalHitBox, verticalHitBox, chestContents, inventoryHud); //recup les parametres pour le constructeur
+                            Chest chest = new Chest(p, animation, horizontalHitBox, verticalHitBox, chestContents); //recup les parametres pour le constructeur
                             gameObjects.add(chest);
                             break;          
                         case "Ladder" :
@@ -208,7 +203,7 @@ public class LevelCreator {
                             HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
                             Animation aM = CharacterAnimation.createForPNJ(sM);
                             // FIN
-                            Mob1 mob = new Mob1(p, aM, 1, 1, "Je suis méchant");
+                            Ghoul mob = new Ghoul(p, aM, 1, 1, "Je suis méchant");
                             TrappedBox trappedBox = new  TrappedBox(p,animation,horizontalHitBox,verticalHitBox,mob);//recup les parametres pour le constructeur
                             gameObjects.add(trappedBox);
                             break;

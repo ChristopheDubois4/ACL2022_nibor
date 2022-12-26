@@ -12,14 +12,19 @@ import java.util.List;
 
 import model.NiborPainter;
 import prefab.entity.Character;
+import prefab.entity.Player;
+import prefab.information.Layer;
 import prefab.information.Stats;
 import prefab.rendering.Visual;
 import manager.Utilities;
 
 /**
- * gère l'HUD lié aux combats
+ * <b>[SINGLETON]</b>
+ * <p>gère l'HUD lié aux combats
  */
 public class FightHud extends Hud{
+
+    private static final FightHud INSTANCE = new FightHud();
 
     private String fightPath = "src/main/ressources/images/huds/fight/";
     private String[] decors = {"plaines_1"};
@@ -63,17 +68,26 @@ public class FightHud extends Hud{
 
     /**
      * constructeur de la classe FightHud
-     * @param player le joueur
+     */
+	public FightHud() {
+        super();
+    }
+
+    /**
+     * initialise le fightHud
      * @throws Exception
      */
-	public FightHud(Character player) throws Exception {
-        
-		this.player = player;
-
+    @Override
+    public void initHud() throws Exception {
+        this.player = Player.getInstance();
         submenuNames = new ArrayList<String>();
+        initVisuals();        
+    }
 
-        initVisuals();
-	}
+    public static FightHud getInstance() {
+        return INSTANCE;
+    }
+
 
     private void initVisuals() throws Exception {
         this.backgroundImage = Utilities.getImage(fightPath+decors[0] + ".png");
@@ -175,7 +189,11 @@ public class FightHud extends Hud{
      * dessine l'hud de combat
      * @param g objet permettant de dessiner sur la fenêrte
      */
-	public void draw(Graphics2D g) {       
+	public void draw(Graphics2D g) {     
+        
+        if (!hudIsDisplayed()) {
+            return;
+        }
 
         // Affichage temporaire de l'emplacement du joueur et de l'ennemi
         //drawTemp(g);
@@ -228,7 +246,8 @@ public class FightHud extends Hud{
          // informations demandés par toutes les barres
          int enemyBarX = 19*tile -20;
          int playerBarX = tile + 20;
-         int widthBar = 7*tile;           
+         int widthBar = 7*tile;          
+
         //  ___________________ BARRE DE VIE ___________________ 
 
         int heightHealthBar = 40;        
@@ -374,7 +393,7 @@ public class FightHud extends Hud{
 	}
 
     /**
-     * dessine une case d'un menu ou sous-menu
+     * dessine une case d'un menu ou d'un sous-menu
      * @param g objet permettant de dessiner sur la fenêrte
      * @param i l'indice de l'objet
      * @param menuX la position horizontale de la case
@@ -437,10 +456,15 @@ public class FightHud extends Hud{
     }
 
     @Override
+    public boolean hudIsDisplayed() {
+        return isDisplayed;
+    }
+
+    @Override
 	public List<Visual> getVisuals() throws Exception {
         List<Visual> visuals = new ArrayList<Visual>();
         if (isDisplayed) {
-            visuals.add(Visual.createWithGameCoord(0, 14, backgroundImage));	
+            visuals.add(Visual.createWithGameCoord(0, 14, backgroundImage, Layer.BACKGROUND));	
         }
         return visuals;
 	}
@@ -451,4 +475,5 @@ public class FightHud extends Hud{
         }
         return new ArrayList<Visual>();        
 	}
+
 }

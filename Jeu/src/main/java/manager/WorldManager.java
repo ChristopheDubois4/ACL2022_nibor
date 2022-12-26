@@ -13,7 +13,7 @@ import engine.Command;
 import prefab.entity.Character;
 import prefab.entity.Enemy;
 import prefab.entity.GameObject;
-import prefab.entity.Mob1;
+import prefab.entity.Ghoul;
 import prefab.entity.Player;
 import prefab.entity.Player.PlayerClasses;
 import prefab.gui.*;
@@ -47,12 +47,8 @@ public class WorldManager implements WorldPainter {
     public static HashMap<String, GameLevel> gameLevels;
     public static GameLevel currentLevel;
 
-    // huds
-    private List<Hud> huds;
+    // Hud de l'inventaire
     private InventoryHud inventoryHud;
-    private VitalResourcesHud healthBar;
-    private StatsHud statsInfo;
-    private static FightHud fightHud;
     
     // joueur
     Player player;
@@ -73,9 +69,8 @@ public class WorldManager implements WorldPainter {
         initLevels();
 
         // Initialisation du gestionnaire de combats
-        fightHud = new FightHud(player);
         fightManager = FightManager.getInstance();
-        fightManager.initFightManager(player, fightHud);
+        fightManager.initFightManager();
         //testCombats();
     }
       
@@ -83,15 +78,10 @@ public class WorldManager implements WorldPainter {
      * initialise le joueur
      * @throws Exception
      */
-    public void initPlayer() throws Exception {
-      
-        HashMap<State,Sprite> s =  Utilities.getSpritesFromJSON("player");
+    public void initPlayer() throws Exception {     
 
-        Animation a = CharacterAnimation.createForPlayer(s);
-
-        Position p1 = Position.create(10, 10);
-
-        player = new Player(p1, a, 1, 1, "II_ChRom3_II", PlayerClasses.CLERIC); 
+        player = Player.getInstance();
+        player.initPlayer(PlayerClasses.CLERIC);
         player.takeDammage(95);
         System.out.println("Player : "+ player.getPosition() + "\n");
     }
@@ -101,7 +91,7 @@ public class WorldManager implements WorldPainter {
      * @throws Exception
      */
     public void initLevels() throws Exception {
-        levelCreator = new LevelCreator(inventoryHud);
+        levelCreator = new LevelCreator();
         gameLevels = levelCreator.getLevels();
         currentLevel = gameLevels.get("level_1");
 
@@ -111,9 +101,19 @@ public class WorldManager implements WorldPainter {
 
         Position p1M = Position.create(10, 12);
 
-        Mob1 mob = new Mob1(p1M, aM, 1, 1, "Jean le Destructeur");
+        Ghoul mob = new Ghoul(p1M, aM, 1, 1, "Jean le Destructeur");
+
+        Position p2M = Position.create(12, 12);
+        Animation aM2 = CharacterAnimation.createForPNJ(sM);
+
+
+        Ghoul mob2 = new Ghoul(p2M, aM2, 1, 1, "sssss");
+
         mob.startAnimation();
+        mob2.startAnimation();
         currentLevel.addGameObject(mob);
+        currentLevel.addGameObject(mob2);
+
     }
 
     /**
@@ -121,15 +121,15 @@ public class WorldManager implements WorldPainter {
      * @throws Exception
      */
     public void initHuds() throws Exception {
-        huds = new ArrayList<Hud>();       
 
-        inventoryHud = new InventoryHud(player);
-        healthBar =  new VitalResourcesHud(player);
-        statsInfo = new StatsHud(player);
-        
-        huds.add(healthBar);
-        huds.add(statsInfo);
-        huds.add(inventoryHud);
+        FightHud.getInstance();
+        inventoryHud = InventoryHud.getInstance();
+        VitalResourcesHud.getInstance();
+        StatsHud.getInstance();
+      
+        for (Hud hud : Hud.getHuds()) {
+            hud.initHud();
+        }
 
     }
     
@@ -169,19 +169,17 @@ public class WorldManager implements WorldPainter {
 
 
         if (fightManager.getIsInFight()) {
-            /*
+            
             if (cmd == Cmd.CLOSE) {
                 fightManager.finishFight();
                 return;
-            } */
+            }
             fightManager.evolve(command);
             if (fightManager.allowKeyLocker()) {
                 keyLocker(3*KEY_TIME);
             }
             return;            
         }
-
-
 
         if (cmd == Cmd.INVENTORY && command.getActionType() == "released"  && !inventoryHud.isChestDisplay()) {
             inventoryHud.changeDisplayState(); 
@@ -210,8 +208,6 @@ public class WorldManager implements WorldPainter {
             inventoryHud.processClick(command);
             return;
         }
-        
-
 
         if (cmd == Cmd.USE && command.getActionType() == "released") {
             System.out.println("Cas d'utilisation\n");
@@ -338,71 +334,63 @@ public class WorldManager implements WorldPainter {
         }
     }
 
-    @Override
     /**
      * récupère les visuels que l'on souhaite afficher
      * @return les visuels à afficher
      */
+    @Override
     public List<Visual> getVisuals() throws Exception {
-
-        List<Animation> animations = Animator.getInstance().getAnimations();
+        // initialisation de la liste des visuels à afficher
         List<Visual> visuals = new ArrayList<Visual>();
-
-        if (!fightHud.hudIsDisplayed()) {
-            animations.addAll(currentLevel.getAnimations());
-        } else {
-            visuals.addAll(fightHud.getVisuals());
+        // Visuels animés
+        visuals.addAll(Animator.getInstance().getVisuals());
+        // Visuels du niveau
+        if (!FightManager.getInstance().getIsInFight()) {
+            visuals.addAll(currentLevel.getVisuals());
         }
-
-        Collections.sort(animations);
-        for (Animation animation : animations) {
-            if (animation instanceof CharacterAnimation && fightManager.getIsInFight()) {
-                if ( ((CharacterAnimation) animation).getIsInFight() ) {
-                    visuals.add(animation.getVisual());
-                }
-            } 
-            else
-                visuals.add(animation.getVisual());
-        }
-
-        if (fightManager.getIsInFight()) {
-            return visuals;
-        }
-         
-        for (Hud hud : huds) {
+        // Visuels des HUDS
+        for (Hud hud : Hud.getHuds()) {
             if (hud.hudIsDisplayed()) {
                 visuals.addAll(hud.getVisuals());
             }
         }
+        // Tri des viseuls pour avoir la superposition souhaitée
+        Collections.sort(visuals);
         return visuals;
     }
 
     /**
      * récupère les visuels que l'on souhaite afficher par dessus les huds
      * @return les visuels à afficher
+     * @throws Exception
      */
-    public List<Visual> getFrontVisuals() {
+    public List<Visual> getFrontVisuals() throws Exception {
+        
+        List<Visual> visuals = new ArrayList<Visual>();
 
-        if (fightManager.getIsInFight()) {
-            return fightHud.getFrontVisuals();
+        for (Hud hud : Hud.getHuds()) {
+            if (hud.hudIsDisplayed()) {
+                visuals.addAll(hud.getFrontVisuals());
+            }
         }
-        return new ArrayList<Visual>();
+  
+        return visuals;
     }     
     
     
     /**
      * dessine les visuels spécifiques des Huds 
+     * @param g permet de dessiner sur la fenêtre
      */
 	@Override
 	public void drawHuds(Graphics2D g) {
-
-        if (fightManager.getIsInFight()) {
-            fightHud.draw(g);
-        } else {
-            for (Hud hud : huds) {
+        
+        for (Hud hud : Hud.getHuds()) {
+            if (hud.hudIsDisplayed()) {
                 hud.draw(g);
             }
         }
+        
 	}
 
 }

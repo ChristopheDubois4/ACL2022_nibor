@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.javatuples.Pair;
 
-import engine.Cmd;
-
 import prefab.information.Position;
 import prefab.information.State;
 import prefab.rendering.Animation;
@@ -157,6 +155,11 @@ import prefab.rendering.Animation;
     
     public void stopAnimation() {
         animation.stopAnimation();
+    }
+
+    @Override
+    public String toString() {
+        return  this.getClass().toString();
     }
         
 }

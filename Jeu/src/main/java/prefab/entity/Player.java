@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import manager.Utilities;
 import prefab.competence.Attack;
 import prefab.competence.Spell;
 import prefab.equipment.Armor;
@@ -15,7 +16,7 @@ import prefab.equipment.Effect.TypeEffects;
 import prefab.gui.PlayerInfosFofHud;
 import prefab.information.Position;
 import prefab.information.Stats;
-import prefab.rendering.Animation;
+import prefab.rendering.CharacterAnimation;
 
 
 /**
@@ -33,6 +34,8 @@ public class Player extends Character implements PlayerInfosFofHud{
         ASSASSIN,
         CLERIC
     }
+
+    private static Player INSTANCE;
     
     PlayerClasses classPlayed;
     
@@ -42,14 +45,29 @@ public class Player extends Character implements PlayerInfosFofHud{
      * constructeur de la classe Player heritant de Character
      * @param classPlayed la classe de combattant du joueur
      * @throws CloneNotSupportedException
+     * @throws Exception
      */
-    public Player(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name, PlayerClasses classPlayed) throws CloneNotSupportedException {
-        super(position, animation, horizontalHitBox, verticalHitBox, name);
+    private Player() throws CloneNotSupportedException, Exception {              
+        super(
+            Position.create(10, 10),
+            CharacterAnimation.createForPlayer(Utilities.getSpritesFromJSON("player")),
+            1,
+            1,
+            "Nibor"
+        );        
+    }
+
+    public static Player getInstance() throws CloneNotSupportedException, Exception {
+        if (INSTANCE == null) {
+            INSTANCE = new Player();
+        }
+        return INSTANCE;
+    }
+
+    public void initPlayer(PlayerClasses classPlayed) {
         this.classPlayed = classPlayed;
-        this.xp = 0;
         initCharacteristic();
         startAnimation();
-        
     }
 
     /**

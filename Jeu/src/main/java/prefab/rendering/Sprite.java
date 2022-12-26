@@ -34,8 +34,7 @@ public final class Sprite {
         if (spriteSheet == null) {
             throw new NullPointerException("la Sprite Sheet est nulle");
         }
-        int tileLength = lengthX*NiborPainter.TILE_LENGTH;
-        return new Sprite(spriteSheet, animationSpeed, mirorV, mirorH, tileLength);
+        return new Sprite(spriteSheet, animationSpeed, mirorV, mirorH, lengthX);
     }
 
     public static Sprite createMirorBigSprite(String pathStr, int animationSpeed, int lengthX, boolean mirorV, boolean mirorH) throws Exception {
@@ -51,23 +50,28 @@ public final class Sprite {
         return createMirorBigSprite(pathStr, animationSpeed, lengthX, false, false);
     }
 
+    public static Sprite createBigSprite(String pathStr, int animationSpeed) throws Exception {
+        BufferedImage spriteSheet = Utilities.getImage(pathStr);
+        return createMirorBigSprite(spriteSheet, animationSpeed, spriteSheet.getWidth(), false, false);
+    }
+
     // ___________________________________________
     // __________ CREATE NORMAL SPRITES __________
     
     public static Sprite createMirorSprite(BufferedImage spriteSheet, int animationSpeed, boolean mirorV, boolean mirorH) throws Exception {
-        return createMirorBigSprite(spriteSheet, animationSpeed, 1, mirorV, mirorH);
+        return createMirorBigSprite(spriteSheet, animationSpeed, 60, mirorV, mirorH);
     }
 
     public static Sprite createMirorSprite(String pathStr, int animationSpeed, boolean mirorV, boolean mirorH) throws Exception {
-        return createMirorBigSprite(pathStr, animationSpeed, 1, mirorV, mirorH);
+        return createMirorBigSprite(pathStr, animationSpeed, 60, mirorV, mirorH);
     }
     
     public static Sprite createSprite(BufferedImage spriteSheet, int animationSpeed) throws Exception {
-        return createBigSprite(spriteSheet, animationSpeed, 1);
+        return createBigSprite(spriteSheet, animationSpeed, 60);
     }
 
     public static Sprite createSprite(String pathStr, int animationSpeed) throws Exception {
-        return createBigSprite(pathStr, animationSpeed, 1);
+        return createBigSprite(pathStr, animationSpeed, 60);
     }
 
     public BufferedImage getImage(int index) {

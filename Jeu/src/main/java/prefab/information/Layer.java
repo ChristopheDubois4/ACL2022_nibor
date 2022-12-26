@@ -8,6 +8,8 @@ package prefab.information;
  */
 public enum Layer {
     BACKGROUND,
+    //MIDDLE_BACK,
     DEFAULT,
+    //MIDDLE_FRONT,
     FOREGROUND
 }

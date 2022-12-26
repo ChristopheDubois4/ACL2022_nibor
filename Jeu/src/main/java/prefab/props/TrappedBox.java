@@ -21,6 +21,13 @@ public class TrappedBox extends GameObject implements UsableObject {
     public TrappedBox(Position position, Animation animation,  int horizontalHitBox, int verticalHitBox, Character mob) throws CloneNotSupportedException {
         super(position, animation, horizontalHitBox, verticalHitBox, State.DEFAULT);
         this.enemy=mob;
+        
+        try {
+            System.out.println("BOX :" + animation.getVisual().getY());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Override

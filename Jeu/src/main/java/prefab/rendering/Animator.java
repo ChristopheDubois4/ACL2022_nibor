@@ -3,6 +3,10 @@ package prefab.rendering;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <b>[SINGLETON]</b>
+ * <p>gère les animation
+ */
 public final class Animator implements Runnable{
     
     private static final Animator INSTANCE = new Animator();
@@ -52,6 +56,18 @@ public final class Animator implements Runnable{
             newAnimations.add( (Animation) animation.clone());
         }
         return newAnimations;
+    }
+
+    public List<Visual> getVisuals() throws Exception {
+
+        List<Visual> newVisuals = new ArrayList<Visual>();
+        for (Animation animation : animations) {  
+            Visual v = animation.getVisual();
+            if (v != null) {
+                newVisuals.add(v);
+            }  
+        }
+        return newVisuals;
     }
 
 

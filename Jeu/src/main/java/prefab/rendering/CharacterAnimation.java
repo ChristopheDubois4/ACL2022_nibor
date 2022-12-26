@@ -114,7 +114,10 @@ public class CharacterAnimation extends Animation {
         boolean mirorV = currentSprite.getMirorV();
         Boolean mirorH = currentSprite.getMirorH();
         /** si le jeu est en mode combat */
-        if (FightManager.getInstance().getIsInFight() && isInFight) {
+        if (FightManager.getInstance().getIsInFight()) {
+            if (!isInFight) {
+                return null;
+            }
             /**
              * afficage des images des personnes en combats
              * (positon indépendante de celle dans le monde)

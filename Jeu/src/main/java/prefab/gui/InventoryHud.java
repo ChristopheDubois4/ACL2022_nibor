@@ -11,9 +11,9 @@ import org.javatuples.Pair;
 import engine.Cmd;
 import engine.Command;
 import manager.Utilities;
-import model.NiborPainter;
 import manager.ItemManager;
 import prefab.entity.Character;
+import prefab.entity.Player;
 import prefab.equipment.Armor;
 import prefab.equipment.Consumable;
 import prefab.equipment.Item;
@@ -26,9 +26,12 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
- * gère l'HUD lié à l'inventaire
+ * <b>[SINGLETON]</b>
+ * <p>gère l'HUD lié à l'inventaire
  */
 public class InventoryHud extends Hud{
+
+    private static final InventoryHud INSTANCE = new InventoryHud();
 
     private String inventoryPath = "src/main/ressources/images/huds/inventory/inventory.png";
     // Rappel : On commence à (0,0) en bas à gauche
@@ -64,13 +67,18 @@ public class InventoryHud extends Hud{
 
     /**
      * constructeur de la classe InventoryHud heritant de Hud 
-     * @param player joueur
+     */
+    public InventoryHud() {
+        super();
+    }
+
+    /**
+     * initialise l'HUD de l'inventaire
      * @throws Exception
      */
-    public InventoryHud(PlayerInfosFofHud player) throws Exception {
-        super();
-        this.player = player;
-
+    @Override
+    public void initHud() throws Exception {
+        this.player = Player.getInstance();
         chestVisual = Visual.createWithGameCoord(chestFirstPosX, chestFirstPosY, Utilities.getImage(chestPath));
 
         this.backgroundImage = Utilities.getImage(inventoryPath);
@@ -78,7 +86,10 @@ public class InventoryHud extends Hud{
 
         this.backgroundImage = Utilities.getImage(equippedStuffPath);
         this.visual1 = Visual.createWithGameCoord(equippedStuffFirstPosX, equippedStuffFirstPosY, backgroundImage);
+    }
 
+    public static InventoryHud getInstance() {
+        return INSTANCE;
     }
 
     /**
@@ -394,14 +405,14 @@ public class InventoryHud extends Hud{
         }
     }
 
-   
+       
     /**
      * retourne la liste des visuels à afficher de l'inventaire
      * @return la liste des visuels
      * @throws Exception
      */
     @Override
-    public List<Visual> getVisuals() throws Exception  {   
+    public List<Visual> getFrontVisuals() throws Exception  {   
         
         List<Visual> visuals = new ArrayList<Visual>();
         visuals.add(visual);
@@ -500,8 +511,7 @@ public class InventoryHud extends Hud{
     }
 
     @Override
-    public void draw(Graphics2D g) {
-        // TODO Auto-generated method stub
-        
+    public void draw(Graphics2D g) {        
     }
+
 }

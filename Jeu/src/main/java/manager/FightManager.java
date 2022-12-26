@@ -9,7 +9,7 @@ import prefab.competence.Attack;
 import prefab.competence.Spell;
 import prefab.entity.Character;
 import prefab.entity.Enemy;
-import prefab.entity.Mob1;
+import prefab.entity.Ghoul;
 import prefab.entity.Player;
 import prefab.equipment.Consumable;
 import prefab.equipment.Effect;
@@ -18,7 +18,8 @@ import prefab.gui.FightHud;
 import prefab.information.State;
 
 /**
- * gère les combats
+ * <b>[SINGLETON]</b>
+ * <p>gère les combats
  */
 public class FightManager {
 
@@ -54,19 +55,24 @@ public class FightManager {
 
 
 	/**
-     * constructeur de la classe WorldManager
-     * @param player le joueur
-     * @param fightHud le hud de combat
+     * constructeur de la classe FightManager
      */
 	private FightManager() {}
 
-    public void initFightManager(Player player, FightHud fightHud) {
+    /**
+     * initialise le fightManager
+     * @param player le joueur
+     * @param fightHud le hud de combat
+     * @throws Exception
+     * @throws CloneNotSupportedException
+     */
+    public void initFightManager() throws CloneNotSupportedException, Exception {
         submenusNames = new ArrayList[3];
         for (int i = 0; i < 3; i++) {
             submenusNames[i] = new ArrayList<String>();
         }
-        this.player = player;
-		this.fightHud = fightHud;
+        this.player = Player.getInstance();
+		this.fightHud = FightHud.getInstance();
     }
 
     public static FightManager getInstance() {

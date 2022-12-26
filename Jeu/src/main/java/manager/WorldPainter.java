@@ -9,6 +9,6 @@ import java.awt.Graphics2D;
 public interface WorldPainter {
 
     public List<Visual> getVisuals() throws CloneNotSupportedException, Exception;
-    public List<Visual> getFrontVisuals();
+    public List<Visual> getFrontVisuals() throws CloneNotSupportedException, Exception;
     public void drawHuds(Graphics2D g);
 }
