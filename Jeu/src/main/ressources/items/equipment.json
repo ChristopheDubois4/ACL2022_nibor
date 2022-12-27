@@ -1,0 +1,184 @@
+[
+	{
+		"baseStuff" : {
+
+			"warrior" : {
+				"name": "Epée de base",
+				"graphics":"basicWeaponWarrior",
+				"powerValue": 20
+			},
+
+			"assassin" : {
+				"name": "Dague de base",
+				"graphics":"basicWeaponAssassin",
+				"powerValue": 20
+			},
+
+			"archer" : {
+				"name": "Arc de base",
+				"graphics":"basicWeaponArcher",
+				"powerValue": 20
+			},
+
+			"mage" : {
+				"name": "Baton de base",
+				"graphics":"basicWeaponMage",
+				"powerValue": 20
+			},
+
+			"1" : {
+				"type": "HELMET",
+				"name": "Casque de base",
+				"graphics":"basicHelmet",
+				"bonusStats": {
+					"HP" : 5,
+					"DEFENSE" : 5
+				}
+			},
+
+			"2" : {
+				"type": "CHESTPLATE",
+				"name": "Plastron de base",
+				"graphics":"basicChestplate",
+				"bonusStats": {
+					"HP" : 10,
+					"DEFENSE" : 10
+				}
+			},
+
+			"3" : {
+				"type": "LEGGING",
+				"name": "Jambière de base",
+				"graphics":"basicLegging",
+				"bonusStats": {
+					"DEFENSE" : 5
+				}
+			},
+
+			"4" : {
+				"type": "BOOTS",
+				"name": "Botte de base",
+				"graphics":"basicBoots",
+				"bonusStats": {
+					"DEFENSE" : 3
+				}
+			}
+		},
+
+		"HELMET" : {
+			"0001" : {
+				"name": "Casque intermediaire",
+				"graphics":"basicHelmet",
+				"bonusStats": {
+					"HP" : 10,
+					"DEFENSE" : 10
+				}
+			},
+
+			"0002" : {
+				"name": "Casque avancé",
+				"graphics":"basicHelmet",
+				"bonusStats": {
+					"HP" : 15,
+					"DEFENSE" : 15
+				}
+			},
+
+			"0003" : {
+				"name": "Casque ultime",
+				"graphics":"basicHelmet",
+				"bonusStats": {
+					"HP" : 20,
+					"DEFENSE" : 20
+				}
+			}
+		},
+
+		"CHESTPLATE" : {
+			"0001" : {
+				"name": "Plastron intermediaire",
+				"graphics":"basicChestplate",
+				"bonusStats": {
+					"HP" : 10,
+					"DEFENSE" : 10
+				}
+			},
+
+			"0002" : {
+				"name": "Plastron avancé",
+				"graphics":"basicChestplate",
+				"bonusStats": {
+					"HP" : 15,
+					"DEFENSE" : 15
+				}
+			},
+
+			"0003" : {
+				"name": "Plastron ultime",
+				"graphics":"basicChestplate",
+				"bonusStats": {
+					"HP" : 20,
+					"DEFENSE" : 20
+				}
+			}
+		},
+
+		"LEGGING" : {
+			"0001" : {
+				"name": "Jambière intermediaire",
+				"graphics":"basicLegging",
+				"bonusStats": {
+					"HP" : 10,
+					"DEFENSE" : 10
+				}
+			},
+
+			"0002" : {
+				"name": "Jambière avancé",
+				"graphics":"basicLegging",
+				"bonusStats": {
+					"HP" : 15,
+					"DEFENSE" : 15
+				}
+			},
+
+			"0003" : {
+				"name": "Jambière ultime",
+				"graphics":"basicLegging",
+				"bonusStats": {
+					"HP" : 20,
+					"DEFENSE" : 20
+				}
+			}
+		},
+
+		"BOOTS" : {
+			"0001" : {
+				"name": "Botte intermediaire",
+				"graphics":"basicBoots",
+				"bonusStats": {
+					"HP" : 10,
+					"DEFENSE" : 10
+				}
+			},
+
+			"0002" : {
+				"name": "Botte avancé",
+				"graphics":"basicBoots",
+				"bonusStats": {
+					"HP" : 15,
+					"DEFENSE" : 15
+				}
+			},
+
+			"0003" : {
+				"name": "Botte ultime",
+				"graphics":"basicBoots",
+				"bonusStats": {
+					"HP" : 20,
+					"DEFENSE" : 20
+				}
+			}
+		}
+	}
+]

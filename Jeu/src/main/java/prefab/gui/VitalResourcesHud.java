@@ -43,7 +43,7 @@ public class VitalResourcesHud extends Hud{
     @Override
     public void initHud() throws Exception {
         this.player = Player.getInstance();
-        this.isDisplayed=true;
+        this.isDisplayed=false;
 		this.backgroundImage = Utilities.getImage(inventoryPath);
 		this.visual = Visual.createWithGameCoord(firstPosX, firstPosY, 40, 20, backgroundImage, Layer.FOREGROUND);
 	}
@@ -58,19 +58,19 @@ public class VitalResourcesHud extends Hud{
 		//Santé du joueur
 		double health = player.getCurrentStats().get(Stats.HP);
 		g.setColor(new Color( 81,169,16));
-		double healthBar = (health/100)*444;
+		double healthBar = (health/player.getStats().get(Stats.HP))*444;
 		g.fillRect(588, 828 , (int) healthBar, 28);
 		
 		//Mana du joueur
 		double mana = player.getCurrentStats().get(Stats.MANA);
 		g.setColor(new Color( 32,89,192));
-		double manabar = (mana/100)*218;
+		double manabar = (mana/player.getStats().get(Stats.MANA))*218;
 		g.fillRect(588, 866 , (int) manabar, 28);
 
 		//Stamina du joueur
 		double stamina = player.getCurrentStats().get(Stats.STAMINA);
 		g.setColor(new Color( 219,139,17));
-		double staminabar = (stamina/100)*218;
+		double staminabar = (stamina/player.getStats().get(Stats.STAMINA))*218;
 		g.fillRect(814, 866 , (int) staminabar, 28);
 
 		g.setColor(Color.BLACK);

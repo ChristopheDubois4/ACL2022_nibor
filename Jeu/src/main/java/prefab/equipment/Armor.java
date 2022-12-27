@@ -1,5 +1,9 @@
 package prefab.equipment;
 
+import java.util.HashMap;
+
+import prefab.information.Stats;
+
 /**
  * Statistique et description d'une armure
  */
@@ -14,18 +18,28 @@ public class Armor extends Item {
 	}
 
     ArmorPieces armorPiece;
+    private HashMap<Stats, Integer> bonusStats ;
 
     public ArmorPieces getArmorPiece() {
         return armorPiece;
     }
-    public Armor(String name, String graphicsSelector, int price , ArmorPieces armorPiece) {
+    public Armor(String name, String graphicsSelector, int price , ArmorPieces armorPiece , HashMap<Stats, Integer> bonusStats) {
         super(name, graphicsSelector, price);
         this.armorPiece  = armorPiece;
+    }
+    public Armor(String name, String graphicsSelector, ArmorPieces armorPiece, HashMap<Stats, Integer> bonusStats) {
+        super(name, graphicsSelector, 0);
+        this.armorPiece  = armorPiece;
+
     }
     public Armor(String name, String graphicsSelector, ArmorPieces armorPiece) {
         super(name, graphicsSelector, 0);
         this.armorPiece  = armorPiece;
 
+    }
+
+    public HashMap<Stats, Integer> getBonusStats() {
+        return bonusStats;
     }
     
 }
