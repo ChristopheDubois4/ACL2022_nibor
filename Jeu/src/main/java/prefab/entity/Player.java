@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import manager.Utilities;
 
@@ -54,6 +57,7 @@ public class Player extends Character implements PlayerInfosFofHud{
     
     private int xpToNextLevel = 100;
     
+    
     /**
     * constructeur de la classe Player heritant de Character
     * @param classPlayed la classe de combattant du joueur
@@ -97,7 +101,7 @@ public class Player extends Character implements PlayerInfosFofHud{
         setWeapon(new Weapon(null, "", 0));
         
         initClassFromJson();
-        resetCurrentStats();
+        updateCurrentStats();
 
     }   
     
@@ -136,6 +140,25 @@ public class Player extends Character implements PlayerInfosFofHud{
             System.out.println("(1) La position de l'objet est invalide\n(2) L'objet n'est pas de type 'Consumable'");
         }
         return false;
+    }
+
+    @Override
+    public void updateCurrentStats() {
+        resetCurrentStats();
+        Set<Entry<ArmorPieces, Armor>> set1 = equippedArmor.entrySet();
+        for (Entry<ArmorPieces, Armor> e1 : set1) {
+            ArmorPieces key1 = e1.getKey();
+            Armor map2 = e1.getValue();
+            Set<Entry<Stats, Integer>> set2 = map2.getBonusStats().entrySet();
+            for (Entry<Stats, Integer> e2 : set2) {
+                Stats key = e2.getKey();
+                Integer value = e2.getValue();
+                currentStats.put(key, currentStats.get(key) + value); 
+                currentBonusStats.put(key, currentBonusStats.get(key) + value); 
+            }
+            
+        }
+    	
     }
 
     @Override
@@ -195,7 +218,8 @@ public class Player extends Character implements PlayerInfosFofHud{
             for (Iterator iterator = basicStats.keySet().iterator(); iterator.hasNext(); ) {
                 String key = (String) iterator.next();
                 int val = ((Long)  basicStats.get(key)).intValue();
-                this.stats.put(Stats.valueOf(key), val);
+                stats.put(Stats.valueOf(key), val);
+                currentBonusStats.put(Stats.valueOf(key),0);
             }
 
             for (Object iterator : basicAttacks) {
@@ -273,7 +297,7 @@ public class Player extends Character implements PlayerInfosFofHud{
                         bonusStats.put(Stats.valueOf(key), val);
                     }
                 }
-                equippedArmorTemp.put(type,new Armor(name, graphics, type));
+                equippedArmorTemp.put(type,new Armor(name, graphics, type,bonusStats));
             }
             
 
@@ -288,5 +312,6 @@ public class Player extends Character implements PlayerInfosFofHud{
             e.printStackTrace();
         }
     }
+
     
 }

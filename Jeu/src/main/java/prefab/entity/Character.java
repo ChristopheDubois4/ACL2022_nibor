@@ -22,6 +22,7 @@ import prefab.information.State;
 import prefab.information.Stats;
 import prefab.rendering.Animation;
 import prefab.rendering.CharacterAnimation;
+import prefab.rendering.Visual;
 
 /**
  * représente les personnages du jeu de manière générale
@@ -52,6 +53,7 @@ public abstract class Character extends GameObject {
 
     private boolean isAlvie = true;
     private boolean isInMouvement = false;
+    protected HashMap<Stats, Integer> currentBonusStats = new HashMap<Stats, Integer>();
 
 
     // ___________________________________
@@ -434,5 +436,9 @@ public abstract class Character extends GameObject {
 
     public String toString() {
         return name;
+    }
+
+    public HashMap<Stats, Integer> getCurrentBonusStats() {
+        return currentBonusStats;
     }
 }

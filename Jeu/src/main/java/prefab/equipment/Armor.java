@@ -18,7 +18,7 @@ public class Armor extends Item {
 	}
 
     ArmorPieces armorPiece;
-    private HashMap<Stats, Integer> bonusStats ;
+    private HashMap<Stats, Integer> bonusStats = new HashMap<Stats, Integer>();
 
     public ArmorPieces getArmorPiece() {
         return armorPiece;
@@ -26,10 +26,12 @@ public class Armor extends Item {
     public Armor(String name, String graphicsSelector, int price , ArmorPieces armorPiece , HashMap<Stats, Integer> bonusStats) {
         super(name, graphicsSelector, price);
         this.armorPiece  = armorPiece;
+        this.bonusStats = bonusStats;
     }
     public Armor(String name, String graphicsSelector, ArmorPieces armorPiece, HashMap<Stats, Integer> bonusStats) {
         super(name, graphicsSelector, 0);
         this.armorPiece  = armorPiece;
+        this.bonusStats = bonusStats;
 
     }
     public Armor(String name, String graphicsSelector, ArmorPieces armorPiece) {
