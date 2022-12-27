@@ -44,7 +44,7 @@ public class StatsHud extends Hud{
     @Override
     public void initHud() throws Exception {
         this.player = Player.getInstance();
-        this.isDisplayed=true;
+        this.isDisplayed=false;
 		this.backgroundImage = Utilities.getImage(inventoryPath);
 		this.visual = Visual.createWithGameCoord(firstPosX, firstPosY, 0, 20, backgroundImage, Layer.FOREGROUND);
     }

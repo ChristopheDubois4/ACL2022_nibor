@@ -1,8 +1,12 @@
 package prefab.entity;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.json.simple.parser.ParseException;
 
 import prefab.competence.Attack;
 import prefab.competence.Spell;
@@ -18,6 +22,7 @@ import prefab.information.State;
 import prefab.information.Stats;
 import prefab.rendering.Animation;
 import prefab.rendering.CharacterAnimation;
+import prefab.rendering.Visual;
 
 /**
  * représente les personnages du jeu de manière générale
@@ -48,6 +53,7 @@ public abstract class Character extends GameObject {
 
     private boolean isAlvie = true;
     private boolean isInMouvement = false;
+    protected HashMap<Stats, Integer> currentBonusStats = new HashMap<Stats, Integer>();
 
 
     // ___________________________________
@@ -66,7 +72,6 @@ public abstract class Character extends GameObject {
     Character(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws CloneNotSupportedException {
         super(position, animation, horizontalHitBox, verticalHitBox, State.DEFAULT);
         this.name = name;
-        this.xp = 0;
         this.attacks = new ArrayList<Attack>();
         this.spells = new ArrayList<Spell>();
         this.effects = new ArrayList<>();
@@ -112,16 +117,20 @@ public abstract class Character extends GameObject {
 
     public void initDefaultEquipment(){
         equippedArmor = new HashMap<ArmorPieces, Armor>();
-        equippedArmor.put(ArmorPieces.HELMET,null);
-        equippedArmor.put(ArmorPieces.CHESTPLATE,null);
-        equippedArmor.put(ArmorPieces.LEGGING,null);
-        equippedArmor.put(ArmorPieces.BOOTS,null);
+        equippedArmor.put(ArmorPieces.HELMET,new Armor(null, "", ArmorPieces.HELMET));
+        equippedArmor.put(ArmorPieces.CHESTPLATE,new Armor(null, "", ArmorPieces.CHESTPLATE));
+        equippedArmor.put(ArmorPieces.LEGGING,new Armor(null, "", ArmorPieces.LEGGING));
+        equippedArmor.put(ArmorPieces.BOOTS,new Armor(null, "", ArmorPieces.BOOTS));
     }
 
     /**
      * initailise les charactéristiques par défaut du personnage
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws ParseException
+     * @throws Exception
      */
-    protected abstract void initCharacteristic();
+    protected abstract void initCharacteristic() throws FileNotFoundException, IOException, ParseException, Exception;
 
     // _____________________________
     // __________ GETTERS __________
@@ -170,6 +179,11 @@ public abstract class Character extends GameObject {
         isInFight = true;
         ((CharacterAnimation) animation).setIsInFight(true);
         setState(State.FIGHT);
+    }
+
+    public void updateCurrentStats() {
+    	resetCurrentStats();
+    	
     }
 
     // ___________________________________
@@ -422,5 +436,9 @@ public abstract class Character extends GameObject {
 
     public String toString() {
         return name;
+    }
+
+    public HashMap<Stats, Integer> getCurrentBonusStats() {
+        return currentBonusStats;
     }
 }

@@ -42,13 +42,20 @@ public class WorldManager implements WorldPainter {
 
     // combats
     private static FightManager  fightManager;
+
+    //class
+    private static ClassManager  classManager;
     
     // niveaux
     public static HashMap<String, GameLevel> gameLevels;
     public static GameLevel currentLevel;
 
-    // Hud de l'inventaire
+    // Huds
     private InventoryHud inventoryHud;
+
+    private VitalResourcesHud vitalResourcesHud;
+
+    private StatsHud statsHud;
     
     // joueur
     Player player;
@@ -56,17 +63,27 @@ public class WorldManager implements WorldPainter {
     // mouvement du joueur autorisé ?
     private boolean isKeyLocked = false;
 
+
+
     /**
      * constructeur de la classe WorldManager
      * @throws Exception
      */
     public WorldManager() throws Exception {    
+ 
+
+
+        // Initialisation de la classe du joueur
+        classManager = ClassManager.getInstance();
+        classManager.initClassManager();
+
         // Initialisation du joueur
-        initPlayer();        
+        initPlayer();
+
         // Initialisation des Huds
         initHuds();
         // Initialisation des niveaux
-        initLevels();
+        initLevels();    
 
         // Initialisation du gestionnaire de combats
         fightManager = FightManager.getInstance();
@@ -79,10 +96,9 @@ public class WorldManager implements WorldPainter {
      * @throws Exception
      */
     public void initPlayer() throws Exception {     
-
+        classManager.startClassSelection();
         player = Player.getInstance();
-        player.initPlayer(PlayerClasses.CLERIC);
-        player.takeDammage(95);
+        player.initPlayer(PlayerClasses.WARRIOR);
         System.out.println("Player : "+ player.getPosition() + "\n");
     }
 
@@ -122,10 +138,12 @@ public class WorldManager implements WorldPainter {
      */
     public void initHuds() throws Exception {
 
+        ClassHud.getInstance();
         FightHud.getInstance();
         inventoryHud = InventoryHud.getInstance();
-        VitalResourcesHud.getInstance();
-        StatsHud.getInstance();
+        vitalResourcesHud = VitalResourcesHud.getInstance();
+        statsHud = StatsHud.getInstance();
+        
       
         for (Hud hud : Hud.getHuds()) {
             hud.initHud();
@@ -165,6 +183,22 @@ public class WorldManager implements WorldPainter {
         
         if (isKeyLocked) {
             return;
+        }
+
+        if (classManager.getIsChoosingClass()) {
+            classManager.evolve(command);
+            if (classManager.allowKeyLocker()) {
+                keyLocker(3*KEY_TIME);
+            }
+            return;            
+        }
+        else if (!classManager.getIsChoosingClass() && classManager.getClassPlayed() != null){
+            player.setClass(classManager.getClassPlayed());
+            System.out.println("Vous jouez : "+classManager.getClassPlayed()); 
+            classManager.classPlayedIsInit();
+            vitalResourcesHud.changeDisplayState();
+            statsHud.changeDisplayState();
+            
         }
 
 
@@ -345,9 +379,10 @@ public class WorldManager implements WorldPainter {
         // Visuels animés
         visuals.addAll(Animator.getInstance().getVisuals());
         // Visuels du niveau
-        if (!FightManager.getInstance().getIsInFight()) {
+        if (!FightManager.getInstance().getIsInFight() && !classManager.getIsChoosingClass()) {
             visuals.addAll(currentLevel.getVisuals());
         }
+         
         // Visuels des HUDS
         for (Hud hud : Hud.getHuds()) {
             if (hud.hudIsDisplayed()) {
@@ -384,7 +419,6 @@ public class WorldManager implements WorldPainter {
      */
 	@Override
 	public void drawHuds(Graphics2D g) {
-        
         for (Hud hud : Hud.getHuds()) {
             if (hud.hudIsDisplayed()) {
                 hud.draw(g);

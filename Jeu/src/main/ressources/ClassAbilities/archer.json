@@ -1,0 +1,97 @@
+[
+	{
+		"init" : {
+			"basicStats" : {
+				 "HP" : 70, 
+				 "MANA" : 100,
+				 "STAMINA" : 100,
+				 "DEFENSE" : 30,
+				 "SPEED" : 100,
+				 "DAMAGE" : 40
+				},
+			"basicAttacks" : [
+				{
+					"name" : "Charge",
+					"damage" : 30,
+					"staminaConsuption" : 15
+				},
+				{
+					"name" : "Regard malaisant",
+					"damage" : 40,
+					"staminaConsuption" : 20
+				},
+				{
+					"name" : "Lancé de Cl?ment",
+					"damage" : 60,
+					"staminaConsuption" : 30,
+					"backlash" : 15
+				}
+			],
+			"basicSpells" : [
+				{
+					"name" : "Boule de feux",
+					"damage" : 60,
+					"manaConsuption" : 40
+				},
+				{
+					"name" : "Lance de glace",
+					"damage" : 45,
+					"manaConsuption" : 30
+				},
+				{
+					"name" : "Soin léger",
+					"damage" : 0,
+					"manaConsuption" : 20,
+					"effects" :[ 
+						{
+						"type" : "HEAL",
+						"powerValue" : 25
+						}
+					]
+				}
+			]
+		},
+
+		"attacks" : [
+			{
+				"name" : "La baffe",
+				"damage" : 30,
+				"staminaConsuption" : 15
+			},
+			{
+				"name" : "Coup tranchant",
+				"damage" : 40,
+				"staminaConsuption" : 20
+			},
+			{
+				"name" : "Coup puissant",
+				"damage" : 60,
+				"staminaConsuption" : 30,
+				"backlash" : 15
+			}
+		],
+		"spells" : [
+			{
+				"name" : "Boule de feux",
+				"damage" : 60,
+				"manaConsuption" : 40
+			},
+			{
+				"name" : "Lance de glace",
+				"damage" : 45,
+				"manaConsuption" : 30
+			},
+			{
+				"name" : "Soin léger",
+				"damage" : 0,
+				"manaConsuption" : 20,
+				"effects" :[ 
+					{
+					"type" : "HEAL",
+					"powerValue" : 25
+					}
+				]
+			}
+		]
+	}
+]

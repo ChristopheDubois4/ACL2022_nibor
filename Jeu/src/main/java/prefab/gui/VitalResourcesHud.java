@@ -43,7 +43,7 @@ public class VitalResourcesHud extends Hud{
     @Override
     public void initHud() throws Exception {
         this.player = Player.getInstance();
-        this.isDisplayed=true;
+        this.isDisplayed=false;
 		this.backgroundImage = Utilities.getImage(inventoryPath);
 		this.visual = Visual.createWithGameCoord(firstPosX, firstPosY, 40, 20, backgroundImage, Layer.FOREGROUND);
 	}
@@ -58,19 +58,19 @@ public class VitalResourcesHud extends Hud{
 		//Santé du joueur
 		double health = player.getCurrentStats().get(Stats.HP);
 		g.setColor(new Color( 81,169,16));
-		double healthBar = (health/100)*444;
+		double healthBar = (health/(player.getStats().get(Stats.HP)+player.getCurrentBonusStats().get(Stats.HP)))*444;
 		g.fillRect(588, 828 , (int) healthBar, 28);
 		
 		//Mana du joueur
 		double mana = player.getCurrentStats().get(Stats.MANA);
 		g.setColor(new Color( 32,89,192));
-		double manabar = (mana/100)*218;
+		double manabar = (mana/(player.getStats().get(Stats.MANA)+player.getCurrentBonusStats().get(Stats.MANA)))*218;
 		g.fillRect(588, 866 , (int) manabar, 28);
 
 		//Stamina du joueur
 		double stamina = player.getCurrentStats().get(Stats.STAMINA);
 		g.setColor(new Color( 219,139,17));
-		double staminabar = (stamina/100)*218;
+		double staminabar = (stamina/(player.getStats().get(Stats.STAMINA)+player.getCurrentBonusStats().get(Stats.STAMINA)))*218;
 		g.fillRect(814, 866 , (int) staminabar, 28);
 
 		g.setColor(Color.BLACK);
@@ -79,13 +79,13 @@ public class VitalResourcesHud extends Hud{
 		String currentManaStat = String.valueOf((int) mana);  
 		String currentStaminaStat = String.valueOf((int) stamina);
 
-		String healthStat=String.valueOf(player.getStats().get(Stats.HP));
+		String healthStat=String.valueOf(player.getStats().get(Stats.HP)+player.getCurrentBonusStats().get(Stats.HP));
 		g.drawString("HP :"+currentHealthStat+"/"+healthStat, 778, 846);
 
-		String manaStat=String.valueOf(player.getStats().get(Stats.MANA));;
+		String manaStat=String.valueOf(player.getStats().get(Stats.MANA)+player.getCurrentBonusStats().get(Stats.MANA));
 		g.drawString("MP :"+currentManaStat+"/"+manaStat, 658, 884);
 
-		String staminaStat=String.valueOf(player.getStats().get(Stats.STAMINA));
+		String staminaStat=String.valueOf(player.getStats().get(Stats.STAMINA)+player.getCurrentBonusStats().get(Stats.STAMINA));
 		g.drawString("SP :"+currentStaminaStat+"/"+staminaStat, 884, 884);
 
 	}
