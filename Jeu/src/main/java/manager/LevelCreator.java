@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.awt.image.BufferedImage;
+
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,6 +31,7 @@ import prefab.props.TrappedBox;
 import prefab.rendering.Animation;
 import prefab.rendering.CharacterAnimation;
 import prefab.rendering.Sprite;
+import prefab.rendering.Visual;
 
 /**
  * créer les différents niveux du jeux
@@ -150,6 +153,11 @@ public class LevelCreator {
                 JSONArray levelObjects = (JSONArray) level.get("gameObjects");
 
                 List<GameObject> gameObjects = new ArrayList<GameObject>();
+
+                //background
+                String str =(String)level.get("background_graphics");
+                BufferedImage backgroundImage = Utilities.getImage("src/main/ressources/images/items/"+ str + ".png");
+                
                 
                 // parcours des objets du niveau
                 for (int k = 0; k < levelObjects.size() ; k++) {
@@ -164,8 +172,9 @@ public class LevelCreator {
                     Position p = Position.createPosition(x, y, layer);
                     // graphics
                     HashMap<State, Sprite> graphics = Utilities.getSpritesFromJSON((String) gameObject.get("graphics"));
-                    Animation animation = Animation.create(graphics);            
-                   
+                    Animation animation = Animation.create(graphics);    
+                    
+                                    
                     int horizontalHitBox = 0;
                     int verticalHitBox = 0;
 
@@ -220,7 +229,7 @@ public class LevelCreator {
                             break;
                     }
                 }
-                GameLevel gameLevel = new GameLevel(gameObjects,levelInitMapArray);
+                GameLevel gameLevel = new GameLevel(gameObjects,levelInitMapArray,backgroundImage);
                 this.gameLevels.put(levelName, gameLevel);
             }           
         } catch (FileNotFoundException e) {
