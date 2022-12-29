@@ -109,7 +109,11 @@ public class Utilities {
 
                 if (state == State.FIGHT) {
                     s = Sprite.createBigSprite(pathStr, 4);
-                } else {
+                } 
+                if (state == State.DEFAULT) {
+                    s = Sprite.createSprite2(pathStr, 4);
+                } 
+                else {
                     s = Sprite.createSprite(pathStr, 4);
                 }
 
