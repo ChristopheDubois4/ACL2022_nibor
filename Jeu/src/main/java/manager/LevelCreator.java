@@ -224,6 +224,15 @@ public class LevelCreator {
                             Position nextPosition = Position.create(newX, newY-1);
                             Door door = new Door(p, animation, verticalHitBox, horizontalHitBox, nextLevel, nextPosition);//recup les parametres pour le constructeur
                             gameObjects.add(door);
+                            break;    
+                        case "Teleportation" :
+                            nextLevel = (String) gameObject.get("nextLevel");
+                            nextPos = (JSONObject) gameObject.get("nextPosition");
+                            newX = (int) ((long) nextPos.get("newX"));
+                            newY = (int) ((long) nextPos.get("newY"));
+                            nextPosition = Position.create(newX, newY-1);
+                            Teleportation tp = new Teleportation(p, animation, verticalHitBox, horizontalHitBox, nextLevel, nextPosition);//recup les parametres pour le constructeur
+                            gameObjects.add(tp);
                             break;                      
                         default:
                             break;

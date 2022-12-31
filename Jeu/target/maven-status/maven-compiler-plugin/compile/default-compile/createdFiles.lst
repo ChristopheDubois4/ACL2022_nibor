@@ -63,6 +63,7 @@ prefab\competence\Attack.class
 manager\LevelCreator.class
 prefab\information\Layer.class
 prefab\gui\InventoryHud.class
+prefab\props\Teleportation.class
 prefab\rendering\CharacterAnimation.class
 engine\GameEngineGraphical.class
 manager\LevelCreator$1.class

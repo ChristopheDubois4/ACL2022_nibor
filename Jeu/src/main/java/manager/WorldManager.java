@@ -19,6 +19,7 @@ import prefab.entity.Player.PlayerClasses;
 import prefab.gui.*;
 import prefab.information.Position;
 import prefab.level.GameLevel;
+import prefab.props.Teleportation;
 import prefab.props.UsableObject;
 import prefab.rendering.Animation;
 import prefab.rendering.Animator;
@@ -115,11 +116,11 @@ public class WorldManager implements WorldPainter {
 
         Animation aM = CharacterAnimation.createForPNJ(sM);
 
-        Position p1M = Position.create(10, 12);
+        Position p1M = Position.create(10, 10);
 
         Ghoul mob = new Ghoul(p1M, aM, 1, 1, "Jean le Destructeur");
 
-        Position p2M = Position.create(12, 12);
+        Position p2M = Position.create(12, 10);
         Animation aM2 = CharacterAnimation.createForPNJ(sM);
 
 
@@ -262,9 +263,9 @@ public class WorldManager implements WorldPainter {
     /**
      * deplace le joueur
      * @param cmd commande du joueur
-     * @throws CloneNotSupportedException
+     * @throws Exception
      */
-    private void movePlayer(Cmd cmd) throws CloneNotSupportedException {    
+    private void movePlayer(Cmd cmd) throws Exception {    
 
         //Si le joueur est mort il ne peut pas bouger
         if (player.getState()==State.DEAD) return;
@@ -311,7 +312,10 @@ public class WorldManager implements WorldPainter {
         if (check.getValue1() instanceof Enemy) {                 
             fightManager.startNewFight((Character) check.getValue1()); 
         }
-
+        //si il y a une case de teleportation alors le joueur l'utilise
+        if (check.getValue1() instanceof Teleportation) {                 
+            ((UsableObject) check.getValue1()).objectUse(player,cmd);
+        }
         System.out.println("MOVEMENT IMPOSSIBLE \nObjet de la collision : "+ check.getValue1() + "\n");
         System.out.println("Player : "+ player.getPosition() + "\n");
     }
