@@ -74,6 +74,9 @@ public final class Sprite {
         return createBigSprite(pathStr, animationSpeed, 60);
     }
 
+    public static Sprite createSprite2(String pathStr, int animationSpeed) throws Exception {
+        return createBigSprite(pathStr, animationSpeed);
+    }
     public BufferedImage getImage(int index) {
         return images[index];
     }

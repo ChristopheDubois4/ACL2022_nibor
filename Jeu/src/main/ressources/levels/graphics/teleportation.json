@@ -1,0 +1,8 @@
+[
+	{
+		"state" : "DEFAULT",
+		"visual" : {
+			"image" : "src/main/ressources/images/items/void.png"
+		}       
+	}
+]

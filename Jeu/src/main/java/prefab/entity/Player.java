@@ -66,7 +66,7 @@ public class Player extends Character implements PlayerInfosFofHud{
     */
    private Player() throws CloneNotSupportedException, Exception {              
        super(
-           Position.create(10, 10),
+           Position.create(17, 9),
            CharacterAnimation.createForPlayer(Utilities.getSpritesFromJSON("player")),
            1,
            1,

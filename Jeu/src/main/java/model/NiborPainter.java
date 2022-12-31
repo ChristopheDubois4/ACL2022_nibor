@@ -53,10 +53,8 @@ public class NiborPainter implements GamePainter {
 		try {
 			visuals = worldPainter.getVisuals();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//System.out.println(visuals.size());
