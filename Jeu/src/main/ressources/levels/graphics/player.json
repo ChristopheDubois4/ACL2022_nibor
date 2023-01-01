@@ -42,7 +42,7 @@
 	{
 		"state" : "WALK_RIGHT",
 		"visual" : {
-			"image" : "src/main/ressources/images/characters/player/walk_horizontal.png",
+			"image" : "src/main/ressources/images/characters/player/walkRight.png",
 			"lenghtX" : 1,
 			"lenghtY" : 1
 		}     
