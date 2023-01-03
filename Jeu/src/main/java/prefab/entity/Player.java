@@ -153,8 +153,7 @@ public class Player extends Character implements PlayerInfosFofHud{
             for (Entry<Stats, Integer> e2 : set2) {
                 Stats key = e2.getKey();
                 Integer value = e2.getValue();
-                currentStats.put(key, currentStats.get(key) + value); 
-                currentBonusStats.put(key, currentBonusStats.get(key) + value); 
+                currentStats.put(key, currentStats.get(key) + value);
             }
             
         }
@@ -219,7 +218,6 @@ public class Player extends Character implements PlayerInfosFofHud{
                 String key = (String) iterator.next();
                 int val = ((Long)  basicStats.get(key)).intValue();
                 stats.put(Stats.valueOf(key), val);
-                currentBonusStats.put(Stats.valueOf(key),0);
             }
 
             for (Object iterator : basicAttacks) {
@@ -252,16 +250,7 @@ public class Player extends Character implements PlayerInfosFofHud{
                 }
                 spells.add(new Spell(name, damage, manaConsuption, effectSpell));
             }
-
-
-
-            /*
-            for (Iterator iterator = basicEquippments.keySet().iterator(); iterator.hasNext(); ) {
-                String key = (String) iterator.next();
-                String equipmentID = (String) basicEquippments.get(key);
-                loadItem(equipmentID);
-            }
-             */
+            
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

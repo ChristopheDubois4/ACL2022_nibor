@@ -37,6 +37,7 @@ public class Armor extends Item {
     public Armor(String name, String graphicsSelector, ArmorPieces armorPiece) {
         super(name, graphicsSelector, 0);
         this.armorPiece  = armorPiece;
+        this.bonusStats = null;
 
     }
 

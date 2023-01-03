@@ -53,7 +53,6 @@ public abstract class Character extends GameObject {
 
     private boolean isAlvie = true;
     private boolean isInMouvement = false;
-    protected HashMap<Stats, Integer> currentBonusStats = new HashMap<Stats, Integer>();
 
 
     // ___________________________________
@@ -436,9 +435,5 @@ public abstract class Character extends GameObject {
 
     public String toString() {
         return name;
-    }
-
-    public HashMap<Stats, Integer> getCurrentBonusStats() {
-        return currentBonusStats;
     }
 }

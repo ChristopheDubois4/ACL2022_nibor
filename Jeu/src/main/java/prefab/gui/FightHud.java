@@ -257,7 +257,7 @@ public class FightHud extends Hud{
          * barre de vie du joueur
          */
         // vie du joueur en pourcentage
-        double playerHealth = (double) (player.getCurrentStats().get(Stats.HP)) / (player.getStats().get(Stats.HP)+player.getCurrentBonusStats().get(Stats.HP));
+        double playerHealth = (double) (player.getCurrentStats().get(Stats.HP)) / (player.getStats().get(Stats.HP));
 
         // fond
         g.setColor(colorBarBackground);
@@ -293,7 +293,7 @@ public class FightHud extends Hud{
          * barre de mana du joueur
          */
         // mana du joueur en pourcentage
-        double playerMana = (double) (player.getCurrentStats().get(Stats.MANA)) / player.getStats().get(Stats.MANA)+player.getCurrentBonusStats().get(Stats.MANA);
+        double playerMana = (double) (player.getCurrentStats().get(Stats.MANA)) / player.getStats().get(Stats.MANA);
         // fond
         g.setColor(colorBarBackground);
         g.fillRect(playerBarX, manaBarY, widthBar, heightManaBars);
@@ -328,7 +328,7 @@ public class FightHud extends Hud{
          * barre de stamina du joueur
          */
         // stamina du joueur en pourcentage
-        double playerStamina = (double) (player.getCurrentStats().get(Stats.STAMINA)) / player.getStats().get(Stats.STAMINA)+player.getCurrentBonusStats().get(Stats.STAMINA);
+        double playerStamina = (double) (player.getCurrentStats().get(Stats.STAMINA)) / player.getStats().get(Stats.STAMINA);
         // fond
         g.setColor(colorBarBackground);
         g.fillRect(playerBarX, staminaBarY, widthBar, heightStaminaBars);
