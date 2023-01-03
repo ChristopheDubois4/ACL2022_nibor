@@ -101,7 +101,7 @@ public class Player extends Character implements PlayerInfosFofHud{
         setWeapon(new Weapon(null, "", 0));
         
         initClassFromJson();
-        updateCurrentStats();
+        updateStats();
 
     }   
     
@@ -142,9 +142,7 @@ public class Player extends Character implements PlayerInfosFofHud{
         return false;
     }
 
-    @Override
-    public void updateCurrentStats() {
-        resetCurrentStats();
+    public void updateStats() {
         Set<Entry<ArmorPieces, Armor>> set1 = equippedArmor.entrySet();
         for (Entry<ArmorPieces, Armor> e1 : set1) {
             ArmorPieces key1 = e1.getKey();
@@ -153,10 +151,10 @@ public class Player extends Character implements PlayerInfosFofHud{
             for (Entry<Stats, Integer> e2 : set2) {
                 Stats key = e2.getKey();
                 Integer value = e2.getValue();
-                currentStats.put(key, currentStats.get(key) + value);
+                stats.put(key, stats.get(key) + value);
             }
-            
         }
+        resetCurrentStats();
     	
     }
 
@@ -211,8 +209,6 @@ public class Player extends Character implements PlayerInfosFofHud{
             JSONArray basicAttacks = (JSONArray) initClass.get("basicAttacks");
 
             JSONArray basicSpells = (JSONArray) initClass.get("basicSpells");
-
-            //JSONObject basicEquippments = (JSONObject) initClass.get("basicEquippments");
 
             for (Iterator iterator = basicStats.keySet().iterator(); iterator.hasNext(); ) {
                 String key = (String) iterator.next();
