@@ -109,7 +109,7 @@
             "nextLevel" : "level_4",
             "nextPosition" : {
                 "newX" : 13,
-                "newY" : 3
+                "newY" : 4
                 }
             },
             {
@@ -249,6 +249,22 @@
                         },
                 "horizontalHitBox" : 1,
                 "verticalHitBox" : 1
+            },
+            {
+                "type" : "Teleportation",
+                "graphics" : "teleportation",
+                "position" : {
+                            "x" : 13,
+                            "y" : 3,
+                            "layer" : "BACKGROUND"
+                        },
+                "horizontalHitBox" : 1,
+                "verticalHitBox" : 1,
+                "nextLevel" : "level_2",    
+                "nextPosition" : {
+                    "newX" : 13,
+                    "newY" : 13
+                }
             }
         ]
 	}
