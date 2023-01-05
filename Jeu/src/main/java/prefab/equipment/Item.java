@@ -13,7 +13,6 @@ public abstract class Item {
     private String name;
 
     private String path = "src/main/ressources/images/items/";
-
     
     /**
      * constructeur de la classe Item
