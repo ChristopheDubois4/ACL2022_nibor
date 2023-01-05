@@ -24,9 +24,9 @@ import prefab.rendering.Animation;
  * représente un personnage particulié qui est un ennemi du joueur
  * (Nom à changer)
  */
-public class Ghoul extends Enemy {
+public class BatGoblin extends Enemy {
 
-    public Ghoul(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws FileNotFoundException, IOException, ParseException, Exception {
+    public BatGoblin(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws FileNotFoundException, IOException, ParseException, Exception {
         super(position, animation, horizontalHitBox, verticalHitBox, name);
      
     }

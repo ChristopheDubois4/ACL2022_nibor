@@ -16,7 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import prefab.entity.GameObject;
-import prefab.entity.Ghoul;
+import prefab.entity.BatGoblin;
 import prefab.equipment.Consumable;
 import prefab.equipment.Effect;
 import prefab.equipment.Item;
@@ -147,7 +147,8 @@ public class LevelCreator {
 
                 JSONObject level = (JSONObject) levels.get(i);
 
-                String levelName = (String) level.get("name");
+                String levelName = (String) level.get("name");                
+
                 JSONArray levelInitMap = ((JSONArray) level.get("initMap"));
                 int[][] levelInitMapArray = jsonArrayTo2DInt(levelInitMap);
                 JSONArray levelObjects = (JSONArray) level.get("gameObjects");
@@ -212,7 +213,7 @@ public class LevelCreator {
                             HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
                             Animation aM = CharacterAnimation.createForPNJ(sM);
                             // FIN
-                            Ghoul mob = new Ghoul(p, aM, 1, 1, "Je suis méchant");
+                            BatGoblin mob = new BatGoblin(p, aM, 1, 1, "Je suis méchant");
                             TrappedBox trappedBox = new  TrappedBox(p,animation,horizontalHitBox,verticalHitBox,mob);//recup les parametres pour le constructeur
                             gameObjects.add(trappedBox);
                             break;
@@ -238,6 +239,27 @@ public class LevelCreator {
                         default:
                             break;
                     }
+                }
+                System.out.println("================================================================ " + levelName);
+
+                if (levelName.equals("level_2")) { 
+                    
+                    System.out.println("________________________________________________________________");
+
+                    HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
+                    Animation aM = CharacterAnimation.createForPNJ(sM);
+                    Position p1M = Position.create(3, 9);
+                    BatGoblin mob = new BatGoblin(p1M, aM, 1, 1, "Robinet le teigneux");
+                    Position p2M = Position.create(13, 11);
+                    Animation aM2 = CharacterAnimation.createForPNJ(sM);
+                    BatGoblin mob2 = new BatGoblin(p2M, aM2, 1, 1, "Robinait le ténébreux");
+                    Position p3M = Position.create(20, 7);
+                    Animation aM3 = CharacterAnimation.createForPNJ(sM);
+                    BatGoblin mob3 = new BatGoblin(p3M, aM3, 1, 1, "Robinson le téméraire");
+
+                    gameObjects.add(mob);
+                    gameObjects.add(mob2);
+                    gameObjects.add(mob3);
                 }
                 GameLevel gameLevel = new GameLevel(gameObjects,levelInitMapArray,backgroundImage);
                 this.gameLevels.put(levelName, gameLevel);

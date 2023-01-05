@@ -13,7 +13,7 @@ import engine.Command;
 import prefab.entity.Character;
 import prefab.entity.Enemy;
 import prefab.entity.GameObject;
-import prefab.entity.Ghoul;
+import prefab.entity.BatGoblin;
 import prefab.entity.Player;
 import prefab.entity.Player.PlayerClasses;
 import prefab.gui.*;
@@ -112,25 +112,6 @@ public class WorldManager implements WorldPainter {
         gameLevels = levelCreator.getLevels();
         currentLevel = gameLevels.get("level_1");
 
-
-        HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
-
-        Animation aM = CharacterAnimation.createForPNJ(sM);
-
-        Position p1M = Position.create(10, 10);
-
-        Ghoul mob = new Ghoul(p1M, aM, 1, 1, "Jean le Destructeur");
-
-        Position p2M = Position.create(12, 10);
-        Animation aM2 = CharacterAnimation.createForPNJ(sM);
-
-
-        Ghoul mob2 = new Ghoul(p2M, aM2, 1, 1, "sssss");
-
-        mob.startAnimation();
-        mob2.startAnimation();
-        currentLevel.addGameObject(mob);
-        currentLevel.addGameObject(mob2);
 
     }
 

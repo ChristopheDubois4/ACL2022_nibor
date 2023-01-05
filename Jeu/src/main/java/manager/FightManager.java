@@ -9,7 +9,7 @@ import prefab.competence.Attack;
 import prefab.competence.Spell;
 import prefab.entity.Character;
 import prefab.entity.Enemy;
-import prefab.entity.Ghoul;
+import prefab.entity.BatGoblin;
 import prefab.entity.Player;
 import prefab.equipment.Consumable;
 import prefab.equipment.Effect;
