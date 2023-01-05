@@ -23,7 +23,7 @@ public class Animation implements Cloneable, Comparable<Animation>{
      * que la méthode nextFrame() est apellé
      * permet de changer de frame selon la vitesse de l'animation
      */
-    int cptNrbSpriteCall;
+    int cptNrbSpriteCall = 1;
     /** position du personnage */
     Position position;
 

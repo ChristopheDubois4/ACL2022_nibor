@@ -69,7 +69,7 @@ public abstract class Character extends GameObject {
      * @throws CloneNotSupportedException
       */
     Character(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws CloneNotSupportedException {
-        super(position, animation, horizontalHitBox, verticalHitBox, State.DEFAULT);
+        super(position, animation, horizontalHitBox, verticalHitBox, State.IDLE_DOWN);
         this.name = name;
         this.attacks = new ArrayList<Attack>();
         this.spells = new ArrayList<Spell>();

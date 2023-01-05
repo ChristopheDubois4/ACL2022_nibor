@@ -82,7 +82,7 @@ public class CharacterAnimation extends Animation {
             } else {
                 updateMoveShift();
             }
-        }
+        }   
         // met à jour l'image du Sprite
         super.nextFrame();
 
