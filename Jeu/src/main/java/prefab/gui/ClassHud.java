@@ -118,9 +118,7 @@ public class ClassHud extends Hud{
         int y = screenH - 2*tile;
         int lengthX = 9*tile;
         int lengthY = tile;
-        // fond
-        g.setColor(Color.white);
-        g.fillRect(x, y, lengthX, lengthY);
+      
         // message
         g.setColor(Color.black);            
         g.setFont(new Font("Apple Casual", Font.BOLD, 16));
@@ -129,11 +127,7 @@ public class ClassHud extends Hud{
         int textHeight = metrics.getHeight();           
         g.drawString(this.message, x + lengthX/2 - textWidth/2, y + lengthY/2 + textHeight/3);
         
-        // contour
-        g.setColor(Color.black);
-        g.drawRect(x, y, lengthX, lengthY);
-     
-      
+              
         
         //  ___________________ MENU ___________________ 
         

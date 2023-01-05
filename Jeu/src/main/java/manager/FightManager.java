@@ -326,7 +326,7 @@ public class FightManager {
 		if (turn == 0) {
             System.out.println( "---> evolve");
             allowKeyLocker = true;
-			palyerTurn(command);
+			playerTurn(command);
             return;
 		}
 	}
@@ -354,7 +354,7 @@ public class FightManager {
      * @throws InterruptedException
      * @throws CloneNotSupportedException
      */
-	private void palyerTurn(Command command) throws InterruptedException, CloneNotSupportedException {
+	private void playerTurn(Command command) throws InterruptedException, CloneNotSupportedException {
         int shiftMenu = 0;
         switch (command.getKeyCommand()) {
             case LEFT:
@@ -483,10 +483,17 @@ public class FightManager {
 		isInFight = false;
         this.player.setIsInFight(true);
         this.enemy.setIsInFight(true);
-
-        enemy.stopAnimation();
-       
-        player.setState(State.IDLE_DOWN);
+        
+        if (player.getIsAlive()) {
+            player.setState(State.IDLE_DOWN);
+        } else {
+            player.setState(State.DEAD);
+        }
+        if (enemy.getIsAlive()) {
+            enemy.setState(State.IDLE_DOWN);
+        } else {
+            enemy.stopAnimation();
+        }
         WorldManager.removeObject(enemy);
 		fightHud.changeDisplayState();
 

@@ -37,7 +37,7 @@ public abstract class Enemy extends Character{
         int deltaY =  position.getY() - Player.getInstance().getPosition().getY();
         int deltaX =  position.getX() - Player.getInstance().getPosition().getX();
 
-        if (deltaY*deltaY + deltaX*deltaX > 5*5) {
+        if (deltaY*deltaY + deltaX*deltaX > 3*5) {
             return 4;
         }
         
@@ -118,16 +118,15 @@ public abstract class Enemy extends Character{
         int max = 0, min = 0;
         switch (action[0]) {
             case 0:
-                max = getAttacks().size()-1;
+                max = getAttacks().size();
                 break;
             case 1:
-                max = getSpells().size()-1;
+                max = getSpells().size();
                 break;
             case 2:
                 max = consumablesSize-1;
                 break;
-        }
-        
+        }        
         action[1] = min + (int)(Math.random() * ((max - min)));        
     }
 

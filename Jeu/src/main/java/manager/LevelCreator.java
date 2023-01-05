@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import prefab.entity.GameObject;
+import prefab.entity.Robin;
 import prefab.entity.BatGoblin;
 import prefab.equipment.Consumable;
 import prefab.equipment.Effect;
@@ -240,11 +241,9 @@ public class LevelCreator {
                             break;
                     }
                 }
-                System.out.println("================================================================ " + levelName);
 
                 if (levelName.equals("level_2")) { 
                     
-                    System.out.println("________________________________________________________________");
 
                     HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
                     Animation aM = CharacterAnimation.createForPNJ(sM);
@@ -260,6 +259,16 @@ public class LevelCreator {
                     gameObjects.add(mob);
                     gameObjects.add(mob2);
                     gameObjects.add(mob3);
+                }
+                if (levelName.equals("level_4")) { 
+                    
+                    HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("robin");
+                    Animation aM = CharacterAnimation.createForPNJ(sM);
+                    Position p1M = Position.create(11, 9);
+                    Robin robin = new Robin(p1M, aM, 3, 1, "R.O.B.I.N");
+                   
+
+                    gameObjects.add(robin);
                 }
                 GameLevel gameLevel = new GameLevel(gameObjects,levelInitMapArray,backgroundImage);
                 this.gameLevels.put(levelName, gameLevel);

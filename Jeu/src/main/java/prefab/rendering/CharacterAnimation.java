@@ -135,7 +135,7 @@ public class CharacterAnimation extends Animation {
             return Visual.createWithGameCoord(21, 10, -30, 0, image, mirorV, mirorH);
         }
         /** si le jeu est en mode monde ouvert */
-        return Visual.createWithGameCoord(position.getX(), position.getY(), -deltaX*shift, -deltaY*shift, image, mirorV, mirorH);
+        return Visual.createWithGameCoord(position.getX(), position.getY() -1 , -deltaX*shift, -deltaY*shift + image.getHeight(), image, mirorV, mirorH);
     }
 
 

@@ -12,8 +12,8 @@
 			"basicAttacks" : [
 				{
 					"name" : "Charge",
-					"damage" : 30,
-					"staminaConsuption" : 15
+					"damage" : 25,
+					"staminaConsuption" : 0
 				},
 				{
 					"name" : "Regard malaisant",

@@ -24,9 +24,9 @@ import prefab.rendering.Animation;
  * représente un personnage particulié qui est un ennemi du joueur
  * (Nom à changer)
  */
-public class BatGoblin extends Enemy {
+public class Robin extends Enemy {
 
-    public BatGoblin(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws FileNotFoundException, IOException, ParseException, Exception {
+    public Robin(Position position, Animation animation, int horizontalHitBox, int verticalHitBox, String name) throws FileNotFoundException, IOException, ParseException, Exception {
         super(position, animation, horizontalHitBox, verticalHitBox, name);
      
     }
@@ -37,29 +37,30 @@ public class BatGoblin extends Enemy {
         this.stats = new HashMap<Stats , Integer>();
         this.currentStats = new HashMap<Stats , Integer>();
 
-        this.stats.put(Stats.HP, 60);
-        this.stats.put(Stats.MANA, 80);
-        this.stats.put(Stats.STAMINA, 80);
+        this.stats.put(Stats.HP, 400);
+        this.stats.put(Stats.MANA, 150);
+        this.stats.put(Stats.STAMINA, 170);
 
-        this.stats.put(Stats.DEFENSE, 20);
+        this.stats.put(Stats.DEFENSE, 35);
         this.stats.put(Stats.SPEED, 100);
         this.stats.put(Stats.DAMAGE, 50);
-        inventory[0][0] = new Weapon("epeeDelaMort", "sword_1",30);
-        inventory[13][5] = new Weapon("truc", "bitcoin", 50);
+
+        inventory[0][0] = new Weapon("armeNN", "sword_1",30);
+        inventory[13][5] = new Weapon("armeNB", "bitcoin", 50);
         List<Effect> effectPopo = new ArrayList<Effect>();
-        effectPopo.add(new Effect(TypeEffects.HEAL, 10));
+        effectPopo.add(new Effect(TypeEffects.HEAL, 300));
         inventory[13][5] = new Consumable("Potion de soin", "potion_heal",effectPopo);
 
-        attacks.add(new Attack("Morsure", 50 ,15, 0));
-        attacks.add(new Attack("Lacération", 100 ,40, 10));
+        attacks.add(new Attack("Guillotine", 30 ,15, 0));
+        attacks.add(new Attack("Fouet du péché", 80 ,40, 30));
 
         resetCurrentStats();
       
-        spells.add(new Spell("nyan nyan", 40, 30, new ArrayList<Effect>()));
+        spells.add(new Spell("Incinération", 70, 70, new ArrayList<Effect>()));
         
-        ATK_PROBA = 0.6;
-        MAGIC_PROBA = 0.3; 
-        ITEM_PROBA = 0.1;   
+        ATK_PROBA = 0.9;
+        MAGIC_PROBA = 0.05; 
+        ITEM_PROBA = 0.05;   
         
     }
 

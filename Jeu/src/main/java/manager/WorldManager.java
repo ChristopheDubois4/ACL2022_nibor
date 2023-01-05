@@ -15,6 +15,7 @@ import prefab.entity.Enemy;
 import prefab.entity.GameObject;
 import prefab.entity.BatGoblin;
 import prefab.entity.Player;
+import prefab.entity.Robin;
 import prefab.entity.Player.PlayerClasses;
 import prefab.gui.*;
 import prefab.information.Position;
@@ -259,7 +260,7 @@ public class WorldManager implements WorldPainter {
         List<Enemy> enemies = new ArrayList<Enemy>();
         List<GameObject> objects = currentLevel.getGameObjects();
         for (GameObject gameObject : objects) {
-            if (gameObject instanceof Enemy) {
+            if ((gameObject instanceof Enemy) && !(gameObject instanceof Robin)) {
                 enemies.add((Enemy) gameObject);
             }
         }

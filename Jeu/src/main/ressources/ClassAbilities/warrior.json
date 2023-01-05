@@ -12,18 +12,18 @@
 			"basicAttacks" : [
 				{
 					"name" : "Charge",
-					"damage" : 30,
-					"staminaConsuption" : 15
+					"damage" : 25,
+					"staminaConsuption" : 0
 				},
 				{
 					"name" : "Regard malaisant",
 					"damage" : 40,
-					"staminaConsuption" : 20
+					"staminaConsuption" : 30
 				},
 				{
 					"name" : "Lancé de Cl?ment",
 					"damage" : 60,
-					"staminaConsuption" : 30,
+					"staminaConsuption" : 55,
 					"backlash" : 15
 				}
 			],
@@ -45,7 +45,7 @@
 					"effects" :[ 
 						{
 						"type" : "HEAL",
-						"powerValue" : 25
+						"powerValue" : 40
 						}
 					]
 				}

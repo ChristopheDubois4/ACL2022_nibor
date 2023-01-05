@@ -109,10 +109,14 @@ public class Utilities {
 
                 Sprite s;
 
-                
+                if (tst.equals("robin") && state == State.IDLE_DOWN) {
+                    s = Sprite.createBigSprite(pathStr, 2, 180);
+                } 
 
-
-                if (state == State.FIGHT) {
+                else if (state == State.FIGHT) {
+                    s = Sprite.createBigSprite(pathStr, 2);
+                } 
+                else if (state == State.FIGHT) {
                     s = Sprite.createBigSprite(pathStr, 2);
                 } 
                 else {

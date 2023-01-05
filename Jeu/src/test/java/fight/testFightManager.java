@@ -16,7 +16,8 @@ import org.junit.Test;
 
 import manager.FightManager;
 import manager.Utilities;
-import prefab.entity.Ghoul;
+import prefab.entity.BatGoblin;
+import prefab.entity.BatGoblin;
 import prefab.entity.Player;
 import prefab.entity.Player.PlayerClasses;
 import prefab.equipment.Consumable;
@@ -31,7 +32,7 @@ import prefab.rendering.Sprite;
 public class testFightManager {
 
     Player p;
-    Ghoul mob;
+    BatGoblin mob;
     static FightManager f = FightManager.getInstance();
     Item i1, i2, i3;
 
@@ -84,7 +85,7 @@ public class testFightManager {
         Position pos1 = Position.create(10, 10);
 
         try {
-            mob = new Ghoul(pos1, a, 1, 1, "Jean le Destructeur");
+            mob = new BatGoblin(pos1, a, 1, 1, "Jean le Destructeur");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
