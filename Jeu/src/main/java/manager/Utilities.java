@@ -113,29 +113,13 @@ public class Utilities {
 
 
                 if (state == State.FIGHT) {
-               
                     s = Sprite.createBigSprite(pathStr, 2);
                 } 
-
                 else {
-                    System.out.println("COUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU ::::::: "+model);
-            
-
                     if (state == State.DEFAULT) {
-                        
-                        if (tst == "mob") {
-                            System.out.println("COUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
-                            s = Sprite.createBigSprite(pathStr, 4, 120);
-                        }
-                        else
                         s = Sprite.createBigSprite(pathStr, 4);
                     } 
                     else {
-                        if (tst == "mob") {
-                            System.out.println("COUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
-                            s = Sprite.createBigSprite(pathStr, 4, 120);
-                        }
-                        else
                         s = Sprite.createSprite(pathStr, 4);
                     }
                 }

@@ -112,7 +112,6 @@ public class WorldManager implements WorldPainter {
         gameLevels = levelCreator.getLevels();
         currentLevel = gameLevels.get("level_1");
 
-        System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
 
         HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
 
@@ -120,17 +119,17 @@ public class WorldManager implements WorldPainter {
 
         Position p1M = Position.create(10, 10);
 
-        Ghoul mob = new Ghoul(p1M, aM, 2, 1, "Jean le Destructeur");
+        Ghoul mob = new Ghoul(p1M, aM, 1, 1, "Jean le Destructeur");
 
         Position p2M = Position.create(12, 10);
         Animation aM2 = CharacterAnimation.createForPNJ(sM);
 
 
-        Ghoul mob2 = new Ghoul(p2M, aM2, 2, 1, "sssss");
+        Ghoul mob2 = new Ghoul(p2M, aM2, 1, 1, "sssss");
 
-        //mob.startAnimation();
+        mob.startAnimation();
         mob2.startAnimation();
-        //currentLevel.addGameObject(mob);
+        currentLevel.addGameObject(mob);
         currentLevel.addGameObject(mob2);
 
     }
