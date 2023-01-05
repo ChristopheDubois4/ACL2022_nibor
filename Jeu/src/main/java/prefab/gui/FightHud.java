@@ -24,7 +24,7 @@ import manager.Utilities;
  */
 public class FightHud extends Hud{
 
-    private static final FightHud INSTANCE = new FightHud();
+    public static final FightHud INSTANCE = new FightHud();
 
     private String fightPath = "src/main/ressources/images/huds/fight/";
     private String[] decors = {"plaines_1"};
@@ -194,9 +194,6 @@ public class FightHud extends Hud{
         if (!isDisplayed) {
             return;
         }
-
-        // Affichage temporaire de l'emplacement du joueur et de l'ennemi
-        //drawTemp(g);
         
         g.setStroke(new BasicStroke(3));
 
@@ -433,26 +430,6 @@ public class FightHud extends Hud{
         int textWidth = metrics.stringWidth(name);
         int textHeight = metrics.getHeight();           
         g.drawString(name, menuX + menuWidth/2 - textWidth/2, menuY + menuHeight/2 + textHeight/3);       
-    }
-
-    /**
-     * methode de test temporaire
-     * @param g
-     */
-    private void drawTemp(Graphics2D g) {
-
-        g.setStroke(new BasicStroke(5));
-
-        // PLAYER 
-        g.setColor(new Color(34,177,76));
-        g.drawRect(tile, tile + 10, 5*tile, 40);
-        g.drawRect(tile, 2*tile, 5*tile, 9*tile);
-       
-        // ENEMY
-
-        g.setColor(new Color(255,0,0));
-        g.drawRect(21*tile, tile + 10, 5*tile, 40);
-        g.drawRect(21*tile, 2*tile, 5*tile, 9*tile);
     }
 
     @Override

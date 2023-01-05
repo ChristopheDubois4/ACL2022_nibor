@@ -31,7 +31,7 @@ import java.awt.image.BufferedImage;
  */
 public class InventoryHud extends Hud{
 
-    private static final InventoryHud INSTANCE = new InventoryHud();
+    public static final InventoryHud INSTANCE = new InventoryHud();
 
     private String inventoryPath = "src/main/ressources/images/huds/inventory/inventory.png";
     // Rappel : On commence à (0,0) en bas à gauche
@@ -512,6 +512,22 @@ public class InventoryHud extends Hud{
 
     @Override
     public void draw(Graphics2D g) {        
+    }
+
+
+    public void setPressedClick(Pair<Integer, Integer> click) {
+        this.pressedClick=click;
+    }
+    public void setReleasedClick(Pair<Integer, Integer> click) {
+        this.releasedClick=click;
+    }
+
+    public String getHudPressed() {
+        return hudPressed;
+    }
+
+    public String getHudReleased() {
+        return hudReleased;
     }
 
 }

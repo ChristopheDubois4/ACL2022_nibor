@@ -24,9 +24,9 @@ import prefab.information.Stats;
  */
 public class FightManager {
 
-    private static final FightManager INSTANCE = new FightManager();
+    public static final FightManager INSTANCE = new FightManager();
 
-    private FightHud fightHud;
+    public FightHud fightHud;
 
     // tableau des menus
     private String[] menu = {"ATTAQUES", "MAGIE", "CONSOMMABLES"};
@@ -69,7 +69,9 @@ public class FightManager {
      */
     public void initFightManager() throws CloneNotSupportedException, Exception {
         submenusNames = new ArrayList[3];
-        
+        for (int i = 0; i < 3; i++) {
+            submenusNames[i] = new ArrayList<String>();
+        }
         this.player = Player.getInstance();
 		this.fightHud = FightHud.getInstance();
     }
@@ -146,8 +148,6 @@ public class FightManager {
      */
     private boolean useConsumable(int pos, Character launcher, Character target) {
 
-        System.out.println("AAAAAAAAAAAAAA");
-
         List<int[]> characConsumables;
         boolean isPlayer = launcher instanceof Player;
 
@@ -155,8 +155,6 @@ public class FightManager {
 
         int[] consumablePos = characConsumables.get(pos);
         Consumable consumable = (Consumable) launcher.getInventory()[consumablePos[0]][consumablePos[1]];
-
-        System.out.println("BBBBBBBBBBBBBBBBBB");
 
         /**
          * si le consommable se lance
@@ -169,7 +167,6 @@ public class FightManager {
         }
         // sinon si l'objet ne peut pas être ui
         else if (!launcher.useConsumable(consumable)) {
-            System.out.println("BBBBBBBBBBBBBBBBBB");
 
         	// si c'est au tour du joueur on affiche un message
         	if (turn == 0) {
@@ -178,8 +175,6 @@ public class FightManager {
             return false;
         }
         fightHud.setMessageBox(launcher.toString() + " utilise '" + consumable.toString() +"'");
-        System.out.println(launcher.toString() + " DELTE '" + consumable.toString() +"'");
-
         launcher.deleteItem(consumablePos);
         characConsumables.remove(pos);
 

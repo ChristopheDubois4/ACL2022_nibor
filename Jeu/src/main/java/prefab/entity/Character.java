@@ -323,6 +323,7 @@ public abstract class Character extends GameObject {
      *      <li><code>false</code> sinon
      */
     public boolean useConsumable(Consumable consumable) {
+  
 
         return addEffects(consumable.getEffects());
     }
@@ -439,7 +440,6 @@ public abstract class Character extends GameObject {
         if (stats.get(Stats.HP) == currentStats.get(Stats.HP) && newEffect.getTypeEffects() == TypeEffects.HEAL) {
             return false;
         }
-
         this.effects.add(newEffect);
         return true;
     }
