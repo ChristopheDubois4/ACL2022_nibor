@@ -128,7 +128,7 @@ import prefab.rendering.Animation;
         // Parcours des coordonées qu'occupe la hitbox à l'horizontale
         for (int i = 0; i < this.HitBox.getValue0(); i++) {
             int x = this.position.getX() + deltaX + i;  
-            // Parcours des coordonées qu'occupe la hitbox à la verticale
+            // Parcours des coordonnées qu'occupe la hitbox à la verticale
             for (int j = 0; j < this.HitBox.getValue1(); j++) {
                 int y = this.position.getY() + deltaY + j;     
                 occupiedCoordinates.add(new Pair<Integer, Integer>(x, y) );               

@@ -85,6 +85,8 @@ public class Utilities {
 
     public static HashMap<State,Sprite> getSpritesFromJSON(String model) throws Exception {
 
+        String tst = model;
+
         HashMap<State,Sprite> sprites = new HashMap<State,Sprite>();
         model = "src/main/ressources/levels/graphics/"+model+".json";
 
@@ -107,17 +109,18 @@ public class Utilities {
 
                 Sprite s;
 
+                
+
 
                 if (state == State.FIGHT) {
-                    s = Sprite.createBigSprite(pathStr, 4);
+                    s = Sprite.createBigSprite(pathStr, 2);
                 } 
-
                 else {
                     if (state == State.DEFAULT) {
-                        s = Sprite.createSprite2(pathStr, 4);
+                        s = Sprite.createBigSprite(pathStr, 4);
                     } 
                     else {
-                    s = Sprite.createSprite(pathStr, 4);
+                        s = Sprite.createSprite(pathStr, 4);
                     }
                 }
 

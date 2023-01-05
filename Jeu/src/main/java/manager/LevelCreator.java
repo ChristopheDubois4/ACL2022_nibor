@@ -218,6 +218,7 @@ public class LevelCreator {
                             break;
                         case "Door" :
                             String nextLevel = (String) gameObject.get("nextLevel");
+                            //if (nextLevel=="maze")generateMaze(levels);
                             JSONObject nextPos = (JSONObject) gameObject.get("nextPosition");
                             int newX = (int) ((long) nextPos.get("newX"));
                             int newY = (int) ((long) nextPos.get("newY"));
@@ -264,6 +265,71 @@ public class LevelCreator {
         }
         return int2DConvert;
     }
+
+
+
+    //https://medium.com/pragmatic-programmers/the-growing-tree-algorithm-844d67e115b8
+
+    // void generateMaze(JSONArray levels){
+
+    //     //initialisation de la liste vide contenant toutes les pos possible pour les murs(2 en moins sur y pour le hud)
+    //     int[][] levelInitMapArray = new int[13][27];
+
+    //     int[][] active =  new int[13][27];
+    //     active[5][9]=1;
+    //     //création du labyrinthe(1 case sur 2 est visitable)
+    //     while (activeNotEmpty(active)){
+    //         int[][] cell = selectCellFromActive(active);//surement la dernire lié puis on remonte en arriere
+    //         if (UnvisitedNeighborg(cell)){//regarde autour de la celule si il ya des voisins dispo
+    //             int[][] newCell = chooseRandomUnvisitedNeighborg(cell) ;//choisi un voisin de maniere aleatoire(uniforme)
+    //             addNeigborgToActive(active,newCell);//
+    //             createlink(levelInitMapArray,cell,newCell);//ajoute en case accessible la case entre les 2 cells
+    //         }
+    //         else{//impasse
+    //             unactivateCell(cell);//on enleve la case de la liste des cases actives
+    //             addCellToMap(cell);//on ajoute la case à la map
+    //         }
+    //     }
+    //     //Toutes les cases qui ne sont pas accessibles sont donc des murs 
+
+    //     //on recup le labyrinthe qui est stocké en dernier dans la liste de level
+    //     JSONObject level = (JSONObject) levels.get(levels.size());
+
+    //     //création d'un gameObject mur
+    //     GameObject wall= ;
+    //     //ajout de gameObject pour chaque pos de mur
+    //     for (int i = 0 ; i < 13; i++){
+    //         for (int j = 0 ; i < 27; i++){
+    //             if (needWall(levelInitMapArray,i,j)){
+    //                 addGameObjectToJsonLevel(level,wall);
+    //             }
+    //         }
+    //     }
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * ( W I P )
      * (les noms des mobs ne sont pas encore définis, "Ghost" est prit a titre d'exemple )

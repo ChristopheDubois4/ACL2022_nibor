@@ -112,6 +112,7 @@ public class WorldManager implements WorldPainter {
         gameLevels = levelCreator.getLevels();
         currentLevel = gameLevels.get("level_1");
 
+
         HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
 
         Animation aM = CharacterAnimation.createForPNJ(sM);
@@ -126,9 +127,9 @@ public class WorldManager implements WorldPainter {
 
         Ghoul mob2 = new Ghoul(p2M, aM2, 1, 1, "sssss");
 
-        //mob.startAnimation();
+        mob.startAnimation();
         mob2.startAnimation();
-        //currentLevel.addGameObject(mob);
+        currentLevel.addGameObject(mob);
         currentLevel.addGameObject(mob2);
 
     }
@@ -205,9 +206,8 @@ public class WorldManager implements WorldPainter {
             System.out.println("Vous jouez : "+classManager.getClassPlayed()); 
             classManager.classPlayedIsInit();
             vitalResourcesHud.changeDisplayState();
-            statsHud.changeDisplayState();            
+            statsHud.changeDisplayState();
         }
-
 
         if (fightManager.getIsInFight()) {
             /*

@@ -19,6 +19,9 @@ public final class Sprite {
     private Sprite(BufferedImage spriteSheet, int animationSpeed, boolean mirorV, boolean mirorH, int lengthX) {
         this.mirorV = mirorV;
         this.mirorH = mirorH;
+        System.out.println("spriteSheet.getWidth()"+spriteSheet.getWidth());
+        System.out.println("lengthX"+lengthX);
+
         numberOfImages = (int) (spriteSheet.getWidth() / lengthX);
         this.animationSpeed  = animationSpeed;
         images = new BufferedImage[numberOfImages];
@@ -74,13 +77,10 @@ public final class Sprite {
         return createBigSprite(pathStr, animationSpeed, 60);
     }
 
-    public static Sprite createSprite2(String pathStr, int animationSpeed) throws Exception {
-        return createBigSprite(pathStr, animationSpeed);
-    }
+
     public BufferedImage getImage(int index) {
         return images[index];
     }
-
     public int getAnimationSpeed() {
         return animationSpeed;
     }
