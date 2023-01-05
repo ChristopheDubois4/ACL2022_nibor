@@ -349,10 +349,16 @@ public class WorldManager implements WorldPainter {
             return true;
         }
 
-        if (check.getValue1() instanceof Enemy && character instanceof Player) {                 
-            fightManager.startNewFight((Enemy) check.getValue1()); 
-            
-        } else if (check.getValue1() instanceof Player && character instanceof Enemy) {
+        if (character instanceof Player) {
+            if (check.getValue1() instanceof Teleportation ) {
+                ((UsableObject) check.getValue1()).objectUse(player,cmd);
+            }
+            else if (check.getValue1() instanceof Enemy) {                 
+                fightManager.startNewFight((Enemy) check.getValue1());                 
+            }
+        }       
+
+        else if (check.getValue1() instanceof Player && character instanceof Enemy) {
             fightManager.startNewFight((Enemy) character);
             return true;
         }

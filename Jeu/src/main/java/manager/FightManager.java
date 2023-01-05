@@ -117,7 +117,7 @@ public class FightManager {
      * récupère la liste des coordonées des consommables dans l'inventaire
      * @return un tuple (i, j)
      */
-    private List<int[]> getConsumables(Item[][] characterInventory, boolean isPlayer) {
+    public List<int[]> getConsumables(Item[][] characterInventory, boolean isPlayer) {
         // liste de tuple (i, j)
         List<int[]> consommables = new ArrayList<>();
         // ajout des coordonnées des consommables à la liste
