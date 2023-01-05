@@ -103,6 +103,9 @@ public class Player extends Character implements PlayerInfosFofHud{
         initClassFromJson();
         updateCurrentStats();
 
+        System.out.println(" currentStats.get(Stats.HP), " + currentStats.get(Stats.HP));
+        System.out.println(" stats.get(Stats.HP), " + stats.get(Stats.HP));
+
     }   
     
     public void receiveXp(int newXp) {
@@ -154,11 +157,12 @@ public class Player extends Character implements PlayerInfosFofHud{
                 Stats key = e2.getKey();
                 Integer value = e2.getValue();
                 currentStats.put(key, currentStats.get(key) + value); 
-                currentBonusStats.put(key, currentBonusStats.get(key) + value); 
             }
             
         }
-    	
+        for (Stats stat : Stats.values()) {
+            currentStats.put(stat, stats.get(stat));
+        }
     }
 
     @Override
@@ -219,7 +223,6 @@ public class Player extends Character implements PlayerInfosFofHud{
                 String key = (String) iterator.next();
                 int val = ((Long)  basicStats.get(key)).intValue();
                 stats.put(Stats.valueOf(key), val);
-                currentBonusStats.put(Stats.valueOf(key),0);
             }
 
             for (Object iterator : basicAttacks) {
@@ -253,15 +256,6 @@ public class Player extends Character implements PlayerInfosFofHud{
                 spells.add(new Spell(name, damage, manaConsuption, effectSpell));
             }
 
-
-
-            /*
-            for (Iterator iterator = basicEquippments.keySet().iterator(); iterator.hasNext(); ) {
-                String key = (String) iterator.next();
-                String equipmentID = (String) basicEquippments.get(key);
-                loadItem(equipmentID);
-            }
-             */
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

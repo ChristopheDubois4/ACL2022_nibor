@@ -53,7 +53,6 @@ public abstract class Character extends GameObject {
 
     private boolean isAlvie = true;
     private boolean isInMouvement = false;
-    protected HashMap<Stats, Integer> currentBonusStats = new HashMap<Stats, Integer>();
 
 
     // ___________________________________
@@ -112,7 +111,9 @@ public abstract class Character extends GameObject {
     // __________ INITIALISATION __________
 
     public void resetCurrentStats(){
-        currentStats.putAll(stats);
+        for (Stats stat : Stats.values()) {
+            currentStats.put(stat, stats.get(stat));
+        }
     }
 
     public void initDefaultEquipment(){
@@ -196,13 +197,12 @@ public abstract class Character extends GameObject {
     public void takeDammage(int value){
 
         int damage = Math.max( (int) (value*(120-currentStats.get(Stats.DEFENSE))/100f), 0);
-
-        System.out.println("damage "+damage);
-
         int newHp =  Math.max(currentStats.get(Stats.HP) - damage, 0);
         currentStats.replace(Stats.HP, newHp);
-        if (currentStats.get(Stats.HP) == 0)
+        if (newHp == 0) {
             die();
+        }
+
     }
 
     /**
@@ -212,7 +212,8 @@ public abstract class Character extends GameObject {
     public void healCharacter(int value){
 
         value = Math.min(stats.get(Stats.HP), currentStats.get(Stats.HP) + value);
-        currentStats.put(Stats.HP, value);
+        currentStats.replace(Stats.HP, value);
+
     }
 
     // _______________________________________
@@ -256,19 +257,22 @@ public abstract class Character extends GameObject {
      *      <code>true</code> si le sort peut être lancé
      *      <li><code>false</code> sinon
      */
-    public boolean lauchSpell(Character target, int pos, String[] attackName) {
-
-    	Spell spell = this.spells.get(pos);
-        attackName[0] = spell.toString();
+    public boolean lauchSpell(Character target, Spell spell) {
+    
         int staminaConsuption = spell.getManaConsuption();
         if (!consumeEnergy(staminaConsuption, Stats.MANA)) {
             return false;
         }
         int spellDamages = spell.getDamage();
-        boolean isEffectsOk = addEffects(spell.getEffects());
+        boolean isEffectsOk = target.addEffects(spell.getEffects());
+
         if (spellDamages == 0) {
+            if (!isEffectsOk) {
+                restoreEnergy(staminaConsuption, Stats.MANA);
+            }
             return isEffectsOk;
         }
+
         int characDamage = currentStats.get(Stats.DAMAGE);
         int finalDamages = (int) (spellDamages*spellDamages*characDamage/3000f);
         target.takeDammage(finalDamages);
@@ -290,6 +294,25 @@ public abstract class Character extends GameObject {
             return true;
         }
         return false;
+    }
+
+    /**
+     * restore de l'énergie
+     * @param value niveau d'énergie
+     * @param stat mana ou stamina
+     * @return
+     *      <code>true</code> si le niveau d'énergie n'est pas déjà plein
+     *      <li><code>false</code> sinon
+     */
+    public boolean restoreEnergy(int value, Stats stat){
+
+        if (currentStats.get(stat) == stats.get(stat)) {
+            return false;
+        }
+        int newEnergy = Math.min(currentStats.get(stat) + value, stats.get(stat));
+        currentStats.replace(stat, newEnergy);
+
+        return true;
     }
 
     /**
@@ -430,15 +453,16 @@ public abstract class Character extends GameObject {
      * gère la mort du personnage
      */
     public void die() {
-        setState(State.DEAD);
+        
+        if (state != State.FIGHT) {
+            setState(State.DEAD);
+        }
         this.isAlvie = false;
+
     }
 
     public String toString() {
         return name;
     }
 
-    public HashMap<Stats, Integer> getCurrentBonusStats() {
-        return currentBonusStats;
-    }
 }

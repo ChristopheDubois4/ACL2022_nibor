@@ -8,6 +8,7 @@ import engine.Cmd;
 import manager.FightManager;
 import manager.WorldManager;
 import prefab.entity.Character;
+import prefab.entity.Enemy;
 import prefab.entity.GameObject;
 import prefab.entity.Player;
 import prefab.information.Position;
@@ -16,9 +17,9 @@ import prefab.rendering.Animation;
 
 public class TrappedBox extends GameObject implements UsableObject {
 
-    private Character enemy;
+    private Enemy enemy;
 
-    public TrappedBox(Position position, Animation animation,  int horizontalHitBox, int verticalHitBox, Character mob) throws CloneNotSupportedException {
+    public TrappedBox(Position position, Animation animation,  int horizontalHitBox, int verticalHitBox, Enemy mob) throws CloneNotSupportedException {
         super(position, animation, horizontalHitBox, verticalHitBox, State.DEFAULT);
         this.enemy=mob;
         

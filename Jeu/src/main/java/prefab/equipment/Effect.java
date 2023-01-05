@@ -55,6 +55,7 @@ public class Effect {
     		switch(effect.getTypeEffects()){
      	   
             case HEAL: 
+				System.out.println("effect.getPowerValue()"+effect.getPowerValue());
 				character.healCharacter(effect.getPowerValue());
                 break;        
             case HIT:

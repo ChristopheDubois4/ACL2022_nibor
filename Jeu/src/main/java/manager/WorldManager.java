@@ -179,8 +179,15 @@ public class WorldManager implements WorldPainter {
      */
     public void updateWorld(Command command) throws Exception {
 
-        Cmd cmd = command.getKeyCommand();      
+        playerTurn(command);
+        enemiesTurn();               
+    }
+
+    public void playerTurn(Command command) throws Exception {
+
         
+        Cmd cmd = command.getKeyCommand();    
+
         if (isKeyLocked) {
             return;
         }
@@ -197,23 +204,24 @@ public class WorldManager implements WorldPainter {
             System.out.println("Vous jouez : "+classManager.getClassPlayed()); 
             classManager.classPlayedIsInit();
             vitalResourcesHud.changeDisplayState();
-            statsHud.changeDisplayState();
-            
+            statsHud.changeDisplayState();            
         }
 
 
         if (fightManager.getIsInFight()) {
-            
+            /*
             if (cmd == Cmd.CLOSE) {
                 fightManager.finishFight();
                 return;
             }
+            */
             fightManager.evolve(command);
             if (fightManager.allowKeyLocker()) {
                 keyLocker(3*KEY_TIME);
             }
             return;            
         }
+
 
         if (cmd == Cmd.INVENTORY && command.getActionType() == "released"  && !inventoryHud.isChestDisplay()) {
             inventoryHud.changeDisplayState(); 
@@ -255,65 +263,104 @@ public class WorldManager implements WorldPainter {
 
         // Si LEFT, DOWN, RIGHT ou UP (implicite à cause des "return")       
         if (!player.AnimationPlayMoving()) {
-            movePlayer(cmd);  
+            moveCharacter(cmd, player);  
        }
+        
+    }
+
+    public void enemiesTurn() throws Exception {
+
+        if (fightManager.getIsInFight() || classManager.getIsChoosingClass()) {
+            return;
+        }
+        
+        List<Enemy> enemies = new ArrayList<Enemy>();
+        List<GameObject> objects = currentLevel.getGameObjects();
+        for (GameObject gameObject : objects) {
+            if (gameObject instanceof Enemy) {
+                enemies.add((Enemy) gameObject);
+            }
+        }
+
+        for (Enemy enemy : enemies) {
+            // si obstacle cganer direction, compteur max (while cpt < 10)
+            if (!enemy.AnimationPlayMoving()) {
+                Cmd cmd;
+                int iterMax = 5;
+                int iter = 0;
+                do {
+                    cmd = enemy.getNextMove(iter++ > 0);
+                } 
+                while (!moveCharacter(cmd, enemy) && iter < iterMax);
+            }            
+        }
     }
 
     /**
      * deplace le joueur
      * @param cmd commande du joueur
-     * @throws CloneNotSupportedException
+     * @throws Exception
      */
-    private void movePlayer(Cmd cmd) throws CloneNotSupportedException {    
+    private boolean moveCharacter(Cmd cmd, Character character) throws Exception {    
 
         //Si le joueur est mort il ne peut pas bouger
-        if (player.getState()==State.DEAD) return;
+        if (character.getState()==State.DEAD) return true;
 
         // calcul du déplacement à effectuer
         int deltaX = 0, deltaY = 0;
         switch (cmd) {            
             case LEFT:
-                player.setState(State.IDLE_LEFT);
+                character.setState(State.IDLE_LEFT);
                 deltaX -= 1;
                 break;
             case RIGHT:
-                player.setState(State.IDLE_RIGHT);
+                character.setState(State.IDLE_RIGHT);
                 deltaX += 1;
                 break;
             case UP:
-                player.setState(State.IDLE_UP);
+                character.setState(State.IDLE_UP);
                 deltaY += 1;
                 break;
             case DOWN:
-                player.setState(State.IDLE_DOWN);
+                character.setState(State.IDLE_DOWN);
                 deltaY -= 1;
                 break;
             default:
-                return;
+                return true;
         }
         
         /** 
          * si le joueur peut se déplacer retourne <true, ...>, sinon <false, ...>
          * si c'est un objet qui bloque le personnage retourne <..., l'objet en question >, sinon <..., null> 
          */
-        Pair<Boolean, GameObject> check = currentLevel.checkMove(player, deltaX, deltaY);
+        Pair<Boolean, GameObject> check = currentLevel.checkMove(character, deltaX, deltaY);
         /**
          * s'il n'y a pas d'obstacle, déplace le joueur
          */
         if (check.getValue0()) {             
-            player.move(deltaX, deltaY);  
-            keyLocker(MOVE_TIME);
-            System.out.println("Player : "+ player.getPosition() + "\n");
-            
-            return;
+            character.move(deltaX, deltaY);  
+            if (check.getValue1() instanceof Player) {
+                keyLocker(MOVE_TIME);
+            }
+            System.out.println("character : "+ character.getPosition() + "\n");
+            return true;
         }
 
-        if (check.getValue1() instanceof Enemy) {                 
-            fightManager.startNewFight((Character) check.getValue1()); 
+        if (check.getValue1() instanceof Enemy && character instanceof Player) {                 
+            fightManager.startNewFight((Enemy) check.getValue1()); 
+        } else if (check.getValue1() instanceof Player && character instanceof Enemy) {
+            System.out.println("OH LA LA : ");
+            fightManager.startNewFight((Enemy) character);
         }
 
-        System.out.println("MOVEMENT IMPOSSIBLE \nObjet de la collision : "+ check.getValue1() + "\n");
-        System.out.println("Player : "+ player.getPosition() + "\n");
+        System.out.println("MOVEMENT IMPOSSIBLE \n"+character.toString()+" collision avec "+ check.getValue1() + "\n");
+        System.out.println("character : "+ character.getPosition() + "\n");
+
+        if (check.getValue1()  == null) {
+            return true;
+        }
+
+        return false;
     }
     
     
@@ -392,6 +439,10 @@ public class WorldManager implements WorldPainter {
         // Tri des viseuls pour avoir la superposition souhaitée
         Collections.sort(visuals);
         return visuals;
+    }
+
+    public static void removeObject(GameObject gameObject) {
+        currentLevel.removeGameObject(gameObject);
     }
 
     /**

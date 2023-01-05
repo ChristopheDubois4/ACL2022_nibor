@@ -16,6 +16,7 @@ import prefab.equipment.Effect;
 import prefab.equipment.Item;
 import prefab.gui.FightHud;
 import prefab.information.State;
+import prefab.information.Stats;
 
 /**
  * <b>[SINGLETON]</b>
@@ -46,7 +47,7 @@ public class FightManager {
 	private int turn = 0;
 
 	// informations de l'ennemi
-	private Character enemy;
+	private Enemy enemy;
     public List<int[]> enemyConsumables;
 
     //informations du joueur
@@ -68,9 +69,7 @@ public class FightManager {
      */
     public void initFightManager() throws CloneNotSupportedException, Exception {
         submenusNames = new ArrayList[3];
-        for (int i = 0; i < 3; i++) {
-            submenusNames[i] = new ArrayList<String>();
-        }
+        
         this.player = Player.getInstance();
 		this.fightHud = FightHud.getInstance();
     }
@@ -83,7 +82,14 @@ public class FightManager {
      * lance un combat avec un ennemi
      * @param enemy l'ennemi
      */
-	public void startNewFight(Character enemy) {
+	public void startNewFight(Enemy enemy) {
+
+        for (int i = 0; i < 3; i++) {
+            submenusNames[i] = new ArrayList<String>();
+        }
+        this.turn = 0;
+        fightHud.setMessageBox("");
+
 
         this.playerConsumables = getConsumables(player.getInventory(), true);
 		for (Attack atk : player.getAttacks()) {
@@ -134,10 +140,19 @@ public class FightManager {
      *      -> true si l'objet a pu être utilisé
      *      -> false sinon
      */
-    private boolean useConsumable(List<int[]> characConsumables, int pos, Character launcher, Character target) {
+    private boolean useConsumable(int pos, Character launcher, Character target) {
+
+        System.out.println("AAAAAAAAAAAAAA");
+
+        List<int[]> characConsumables;
+        boolean isPlayer = launcher instanceof Player;
+
+        characConsumables = isPlayer ? playerConsumables : enemyConsumables;
 
         int[] consumablePos = characConsumables.get(pos);
         Consumable consumable = (Consumable) launcher.getInventory()[consumablePos[0]][consumablePos[1]];
+
+        System.out.println("BBBBBBBBBBBBBBBBBB");
 
         /**
          * si le consommable se lance
@@ -150,6 +165,8 @@ public class FightManager {
         }
         // sinon si l'objet ne peut pas être ui
         else if (!launcher.useConsumable(consumable)) {
+            System.out.println("BBBBBBBBBBBBBBBBBB");
+
         	// si c'est au tour du joueur on affiche un message
         	if (turn == 0) {
 	        	fightHud.setMessageBox("Impossible d'utiliser '" + consumable.toString() + "'");
@@ -157,8 +174,14 @@ public class FightManager {
             return false;
         }
         fightHud.setMessageBox(launcher.toString() + " utilise '" + consumable.toString() +"'");
+        System.out.println(launcher.toString() + " DELTE '" + consumable.toString() +"'");
+
         launcher.deleteItem(consumablePos);
         characConsumables.remove(pos);
+
+        if (isPlayer) {
+            submenusNames[2].remove(consumable.toString());
+        }
         return true;
     }
 
@@ -187,35 +210,37 @@ public class FightManager {
     }
 
     private boolean useSpell(int pos, Character launcher, Character target) {
+
         if (selectedTarget == 0) {
             target = launcher;
-        }
-        String[] spellName = new String[1];
-        if (!launcher.lauchSpell(target, pos, spellName)) {
+        }     
+        Spell spell = launcher.getSpells().get(pos);
+        if (!launcher.lauchSpell(target, spell)) {
         	// si c'est au tour du joueur on affiche un message
         	if (turn == 0) {
         		fightHud.setMessageBox("Pas assez de mana");
         	}
         	return false;
         }
-        fightHud.setMessageBox(launcher.toString() + " utilise '" + spellName[0] + "'");
+        fightHud.setMessageBox(launcher.toString() + " utilise '" + spell.toString() + "'");
         return true;
     }
 
 
     private boolean playAction(int typeOfAction, int pos, Character launcher, Character target) {
+
         if (selectedTarget == 0) {
             selectedTarget = 1;
             target = launcher;
         }
         boolean succes = false;
-        switch (cursorMenu) {
+        switch (typeOfAction) {
             case 0:
-            	succes = useAttack(cursorSubMenu, launcher, target);
+            	succes = useAttack(pos, launcher, target);
                 // Animation, ect...
                 break;
             case 1:
-                succes = useSpell(cursorSubMenu, launcher, target);
+                succes = useSpell(pos, launcher, target);
                 if (!succes) {
                     selectingTarget = false;
                     selectedTarget = 1;
@@ -223,7 +248,7 @@ public class FightManager {
             	// Animation, ect...
                 break;
             case 2:
-                succes = useConsumable(playerConsumables, cursorSubMenu, launcher, target);
+                succes = useConsumable(pos, launcher, target);
                 // Animation, ect...
                 break;
 
@@ -233,7 +258,13 @@ public class FightManager {
         return succes;
     }
 
-    private void nextTurn() {
+    private void nextTurn() throws InterruptedException, CloneNotSupportedException {
+
+        this.turn = (this.turn + 1)%4;
+       
+        if (turn > 1) {
+            return;
+        }
 
         Effect.applyEffects(player);
         Effect.applyEffects(enemy);
@@ -241,14 +272,13 @@ public class FightManager {
         if (!player.getIsAlive()) {
         	fightHud.setMessageBox("Vous avez perdu ... ");
         	// ... some delay
+            this.turn = 5;
         	finishFight();
         	return;
         }
         if (!enemy.getIsAlive()) {
         	victory();
         }
-
-        this.turn = (this.turn + 1)%2;
     }
 
     private void victory() {
@@ -256,9 +286,11 @@ public class FightManager {
     	if (itemDrop != null) {
     		fightHud.setMessageBox("Vous récupérez '" + itemDrop.toString() + "'");
     		player.addItem(itemDrop);
-    	}
+    	} else {
+            fightHud.setMessageBox("Vous avez gagné !!! ");
+        }
         // ... some delay
-        finishFight();
+        this.turn = 5;
     }
 
 
@@ -266,9 +298,28 @@ public class FightManager {
 	/**
      * fait evoluer le combat
      * @param command commande du joueur
+	 * @throws InterruptedException
+	 * @throws CloneNotSupportedException
      */
-	public void evolve(Command command) {
+	public void evolve(Command command) throws InterruptedException, CloneNotSupportedException {
 
+        // a remplacer par une neum EX truc == enum.NEW_TURN
+        if (turn == 5) {
+            finishFight();
+            return;
+        }
+        if (turn == 3) {
+            newTurn();
+            return;
+        }
+        if (turn == 2) {
+            endTurn();
+            return;
+        }
+        if (turn == 1) {
+            enemyTurn();        
+            return;
+        }
         if (command.getKeyCommand() == Cmd.IDLE) {
             allowKeyLocker = false;
             return;
@@ -279,15 +330,32 @@ public class FightManager {
 			palyerTurn(command);
             return;
 		}
-        enemyTurn();        
 	}
+
+    private void endTurn() throws InterruptedException, CloneNotSupportedException {
+
+        Thread.sleep(1000);
+        player.restoreEnergy(10, Stats.STAMINA);
+        enemy.restoreEnergy(10, Stats.STAMINA);
+        fightHud.setMessageBox("Fin du tour : +10 de stamina");
+        nextTurn();
+    }
+
+    private void newTurn() throws InterruptedException, CloneNotSupportedException {
+        
+        Thread.sleep(1000);
+        fightHud.setMessageBox("");
+        nextTurn();
+    }
 
 
     /**
      * permet au joueur de jouer son tour
      * @param command la commande du joueur
+     * @throws InterruptedException
+     * @throws CloneNotSupportedException
      */
-	private void palyerTurn(Command command) {
+	private void palyerTurn(Command command) throws InterruptedException, CloneNotSupportedException {
         int shiftMenu = 0;
         switch (command.getKeyCommand()) {
             case LEFT:
@@ -323,9 +391,12 @@ public class FightManager {
                     }
                     else if (playAction(cursorMenu, cursorSubMenu, player, enemy)) {
                         isMenuOpen = false;
-                        nextTurn();
+                        selectingTarget = false;
+                        selectedTarget = 1;
                         // Animation
                         fightHud.updateHud(-1, false, 0, null, -1);
+                        nextTurn();
+
                         return;
                     }
                 }
@@ -377,12 +448,23 @@ public class FightManager {
 	}
 
 
-	private void enemyTurn() {
-		fightHud.updateHud(-1, false, 0, null, -1);
+	private void enemyTurn() throws InterruptedException, CloneNotSupportedException {
+
+        Thread.sleep(1000);       
+
         System.out.println( "---> enemyTurn");
-        while (true) {
-            
-        }
+
+        int action[] = new int[2];
+        
+        do {            
+            enemy.chooseAction(action, enemyConsumables.size());
+        } 
+        while (!playAction( action[0],  action[1], enemy, player));
+
+        fightHud.updateHud(0, false, 0, null, -1);
+        nextTurn();
+        // Animation
+        
 	}
 
 	public boolean getIsInFight() {
@@ -393,10 +475,20 @@ public class FightManager {
         return allowKeyLocker;
     }
 
-	public void finishFight() {
+	public void finishFight() throws InterruptedException {
+
+        Thread.sleep(1500);
+
+        player.restoreEnergy(1000, Stats.STAMINA);
+
 		isInFight = false;
         this.player.setIsInFight(true);
         this.enemy.setIsInFight(true);
+
+        enemy.stopAnimation();
+       
+        player.setState(State.IDLE_DOWN);
+        WorldManager.removeObject(enemy);
 		fightHud.changeDisplayState();
 
 	}
