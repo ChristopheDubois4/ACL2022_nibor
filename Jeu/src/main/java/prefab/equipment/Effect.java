@@ -11,6 +11,7 @@ public class Effect {
 	public enum TypeEffects {
 	   
 	    HEAL,
+		MANA,
 	    HIT,
 	    DEFENSEDOWN,
 	    POISON,
@@ -57,12 +58,15 @@ public class Effect {
             case HEAL: 
 				System.out.println("effect.getPowerValue()"+effect.getPowerValue());
 				character.healCharacter(effect.getPowerValue());
-                break;        
+                break;
+			case MANA: 
+				character.restoreEnergy(effect.getPowerValue(), Stats.MANA);
+				break;          
             case HIT:
             	character.takeDammage(effect.getPowerValue());
                 break;        
             case DEFENSEDOWN:
-				currentStats.replace(Stats.DEFENSE , effect.getPowerValue()); 
+				currentStats.replace(Stats.DEFENSE , Math.max(0,currentStats.get(Stats.DEFENSE)-effect.getPowerValue())); 
                 break;
             case POISON:
                 //System.out.println("Buenos dias");

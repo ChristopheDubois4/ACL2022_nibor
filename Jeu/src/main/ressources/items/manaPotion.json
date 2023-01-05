@@ -1,0 +1,13 @@
+[
+    {
+    "type": "Consummable",
+    "name": "Potion de mana",
+    "graphics":"potion_mana",
+    "Effects":[
+                {
+                    "TypeEffects" :"MANA",
+                    "powerValue": 30
+                }
+            ]
+    }
+]

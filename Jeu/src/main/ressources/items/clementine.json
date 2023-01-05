@@ -1,0 +1,13 @@
+[
+    {
+    "type": "Consummable",
+    "name": "Clementine Beurk",
+    "graphics":"clementine",
+    "Effects":[
+                {
+                    "TypeEffects" :"DEFENSEDOWN",
+                    "powerValue": 30
+                }
+            ]
+    }
+]

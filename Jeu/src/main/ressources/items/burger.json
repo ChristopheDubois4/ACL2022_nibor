@@ -1,0 +1,13 @@
+[
+    {
+    "type": "Consummable",
+    "name": "Burger Suspect",
+    "graphics":"burger",
+    "Effects":[
+                {
+                    "TypeEffects" :"HIT",
+                    "powerValue": 10
+                }
+            ]
+    }
+]

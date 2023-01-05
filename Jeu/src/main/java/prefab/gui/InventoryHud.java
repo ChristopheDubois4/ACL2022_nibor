@@ -31,7 +31,11 @@ import java.awt.image.BufferedImage;
  */
 public class InventoryHud extends Hud{
 
+<<<<<<< Updated upstream
     public static final InventoryHud INSTANCE = new InventoryHud();
+=======
+    public static final InventoryHud INSTANCE = new InventoryHud(); //public pour test
+>>>>>>> Stashed changes
 
     private String inventoryPath = "src/main/ressources/images/huds/inventory/inventory.png";
     // Rappel : On commence à (0,0) en bas à gauche
@@ -55,7 +59,7 @@ public class InventoryHud extends Hud{
     private static final Object[] strucEquippedStuff = listTempoArmorPieces.toArray();
 
     private PlayerInfosFofHud player;
-    private Pair<Integer, Integer> pressedClick, releasedClick;
+    public Pair<Integer, Integer> pressedClick, releasedClick;
     private BufferedImage backgroundImage;
 
     private String hudPressed;
@@ -401,7 +405,6 @@ public class InventoryHud extends Hud{
             }
 
         } catch (Exception e) {
-            // TODO: handle exception
         }
     }
 
@@ -501,7 +504,6 @@ public class InventoryHud extends Hud{
     }
 
 
-
     @Override
     public void changeDisplayState() {
         isDisplayed = !isDisplayed;
@@ -514,7 +516,10 @@ public class InventoryHud extends Hud{
     public void draw(Graphics2D g) {        
     }
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     public void setPressedClick(Pair<Integer, Integer> click) {
         this.pressedClick=click;
     }
@@ -529,5 +534,8 @@ public class InventoryHud extends Hud{
     public String getHudReleased() {
         return hudReleased;
     }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 }

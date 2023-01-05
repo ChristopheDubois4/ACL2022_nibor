@@ -71,7 +71,7 @@ public class StatsHud extends Hud{
 
 		//Damage du joueur
 		double damage = player.getCurrentStats().get(Stats.DAMAGE);
-		String damageStat = String.valueOf((int) damage);
+		String damageStat = String.valueOf((int) damage + player.getWeapon().getPower());
 		g.drawString("DP : "+damageStat, 522, 883);
 	}
 

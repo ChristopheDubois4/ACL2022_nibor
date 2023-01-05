@@ -6,7 +6,7 @@
     "Effects":[
                 {
                     "TypeEffects" :"HEAL",
-                    "powerValue": 20
+                    "powerValue": 50
                 }
             ]
     }
