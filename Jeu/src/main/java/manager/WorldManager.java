@@ -19,6 +19,7 @@ import prefab.entity.Player.PlayerClasses;
 import prefab.gui.*;
 import prefab.information.Position;
 import prefab.level.GameLevel;
+import prefab.props.Teleportation;
 import prefab.props.UsableObject;
 import prefab.rendering.Animation;
 import prefab.rendering.Animator;
@@ -115,11 +116,11 @@ public class WorldManager implements WorldPainter {
 
         Animation aM = CharacterAnimation.createForPNJ(sM);
 
-        Position p1M = Position.create(10, 12);
+        Position p1M = Position.create(10, 10);
 
         Ghoul mob = new Ghoul(p1M, aM, 1, 1, "Jean le Destructeur");
 
-        Position p2M = Position.create(12, 12);
+        Position p2M = Position.create(12, 10);
         Animation aM2 = CharacterAnimation.createForPNJ(sM);
 
 

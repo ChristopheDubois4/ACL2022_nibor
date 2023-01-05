@@ -1,5 +1,6 @@
 package prefab.level;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,6 +10,7 @@ import org.javatuples.Pair;
 
 import prefab.entity.GameObject;
 import prefab.entity.Player;
+import prefab.information.Layer;
 import prefab.rendering.Animation;
 import prefab.rendering.Visual;
 import prefab.entity.Character;
@@ -23,6 +25,7 @@ public class GameLevel {
     private List<GameObject> gameObjects;
     private List<Animation> backgroundAnimations;
     private int[][] forbiddenPosition;
+    private BufferedImage backgroundImage;
 
     /**
      * constructeur de la classe GameObject
@@ -40,6 +43,12 @@ public class GameLevel {
      */
     public GameLevel(List<GameObject> gameObjects) {
         this.gameObjects = gameObjects;
+    }
+
+    public GameLevel(List<GameObject> gameObjects, int[][] levelInitMap, BufferedImage backgroundImage) {
+        this.gameObjects = gameObjects;
+        this.forbiddenPosition = levelInitMap;
+        this.backgroundImage=backgroundImage;
     }
 
     /**
@@ -141,6 +150,10 @@ public class GameLevel {
     public List<Visual> getVisuals() throws Exception {
 
         List<Visual> visuals = new ArrayList<Visual>();
+
+        visuals.add(Visual.createWithGameCoord(0, 14, backgroundImage, Layer.BACKGROUND));	
+        
+
         for (GameObject gameObject : gameObjects) {
             Animation a = gameObject.getAnimation();
             if (a != null) {
