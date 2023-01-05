@@ -392,7 +392,7 @@ public abstract class Character extends GameObject {
      *      <code>true</code> si l'animation de mouvement est en train d'être jouée
      *      <li><code>false</code> sinon
      */
-    public boolean AnimationPlayMoving( ) {
+    public boolean AnimationPlayMoving() {
         boolean playMvt = ((CharacterAnimation) animation).getPlayMoving();
         if (!playMvt && isInMouvement) {
             isInMouvement = false;

@@ -99,10 +99,14 @@ public class FightManager {
 			submenusNames[1].add(spell.toString());
 		}
 		this.enemy = enemy;
+
 		this.enemyConsumables = getConsumables(enemy.getInventory(), false);
 
         isInFight = true;
+        System.out.println("PLAYER : ");
+
         this.player.setIsInFight(true);
+        System.out.println("\nENEMMY : ");
         this.enemy.setIsInFight(true);
 
         fightHud.loadEnemy(enemy);

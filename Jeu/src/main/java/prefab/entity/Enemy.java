@@ -32,16 +32,40 @@ public abstract class Enemy extends Character{
     }
 
     // REMPALCER PAR ALGO UZAWA
-    public int calculateTrajectory() throws CloneNotSupportedException, Exception {
+    public int calculateTrajectory(boolean isBlocked) throws CloneNotSupportedException, Exception {
         
         int deltaY =  position.getY() - Player.getInstance().getPosition().getY();
         int deltaX =  position.getX() - Player.getInstance().getPosition().getX();
 
-        if (deltaY*deltaY + deltaX*deltaX > 4*4) {
+        if (deltaY*deltaY + deltaX*deltaX > 5*5) {
             return 4;
         }
+        
+        if (deltaY == 0 && isBlocked) {
+                return prepreviousMove;
+         }
+        if (deltaX == 0 && isBlocked) {
+            return prepreviousMove;
 
+        }         
         if (Math.abs(deltaY) > Math.abs(deltaX)) {
+            if (isBlocked) {
+                if (deltaX > 0) {
+                    return 2;
+                }
+                if (deltaX < 0) {
+                    return 3;
+                }
+            }
+            
+            if (deltaY > 0) {
+                return 1;
+            }
+            if (deltaY < 0) {             
+                return 0;
+            }
+        }
+        if (isBlocked) {
             if (deltaY > 0) {
                 return 1;
             }
@@ -60,6 +84,8 @@ public abstract class Enemy extends Character{
 
     Cmd moves[] = {Cmd.UP, Cmd.DOWN, Cmd.LEFT, Cmd.RIGHT, Cmd.IDLE};
     int previousMove = 0;
+    int prepreviousMove = 0;
+
 
     public Cmd getNextMove(boolean isBlocked) throws CloneNotSupportedException, Exception {
         
@@ -67,13 +93,12 @@ public abstract class Enemy extends Character{
             return Cmd.IDLE;
         }
 
-        int move;
-        if (isBlocked) {
-            move = previousMove++%3;
-        } else {
-            move = calculateTrajectory();
-        }         
+        int move;    
+
+        move = calculateTrajectory(isBlocked);
+        prepreviousMove = previousMove;        
         previousMove = move;
+        
         return moves[move];
     }
     
@@ -104,6 +129,10 @@ public abstract class Enemy extends Character{
         }
         
         action[1] = min + (int)(Math.random() * ((max - min)));        
+    }
+
+    public void stopMoving() {
+        ((CharacterAnimation) animation).stopMoving();
     }
 
     @Override

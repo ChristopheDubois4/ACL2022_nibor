@@ -126,9 +126,9 @@ public class WorldManager implements WorldPainter {
 
         Ghoul mob2 = new Ghoul(p2M, aM2, 1, 1, "sssss");
 
-        mob.startAnimation();
+        //mob.startAnimation();
         mob2.startAnimation();
-        currentLevel.addGameObject(mob);
+        //currentLevel.addGameObject(mob);
         currentLevel.addGameObject(mob2);
 
     }
@@ -286,14 +286,16 @@ public class WorldManager implements WorldPainter {
         for (Enemy enemy : enemies) {
             // si obstacle cganer direction, compteur max (while cpt < 10)
             if (!enemy.AnimationPlayMoving()) {
+
                 Cmd cmd;
                 int iterMax = 5;
-                int iter = 0;
+                int iter = -1;
                 do {
-                    cmd = enemy.getNextMove(iter++ > 0);
+                    cmd = enemy.getNextMove(++iter > 0);
                 } 
                 while (!moveCharacter(cmd, enemy) && iter < iterMax);
             }            
+            
         }
     }
 
@@ -349,18 +351,15 @@ public class WorldManager implements WorldPainter {
 
         if (check.getValue1() instanceof Enemy && character instanceof Player) {                 
             fightManager.startNewFight((Enemy) check.getValue1()); 
+            
         } else if (check.getValue1() instanceof Player && character instanceof Enemy) {
-            System.out.println("OH LA LA : ");
             fightManager.startNewFight((Enemy) character);
+            return true;
         }
 
         System.out.println("MOVEMENT IMPOSSIBLE \n"+character.toString()+" collision avec "+ check.getValue1() + "\n");
         System.out.println("character : "+ character.getPosition() + "\n");
-
-        if (check.getValue1()  == null) {
-            return true;
-        }
-
+      
         return false;
     }
     

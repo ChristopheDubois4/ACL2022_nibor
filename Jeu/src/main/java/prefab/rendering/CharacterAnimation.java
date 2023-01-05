@@ -101,6 +101,10 @@ public class CharacterAnimation extends Animation {
         return playMoving;
     }
 
+    public void stopMoving() {
+        this.playMoving = false;
+    }
+
     public boolean getIsInFight() {
         return isInFight;
     }
