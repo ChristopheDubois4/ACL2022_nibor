@@ -191,7 +191,7 @@ public class FightHud extends Hud{
      */
 	public void draw(Graphics2D g) {     
         
-        if (!hudIsDisplayed()) {
+        if (!isDisplayed) {
             return;
         }
 

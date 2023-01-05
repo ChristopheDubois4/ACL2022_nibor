@@ -9,6 +9,7 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import prefab.entity.GameObject;
+import prefab.entity.Player;
 import prefab.information.Layer;
 import prefab.rendering.Animation;
 import prefab.rendering.Visual;
@@ -71,7 +72,10 @@ public class GameLevel {
      * @param gameObject le gameObject à enlever
      */
     public void removeGameObject(GameObject gameObject) {
+        System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM "+gameObjects.size());
         this.gameObjects.remove(gameObject);
+        System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM "+gameObjects.size());
+
     }
     
     /**
@@ -108,9 +112,9 @@ public class GameLevel {
      *      -> true si le personngae peut se déplacer
      *      -> false sinon
      *  - un GameObject : l'objet qui bloc le passage (null sinon)
-     * @throws CloneNotSupportedException
+     * @throws Exception
      */
-    public Pair<Boolean, GameObject> checkMove(Character character, int deltaX, int deltaY) throws CloneNotSupportedException {
+    public Pair<Boolean, GameObject> checkMove(Character character, int deltaX, int deltaY) throws Exception {
         // On test si le personnage se retrouve en dehors de la map
         if (!character.getPosition().authorizedPosition(deltaX, deltaY)) {
             return new Pair<Boolean, GameObject>(false, null);
@@ -129,7 +133,18 @@ public class GameLevel {
                 return new Pair<Boolean, GameObject>(false, gameObject);
             }
         }
+        if (!(character instanceof Player)) {
+            List<Pair<Integer, Integer>> coordinates = Player.getInstance().getOccupiedCoordinates(0, 0);
+            // Si les deux listes de coordonées ont au moins un élément en commun
+            if ( !Collections.disjoint(coordinates, coordinatesToTests) ) {
+                return new Pair<Boolean, GameObject>(false, Player.getInstance());
+            }
+        }
         return new Pair<Boolean, GameObject>(true, null);
+    }
+
+    public List<GameObject> getGameObjects() {
+        return this.gameObjects;
     }
 
     public List<Visual> getVisuals() throws Exception {

@@ -103,6 +103,9 @@ public class Player extends Character implements PlayerInfosFofHud{
         initClassFromJson();
         updateStats();
 
+        System.out.println(" currentStats.get(Stats.HP), " + currentStats.get(Stats.HP));
+        System.out.println(" stats.get(Stats.HP), " + stats.get(Stats.HP));
+
     }   
     
     public void receiveXp(int newXp) {
@@ -246,7 +249,7 @@ public class Player extends Character implements PlayerInfosFofHud{
                 }
                 spells.add(new Spell(name, damage, manaConsuption, effectSpell));
             }
-            
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

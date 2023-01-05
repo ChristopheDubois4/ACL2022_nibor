@@ -12,14 +12,14 @@ import prefab.information.State;
 public class CharacterAnimation extends Animation {
 
 
-    private static final long MOVE_TIME = 150;
+    private final long MOVE_TIME;
 
     /**
      * le rappoprt IMAGES_PER_MOVE / MOVE_TIME doit
      * être un multiple de 10 car l'horloge de l'animator
      * est de 10 ms
      */
-    private static final int IMAGES_PER_MOVE = 15;
+    private final int IMAGES_PER_MOVE;
 
     private static final int defaultShift = NiborPainter.TILE_LENGTH;
 
@@ -44,7 +44,9 @@ public class CharacterAnimation extends Animation {
 
     private CharacterAnimation(HashMap<State, Sprite> sprites, State state, boolean isPlayer) {
         super(sprites, state);
-        this.isPlayer = isPlayer;
+        this.isPlayer = isPlayer;    
+        MOVE_TIME = isPlayer ? 150 : 200;
+        IMAGES_PER_MOVE = (int) MOVE_TIME/10;
         playMoving  = false;
         isInFight = false;
         deltaX = 0;
@@ -97,6 +99,10 @@ public class CharacterAnimation extends Animation {
 
     public boolean getPlayMoving() {
         return playMoving;
+    }
+
+    public void stopMoving() {
+        this.playMoving = false;
     }
 
     public boolean getIsInFight() {
