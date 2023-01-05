@@ -56,7 +56,8 @@ public class Robin extends Enemy {
 
         resetCurrentStats();
       
-        spells.add(new Spell("Incinération", 70, 70, new ArrayList<Effect>()));
+        spells.add(new Spell("Porte des enfers", 110, 70, new ArrayList<Effect>()));
+        spells.add(new Spell("Incinération", 60, 25, new ArrayList<Effect>()));
         
         ATK_PROBA = 0.9;
         MAGIC_PROBA = 0.05; 

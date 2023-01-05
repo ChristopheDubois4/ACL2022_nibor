@@ -113,6 +113,10 @@ public abstract class Enemy extends Character{
         } else {
             action[0] = 2;
         }
+
+        if (consumablesSize == 0 && action[0] == 2) {
+            action[0] = 0;
+        }
         
         // sélection de l'action
         int max = 0, min = 0;
@@ -127,7 +131,7 @@ public abstract class Enemy extends Character{
                 max = consumablesSize-1;
                 break;
         }        
-        action[1] = min + (int)(Math.random() * ((max - min)));        
+        action[1] = min + (int)(Math.random() * ((max - min)));  
     }
 
     public void stopMoving() {

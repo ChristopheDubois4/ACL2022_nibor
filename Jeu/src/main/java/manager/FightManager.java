@@ -454,11 +454,15 @@ public class FightManager {
         System.out.println( "---> enemyTurn");
 
         int action[] = new int[2];
-        
+        int iter = 0;
         do {            
             enemy.chooseAction(action, enemyConsumables.size());
         } 
-        while (!playAction( action[0],  action[1], enemy, player));
+        while (!playAction( action[0],  action[1], enemy, player) && ++iter<10);
+        
+        if (iter == 10) {
+            fightHud.setMessageBox(enemy.toString() + " passe son tour ");
+        }
 
         fightHud.updateHud(0, false, 0, null, -1);
         nextTurn();

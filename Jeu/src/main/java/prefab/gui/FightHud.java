@@ -207,7 +207,7 @@ public class FightHud extends Hud{
             FontMetrics nameMetrics = g.getFontMetrics(g.getFont());
             int textWidth = nameMetrics.stringWidth(names[i]);
             int textHeight = nameMetrics.getHeight();          
-            int x =  (int) (3*tile + 30 - textWidth/2 + i*20*tile);
+            int x =  (int) (3*tile + 30 - textWidth/2 + i*19*tile);
             int y = (int) (tile + 30 + textHeight/3);
             if (selectedTarget == i) {
                 g.setColor(Color.RED);            
