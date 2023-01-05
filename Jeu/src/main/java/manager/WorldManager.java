@@ -207,9 +207,8 @@ public class WorldManager implements WorldPainter {
             System.out.println("Vous jouez : "+classManager.getClassPlayed()); 
             classManager.classPlayedIsInit();
             vitalResourcesHud.changeDisplayState();
-            statsHud.changeDisplayState();            
+            statsHud.changeDisplayState();
         }
-
 
         if (fightManager.getIsInFight()) {
             /*
