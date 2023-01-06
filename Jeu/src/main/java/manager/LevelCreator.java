@@ -260,6 +260,20 @@ public class LevelCreator {
                     gameObjects.add(mob2);
                     gameObjects.add(mob3);
                 }
+                if (levelName.equals("level_3")) { 
+                    
+
+                    HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("mob");
+                    Animation aM = CharacterAnimation.createForPNJ(sM);
+                    Position p1M = Position.create(25, 5);
+                    BatGoblin mob = new BatGoblin(p1M, aM, 1, 1, "Robinet le teigneux");
+                    Position p2M = Position.create(18, 10);
+                    Animation aM2 = CharacterAnimation.createForPNJ(sM);
+                    BatGoblin mob2 = new BatGoblin(p2M, aM2, 1, 1, "Robinait le ténébreux");
+
+                    gameObjects.add(mob);
+                    gameObjects.add(mob2);
+                }
                 if (levelName.equals("level_4")) { 
                     
                     HashMap<State,Sprite> sM =  Utilities.getSpritesFromJSON("robin");
